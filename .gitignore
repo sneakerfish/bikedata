@@ -1,8 +1,6 @@
-# CSV Files
+# data files
 *.csv
-
-
-# Parquet Files
+*.zip
 *.parquet
 
 # Emacs stuff
@@ -14,3 +12,6 @@
 auto-save-list
 tramp
 .\#*
+
+#Pycharm stuff
+/.idea
