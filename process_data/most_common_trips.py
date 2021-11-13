@@ -4,7 +4,6 @@ from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, DoubleType, IntegerType, LongType
 from pyspark.sql.functions import expr, col, column, lit, to_date, coalesce, to_timestamp
-from graphframes import GraphFrame
 
 spark = SparkSession.builder.appName("Sample bike data").getOrCreate()
 spark.sql("set spark.sql.legacy.timeParserPolicy=LEGACY")
