@@ -14,7 +14,7 @@ df = spark.read.load("alldata.parquet")
 
 df.createOrReplaceTempView("bikedata")
 
-df2 = spark.sql("select distinct start_station_id, end_station_id, count(*) as trip_count, city from bikedata group by city, start_station_id, end_station_id having trip_count > 10 order by trip_count desc")
+df2 = spark.sql("select distinct start_station_id, end_station_id,  count(*) as trip_count, city from bikedata group by city, start_station_id, end_station_id having trip_count > 10 order by trip_count desc")
 
 df2.show(20, False)
 
