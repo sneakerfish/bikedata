@@ -15,3 +15,6 @@ tramp
 
 #Pycharm stuff
 /.idea
+
+# Jupter stuff
+*/.ipynb_checkpoints/*
