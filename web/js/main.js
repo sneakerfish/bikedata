@@ -32,8 +32,11 @@ function createVis(data) {
     let cities = ['boston', 'nyc', 'sf']
 
     timeSeriesVis = new TimeSeriesVis('chart-area', tripCountData, cities)
+
+    dayView = new DayView('day-view', null);
 }
 
 function updateVisualization() {
     timeSeriesVis.wrangleData();
+    dayView.wrangleData();
 }
