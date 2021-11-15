@@ -1,0 +1,44 @@
+.chart-area {
+
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-size: 11px;
+}
+
+.line {
+    fill: none;
+    /*stroke: #1C9A3D;*/
+    stroke-width: 1.5px;
+}
+
+.sf-line {
+    /*49ers gold */
+    stroke: #b3995d;
+    stroke-width: 1.5px;
+    fill: none;
+}
+
+.nyc-line {
+    /*nyc blue */
+    stroke: #041E42;
+    stroke-width: 1.5px;
+    fill: none;
+}
+
+.boston-line {
+    /*freedom trail red */
+    stroke: #FB4D42;
+    stroke-width: 1.5px;
+    fill: none;
+}
+
+.tooltip-circle {
+    fill: #96AB96;
+}
