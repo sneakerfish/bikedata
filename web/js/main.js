@@ -1,4 +1,5 @@
 let parseDate = d3.timeParse("%Y-%m-%d");
+let parseDateTime = d3.timeParse("%m/%d/%Y %H:%M"); // 3/21/21 19:42
 
 let promises = [
     d3.csv("data/2017_present_trip_count.csv", row => {
@@ -14,7 +15,12 @@ let promises = [
         return row;
     }),
     fetch('https://gbfs.bluebikes.com/gbfs/en/station_information.json')
-        .then(response => response.json())
+        .then(response => response.json()),
+    d3.csv("data/2021-03-21 dayview.csv", row => {
+        row.Time = parseDateTime(row.Time)
+        row.Riders = +row.Riders
+        return row;
+    }),
 ];
 
 Promise.all(promises)
@@ -26,20 +32,22 @@ Promise.all(promises)
     });
 
 function createVis(data) {
-    console.log(data)
 
     let tripCountData = data[0];
     let tripDurationData = data[1];
     let stationData = data[2];
-    console.log("stationdata", stationData)
+    let dayViewData = data[3];
 
     let cities = ['boston', 'nyc', 'sf']
 
     timeSeriesVis = new TimeSeriesVis('chart-area', tripCountData, cities)
 
     windMap = new WindMap("wind-map", stationData, [42.356070, -71.086808]);
+
+    dayView = new DayView('day-view', dayViewData);
 }
 
 function updateVisualization() {
     timeSeriesVis.wrangleData();
+    dayView.wrangleData();
 }
