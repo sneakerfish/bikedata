@@ -128,6 +128,7 @@ class DayViewRadial {
             .attr("x2", -5)
             .attr("stroke", "black");
 
+
         //inner tick labels for time x axis
         vis.xLabel = vis.center
             .selectAll(".xLabelText")
@@ -148,6 +149,20 @@ class DayViewRadial {
             .text(d => hourFormat(d))
             .style("font-size", 10)
             .attr("opacity", 0.6)
+
+        vis.xLabel = vis.center
+            .append("text")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("text-anchor", "middle")
+            .text("Time")
+
+        vis.xLabel = vis.center
+            .append("text")
+            .attr("x", 0)
+            .attr("y", -vis.outerRadius)
+            .attr("text-anchor", "middle")
+            .text("Riders")
 
         this.wrangleData();
     }
