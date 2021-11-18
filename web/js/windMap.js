@@ -79,7 +79,6 @@ class WindMap {
 			})
 		}
 
-		console.log("windData", vis.windData)
 		vis.updateVis();
 	}
 

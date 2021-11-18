@@ -84,12 +84,6 @@ div.tooltip {
     fill: #FB4D42;
 }
 
-/*.line {*/
-/*    fill: none;*/
-/*    stroke: steelblue;*/
-/*    stroke-width: 2px;*/
-/*}*/
-
 .grid line {
     stroke: lightgrey;
     stroke-opacity: 0.7;
@@ -99,3 +93,29 @@ div.tooltip {
 .grid path {
     stroke-width: 0;
 }
+
+#scrolly {
+    position: relative;
+}
+
+article {
+    position: relative;
+    padding: 0 1rem;
+    margin: 0 auto;
+    width: 33%;
+}
+
+.step {
+    display: block;
+}
+
+.step.is-active {
+    display: block;
+}
+
+.step p {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.5rem;
+}
+k

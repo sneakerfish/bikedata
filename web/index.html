@@ -15,37 +15,32 @@
 </head>
 <body>
 
-<div class="container-fluid" >
-
-    <div class="row">
-        <div class="col">
-            <h1>Bike shares are a boomin’</h1>
+<div class="container-fluid">
+    <section id="scrolly">
+    <article>
+    <div class="step">
+        <div class=" row">
+            <div class="col">
+                <h1>Bike shares are a boomin’</h1>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <img src="images/intro_infographic.png"  style="width:1024px">
+        <div class="row">
+            <div class="col">
+                <img src="images/intro_infographic.png" style="width:1024px">
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div>For the introduction infographic, we'd like to summarize the following data</div>
-             <ul>
-                <li>Summary of different bike share metrics (e.g. total trips, stations, etc.) across systems</li>
-                <li>Membership Plans</li>
-                <li>Unique Attributes about each system (e.g. how NYC has nothing in Staten Island)</li>
-            </ul>
-        </div>
-    </div>
 
-    <hr>
+        <div class="row">
+            <div class="col">
+                <div>For the introduction infographic, we'd like to summarize the following data</div>
+                <ul>
+                    <li>Summary of different bike share metrics (e.g. total trips, stations, etc.) across systems</li>
+                    <li>Membership Plans</li>
+                    <li>Unique Attributes about each system (e.g. how NYC has nothing in Staten Island)</li>
+                </ul>
+            </div>
 
-    <div class="row">
-        <div class="col">
-            <h1>Bike-share System Trends Across Recent History (2017 - Present)</h1>
-        </div>
-    </div>
     <form class="form-inline row">
         <div class="form-group col col-md-auto" style="background-color:#f2f2f2">
             <label for="timeSeriesDataType" style="font-weight: bold">Chart Data: </label>
@@ -159,81 +154,152 @@
                 </tbody>
             </table>
         </div>
-        <div class="col">
-            <div id="aggregateBarChart"></div>
+
+    <div class="step">
+        <div class="row">
+            <div class="col">
+                <h2>Bike-share System Trends Across Time</h2>
+            </div>
+        </div>
+        <form class="form-inline row">
+            <div class="form-group col col-md-auto" style="background-color:#f2f2f2">
+                <label for="data-type">Chart Data: </label>
+                <select class="form-control-lg" id="data-type" onchange="updateVisualization()">
+                    <option value="TRIP_COUNT">Trip Count</option>
+                    <option value="DURATION">Duration</option>
+                </select>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="bostonCheckBox" value="boston"
+                           onclick="updateVisualization()" checked>
+                    <label class="form-check-label" for="bostonCheckBox">Boston</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="nycCheckBox" value="nyc"
+                           onclick="updateVisualization()" checked>
+                    <label class="form-check-label" for="nycCheckBox">New York City</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="sfCheckBox" value="sf"
+                           onclick="updateVisualization()" checked>
+                    <label class="form-check-label" for="sfCheckBox">San Francisco</label>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="step">
+        <div class="row">
+            <!-- Parent container for the visualization -->
+            <div id="chart-area" class="col-md-8" style="height:600px"></div>
+            <div class="col-md-4">
+                <!--<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Citi Bike fam!<br><br>We&#39;re partnering w/ <a href="https://twitter.com/NYC_DOT?ref_src=twsrc%5Etfw">@NYC_DOT</a> to add 8k new docks and 4k bikes in 2022.<br><br>Through the &quot;infill&quot; process, we will be adding/extending more docks to reduce the # of empty stations and keep you moving! 🚲💙<br><br>Check out this priority-area heat map based on DOT data. <a href="https://t.co/17IuTu4pgj">pic.twitter.com/17IuTu4pgj</a></p>&mdash; Citi Bike (@CitiBikeNYC) <a href="https://twitter.com/CitiBikeNYC/status/1455653198723682314?ref_src=twsrc%5Etfw">November 2, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>-->
+                <!--blockquote class="twitter-tweet"><p lang="en" dir="ltr">We have learned of the 1st positive case of COVID-19 in NY. The patient contracted the virus while in Iran &amp; is isolated<br><br>There is no reason for undue anxiety—the general risk remains low in NY. We are diligently managing this situation &amp;will provide info as it becomes available. <a href="https://t.co/rLnObvrg3R">pic.twitter.com/rLnObvrg3R</a></p>&mdash; Archive: Governor Andrew Cuomo (@NYGovCuomo) <a href="https://twitter.com/NYGovCuomo/status/1234280155033546753?ref_src=twsrc%5Etfw">March 2, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script-->
+                <blockquote class="twitter-tweet"><p lang="en" dir="ltr">CA is issuing a statewide, mandatory STAY AT
+                    HOME
+                    order.<br> <br>Those that work in critical sectors should go to work. Grocery stores, pharmacies,
+                    banks
+                    and more will stay open.<br><br>We need to meet this moment and flatten the curve together.<br><br>Go
+                    to
+                    <a href="https://t.co/xtXFwVeWc2">https://t.co/xtXFwVeWc2</a> to learn more.</p>&mdash; Gavin Newsom
+                    (@GavinNewsom) <a
+                            href="https://twitter.com/GavinNewsom/status/1240820390407991296?ref_src=twsrc%5Etfw">March
+                        20, 2020</a></blockquote>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <ul>
+                    <li>This time series chart will show a timelapse for each city and present a news feed from twitter
+                        based on key events (e.g. California Wild-fires, Hurricanes, COVID lock-downs, Bike milestones,
+                        etc.).
+                    </li>
+                    <li>During the timelapse, the graph will scale based on the time series being shown</li>
+                    <li>Once the timelapse is done, users can change different filters, zoom, pane, and explore the time
+                        series data.
+                    </li>
+                    <li>We will support other metrics such as time duration, rolling averages, etc.</li>
+                    <li>Will support brushing</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <hr>
-
-    <div class="row">
-        <div class="col">
-            <h2>Exploring Bike Shares By City - San Francisco</h2>
+    <div class="step">
+        <div class="row">
+            <div class="col">
+                <h2>Exploring Bike Shares By City - San Francisco</h2>
+            </div>
         </div>
     </div>
 
-    <hr>
+    <div class="step">
+        <div class="row">
+            <div class="col">
+                <h2>Bike Share Networks</h2>
+            </div>
+        </div>
 
-    <div class="row">
-        <div class="col">
-            <h2>Bike Share Networks</h2>
+        <div class="row">
+            <div class="col">
+                <img src="images/sf_network_graph.png" style="width:1024px">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div>For the network graphs, we plan on exploring the n-most common routes for a given time period and
+                    implement the following features
+                </div>
+                <ul>
+                    <li>Filter for certain time periods</li>
+                    <li>Only add labels to major stations</li>
+                    <li>Edges for less frequent trips would be greyed out</li>
+                    <li>Include directed edges</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <img src="images/sf_network_graph.png"  style="width:1024px">
+    <div class="step">
+        <div class="row">
+            <div class="col">
+                <h2>Exploring Bike Shares By City - Boston</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <img src="images/bos_network_graph.png" style="width:1024px">
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <div>For the network graphs, we plan on exploring the n-most common routes for a given time period and implement the following features</div>
-             <ul>
-                <li>Filter for certain time periods</li>
-                <li>Only add labels to major stations</li>
-                <li>Edges for less frequent trips would be greyed out</li>
-                <li>Include directed edges</li>
-            </ul>
+    <div class="step">
+        <div class="row">
+            <div class="col">
+                <h2>Exploring Bike Shares By City - New York City</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <img src="images/nyc_network_graph.png" style="width:1024px">
+            </div>
         </div>
     </div>
 
-    <hr>
-
-    <div class="row">
-        <div class="col">
-            <h2>Exploring Bike Shares By City - Boston</h2>
+    <div class="step">
+        <div class="row">
+            <div class="col">
+                <h2>Windmap showing directions of cyclists at a certain time of day</h2>
+                <div id="wind-map"></div>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <img src="images/bos_network_graph.png" style="width:1024px">
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="row">
-        <div class="col">
-            <h2>Exploring Bike Shares By City - New York City</h2>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <img src="images/nyc_network_graph.png"  style="width:1024px">
-        </div>
-    </div>
-    <hr>
-
-    <div class="row">
-        <div class="col">
-            <h2>Windmap showing directions of cyclists at a certain time of day</h2>
-            <div id="wind-map"></div>
-        </div>
-    </div>
-
+    <div class="step">
     <div class="row">
         <div class="col">
             <h2>Day View 21st March 2021</h2>
@@ -241,24 +307,26 @@
         </div>
     </div>
 
-    <hr>
+    </div>
+     <div class="step">
+        <div class="row">
+            <div class="col">
+                <h2>Concluding Statements</h2>
+            </div>
+        </div>
 
-    <div class="row">
-        <div class="col">
-            <h2>Concluding Statements</h2>
+        <div class="row">
+            <div class="col">
+                <ul>
+                    <li>Discuss general trends</li>
+                    <li>Discuss trends across cities</li>
+                    <li>Discuss Future Work</li>
+                </ul>
+            </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col">
-            <ul>
-                <li>Discuss general trends</li>
-                <li>Discuss trends across cities</li>
-                <li>Discuss Future Work</li>
-            </ul>
-        </div>
-    </div>
-
+    </article>
+    </section>
 </div>
 
 <!-- embedding JS libraries -->
@@ -272,6 +340,10 @@
 <!-- leaflet -->
 <script src="js/leaflet.js"></script>
 
+<!-- Scrolly telling -->
+<script src="https://unpkg.com/intersection-observer"></script>
+<script src="https://unpkg.com/scrollama"></script>
+
 <!-- Your implementation -->
 <script src="js/barVis.js"></script>
 <script src="js/windMap.js"></script>
@@ -279,6 +351,7 @@
 <script src="js/timeSeriesTimeline.js"></script>
 <script src="js/dayView.js"></script>
 <script src="js/dayViewRadial.js"></script>
-<script src="js/main.js"></script>
+<script src="js/scroller.js"></script>
+ <script src="js/main.js"></script>
 </body>
 </html>
