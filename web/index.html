@@ -9,6 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
+
+    <link rel="stylesheet" href="css/leaflet.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -151,7 +153,14 @@
             <img src="images/nyc_network_graph.png"  style="width:1024px">
         </div>
     </div>
+    <hr>
 
+    <div class="row">
+        <div class="col">
+            <h2>Windmap showing directions of cyclists at a certain time of day</h2>
+            <div id="wind-map"></div>
+        </div>
+    </div>
 
     <hr>
 
@@ -181,9 +190,11 @@
 <!-- d3 -->
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
-
+<!-- leaflet -->
+<script src="js/leaflet.js"></script>
 
 <!-- Your implementation -->
+<script src="js/windMap.js"></script>
 <script src="js/timeSeriesVis.js"></script>
 <script src="js/main.js"></script>
 </body>
