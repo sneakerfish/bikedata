@@ -44,7 +44,7 @@ function createVis(data) {
 
     windMap = new WindMap("wind-map", stationData, [42.356070, -71.086808]);
 
-    dayView = new DayView('day-view', dayViewData);
+    dayView = new DayViewRadial('day-view', dayViewData);
 }
 
 function updateVisualization() {
