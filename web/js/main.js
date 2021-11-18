@@ -32,7 +32,6 @@ Promise.all(promises)
     });
 
 function createVis(data) {
-    console.log(data)
 
     let tripCountData = data[0];
     let tripDurationData = data[1];
@@ -43,7 +42,7 @@ function createVis(data) {
 
     timeSeriesVis = new TimeSeriesVis('chart-area', tripCountData, cities)
 
-    dayView = new DayView('day-view', null);
+    windMap = new WindMap("wind-map", stationData, [42.356070, -71.086808]);
 
     dayView = new DayView('day-view', dayViewData);
 }
