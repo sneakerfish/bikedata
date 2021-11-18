@@ -32,6 +32,7 @@ Promise.all(promises)
     });
 
 function createVis(data) {
+    console.log(data)
 
     let tripCountData = data[0];
     let tripDurationData = data[1];
