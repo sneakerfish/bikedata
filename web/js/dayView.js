@@ -57,6 +57,17 @@ class DayView {
                 return vis.y(d.Riders);
             });
 
+        // axis labels
+        vis.svg.append("text")
+            .attr("x", vis.width / 2)
+            .attr("y", vis.height + 40)
+            .text("Time");
+        vis.svg.append("text")
+            .attr("x", 0)
+            .attr("y", -10)
+            .style("text-anchor", "end")
+            .text("Riders");
+
         this.wrangleData();
     }
 
