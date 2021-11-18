@@ -19,6 +19,44 @@ class DayView {
             .append("g")
             .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
+        // Scales and axes
+        vis.x = d3.scaleTime()
+            .range([0, vis.width]);
+        vis.x.domain(d3.extent(vis.data.map(d => d.Time)));
+
+        vis.y = d3.scaleLinear()
+            .range([vis.height, 0]);
+        vis.y.domain([0, d3.max(vis.data.map(d => d.Riders))]);
+
+        vis.xAxis = d3.axisBottom()
+            .scale(vis.x);
+
+        vis.yAxis = d3.axisLeft()
+            .scale(vis.y);
+
+        vis.svg.append("g")
+            .attr("class", "x-axis axis")
+            .attr("transform", "translate(0," + vis.height + ")");
+
+        vis.svg.append("g")
+            .attr("class", "y-axis axis");
+
+
+        // Append a path for the area function, so that it is later behind the brush overlay
+        vis.timePath = vis.svg.append("path")
+            .attr("class", "area area-time");
+
+        // Define the D3 path generator
+        vis.area = d3.area()
+            .curve(d3.curveStep)
+            .x(function (d) {
+                return vis.x(d.Time);
+            })
+            .y0(vis.height)
+            .y1(function (d) {
+                return vis.y(d.Riders);
+            });
+
         this.wrangleData();
     }
 
@@ -30,5 +68,13 @@ class DayView {
 
     updateVis() {
         let vis = this;
+
+        vis.timePath
+            .datum(vis.data)
+            .attr("d", vis.area)
+            .attr("fill", "lightblue")
+
+        vis.svg.select(".x-axis").call(vis.xAxis);
+        vis.svg.select(".y-axis").call(vis.yAxis);
     }
 }
