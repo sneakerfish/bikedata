@@ -9,7 +9,7 @@ class TimeSeriesVis {
         this.filteredData = data;
         this.formatDate = d3.timeFormat("%Y-%m-%d");
         this.cities = new Set(cities)
-        this.initFinished = false;
+        this.initFinished = true;
         this.initVis();
     }
 
@@ -62,7 +62,7 @@ class TimeSeriesVis {
         this.wrangleData();
     }
 
-    wrangleData() {
+    wrangleData(startDate, endDate) {
         let vis = this;
 
         let checkedCities = []
@@ -82,7 +82,14 @@ class TimeSeriesVis {
         vis.cities = new Set(checkedCities);
         console.log('cities selected:', vis.cities)
 
-        vis.filteredData = vis.data.filter(d => vis.cities.has(d.city))
+        vis.selectedDataType = document.getElementById('timeSeriesDataType').value;
+        console.log('cities selected:', vis.selectedDataType)
+
+        if (startDate == undefined && endDate == undefined) {
+            vis.filteredData = vis.data.filter(d => vis.cities.has(d.city))
+        } else {
+            vis.filteredData = vis.data.filter(d => vis.cities.has(d.city) && d.trip_date >= startDate && d.trip_date <= endDate)
+        }
 
         vis.updateVis();
     }
@@ -99,7 +106,7 @@ class TimeSeriesVis {
 
         vis[cityLineName] = d3.line()
             .x(d => vis.x(d.trip_date))
-            .y(d => vis.y(d.trip_count))
+            .y(d => vis.y(d[vis.selectedDataType]))
             .curve(d3.curveLinear)
 
         let cityLineClass = city + "-line";
@@ -154,26 +161,28 @@ class TimeSeriesVis {
         vis[cityPathName].exit().remove();
     }
 
-
-
     updateVis() {
         let vis = this;
 
         console.log('Filtered data', vis.filteredData)
 
-        let trip_counts = vis.filteredData.map(d => d.trip_count)
-        let trip_count_max = d3.max(trip_counts);
+        let trip_metric = vis.filteredData.map(d => d[vis.selectedDataType])
+        let trip_metric_max = d3.max(trip_metric);
 
-        console.log('Maximum Trip Count', trip_count_max);
+        console.log('Maximum Trip Count', trip_metric_max);
 
-        vis.y.domain([0, trip_count_max])
+        vis.y.domain([0, trip_metric_max])
 
-        let startDate = vis.filteredData[0].trip_date;
-        let endDate = vis.filteredData[vis.filteredData.length - 1].trip_date;
+        if (vis.filteredData.length == 0) {
+            vis.x.domain([])
+        } else {
+            let startDate = vis.filteredData[0].trip_date;
+            let endDate = vis.filteredData[vis.filteredData.length - 1].trip_date;
 
-        console.log('Start Date', startDate, 'End Date', endDate);
+            console.log('Start Date', startDate, 'End Date', endDate);
 
-        vis.x.domain([startDate, endDate])
+            vis.x.domain([startDate, endDate])
+        }
 
         vis.svg.select(".x-axis")
             .transition()
