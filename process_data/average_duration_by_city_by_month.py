@@ -19,13 +19,16 @@ df2 = df.select(
     to_timestamp_(col('starttime')).alias('trip_start'),
     'stoptime',
     to_timestamp_(col('stoptime')).alias('trip_end'),
+    'start_station_id',
     'city'
 )
 
-df2.withColumn("trip_date", to_date(col("trip_start"))).createOrReplaceTempView("bikedata")
+df2.withColumn("DiffInSeconds", col("trip_end").cast("long") - col("trip_start").cast("long"))\
+    .withColumn("DiffInMinutes", col("DiffInSeconds") / 60)\
+    .createOrReplaceTempView("bikedata")
 
-df3 = spark.sql("select trip_date, city, hour(trip_start) as hour, minute(trip_start) as minute, count(trip_start) as trip_count from bikedata group by city, trip_date, hour, minute order by city, trip_date, hour, minute")
+df3 = spark.sql("select city, year(trip_start) as year, month(trip_start) as month, avg(DiffInMinutes) as average_duration from bikedata group by city, year(trip_start), month(trip_start)")
 
 df3.show(20, False)
 
-df3.coalesce(1).write.format('com.databricks.spark.csv').save('trips_by_city_by_date_by_minute.csv', header='true')
+df3.coalesce(1).write.format('com.databricks.spark.csv').save('average_duration_by_city_by_month.csv', header='true')
