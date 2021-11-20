@@ -8,6 +8,7 @@ let metro_labels = {
 }
 
 let promises = [
+<<<<<<< HEAD
     d3.csv("data/2017_present_trip_data.csv", row => {
         delete row[""]
         row.trip_count = +row.trip_count
@@ -15,6 +16,16 @@ let promises = [
         row.median_trip_duration_minutes = +row.median_trip_duration_minutes
         return row;
     }),
+=======
+    // d3.csv("data/2017_present_trip_data.csv", row => {
+    //      delete row[""]
+    //      row.trip_count = +row.trip_count
+    //      row.trip_date = parseDate(row.trip_date)
+    //      row.median_trip_duration_minutes = +row.median_trip_duration_minutes
+    //      // row.median_trip_duration_minutes = +parseFloat(row.median_trip_duration_minutes).toFixed(2);
+    //      return row;
+    // }),
+>>>>>>> f6229ad (Just about complete with scrolly telling.)
     fetch('https://gbfs.bluebikes.com/gbfs/en/station_information.json')
         .then(response => response.json()),
     d3.csv("data/2021-03-21 dayview.csv", row => {
@@ -30,10 +41,10 @@ let promises = [
 
 Promise.all(promises)
     .then(function (data) {
-        createVis(data)
+        createVis(data);
     })
     .catch(function (err) {
-        console.log(err)
+        console.log("Error: ", err);
     });
 
 function createVis(data) {
@@ -43,6 +54,7 @@ function createVis(data) {
     let dayViewData = data[2];
     let eventData = data[3];
 
+<<<<<<< HEAD
     let cities = ['sf', 'boston', 'nyc']
 
     timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData)
@@ -50,6 +62,17 @@ function createVis(data) {
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
     windMap = new WindMap("wind-map", stationData, [42.356070, -71.086808]);
     dayView = new DayViewRadial('day-view', dayViewData);
+=======
+    let cities = ['boston', 'nyc', 'sf'];
+
+    // timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities);
+    // timeline = new TimeSeriesTimeline("timeSeriesBrush", groupByTripDate(tripData));
+
+    windMap = new WindMap("wind-map", data[0], [42.356070, -71.086808]);
+
+    console.log("Day view data: ", data[1]);
+    dayView = new DayViewRadial('day-view', data[1]);
+>>>>>>> f6229ad (Just about complete with scrolly telling.)
 }
 
 function groupByTripDate(tripData) {
@@ -76,5 +99,11 @@ function timeSeriesBrushed() {
     let selectionDomain = selectionRange.map(timeline.x.invert);
 
     timeSeriesVis.wrangleData(selectionDomain[0], selectionDomain[1]);
+<<<<<<< HEAD
     barVis.onSelectionChange(selectionDomain[0], selectionDomain[1])
 }
+=======
+}
+
+let scroller = new Scroller("step");
+>>>>>>> f6229ad (Just about complete with scrolly telling.)
