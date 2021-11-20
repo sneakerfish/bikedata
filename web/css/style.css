@@ -134,6 +134,8 @@ figure > .visualization {
     visibility: hidden;
     opacity: 0;
     transition: visibility 500ms linear;
+    width: 100%;
+    height: 100%;
 }
 
 .step {
