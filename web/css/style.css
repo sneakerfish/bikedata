@@ -12,12 +12,6 @@
     font-size: 11px;
 }
 
-.line {
-    fill: none;
-    /*stroke: #1C9A3D;*/
-    stroke-width: 1.5px;
-}
-
 .sf-line {
     /*49ers gold */
     stroke: #b3995d;
@@ -51,4 +45,57 @@
 #day-view {
     width: 100%;
     height: 90vh;
+}
+
+.sf-bar {
+    fill: #b3995d;
+}
+
+.nyc-bar {
+    fill: #041E42;
+}
+
+.boston-bar {
+    fill: #FB4D42;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: left;
+    width: 300px;
+    height: 100px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: #F3E779;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.sf-point {
+    fill: #b3995d;
+}
+
+.nyc-point {
+    fill: #041E42;
+}
+
+.boston-point {
+    fill: #FB4D42;
+}
+
+/*.line {*/
+/*    fill: none;*/
+/*    stroke: steelblue;*/
+/*    stroke-width: 2px;*/
+/*}*/
+
+.grid line {
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+}
+
+.grid path {
+    stroke-width: 0;
 }
