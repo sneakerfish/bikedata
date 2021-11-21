@@ -134,7 +134,7 @@ class BarVis {
 
         vis.svg.select(".x-axis").call(vis.xAxis)
             .selectAll("text")
-            .style("text-anchor", "end")
+            .style("text-anchor", "middle")
             .text(i => vis.category_mappings[cities[i]]);
     }
 
