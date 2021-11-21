@@ -2,7 +2,7 @@ const TIME_SERIES_VIS_DEBUG = false;
 
 class TimeSeriesVis {
 
-    constructor(parentElement, data, cities, eventData) {
+    constructor(parentElement, data, cities, eventData, maxHeight) {
         this.parentElement = parentElement;
         // assumes data is sorted
         this.data = data;
@@ -12,6 +12,7 @@ class TimeSeriesVis {
         this.eventData = eventData;
         this.eventMap = new Map()
         this.initFinished = true;
+        this.maxHeight = maxHeight;
         this.initVis();
     }
 
@@ -19,8 +20,8 @@ class TimeSeriesVis {
         let vis = this;
 
         vis.margin = {top: 20, right: 30, bottom: 20, left: 100};
-        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
+        vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+        vis.height = vis.maxHeight;
 
         if (TIME_SERIES_VIS_DEBUG) {
             console.log("width:", vis.width, "height:", vis.height)

@@ -30,8 +30,8 @@ class BarVis {
 
         vis.margin = { top: 30, right: 0, bottom: 20, left: 100 };
 
-        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right,
-            vis.height = 500 - vis.margin.top - vis.margin.bottom;
+        vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right,
+                vis.height = 500 - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -134,7 +134,7 @@ class BarVis {
 
         vis.svg.select(".x-axis").call(vis.xAxis)
             .selectAll("text")
-            .style("text-anchor", "end")
+            .style("text-anchor", "middle")
             .text(i => vis.category_mappings[cities[i]]);
     }
 
