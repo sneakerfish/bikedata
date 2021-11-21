@@ -43,6 +43,10 @@ let promises = [
         row.trip_start = parseUTC(row.trip_start);
         row.trip_end = parseUTC(row.trip_end);
         return row;
+    }),
+    d3.csv("data/2017_present_events.csv", row => {
+        row.event_date = parseDate(row.event_date)
+        return row;
     })
 ];
 
@@ -57,9 +61,9 @@ Promise.all(promises)
 function createVis(data) {
 
     let tripData = data[0];
-    let stationData = data[1];
-    let dayViewData = data[2];
-    let fromToData = data[3];
+    let dayViewData = data[1];
+    let fromToData = data[2];
+    let eventData = data[3]
 
     console.log("fromToData", fromToData)
 
@@ -67,6 +71,7 @@ function createVis(data) {
 
     timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData, 380)
     timeline = new TimeSeriesTimeline("timeSeriesBrush", groupByTripDate(tripData))
+    barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
 
     let date = new Date("2021-07-01T00:00:00-04:00") // keep -04:00
     windMap = new WindMap(windIds, fromToData, date);
