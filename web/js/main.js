@@ -30,10 +30,10 @@ let promises = [
 
 Promise.all(promises)
     .then(function (data) {
-        createVis(data)
+        createVis(data);
     })
     .catch(function (err) {
-        console.log(err)
+        console.log("Error: ", err);
     });
 
 function createVis(data) {
@@ -45,10 +45,13 @@ function createVis(data) {
 
     let cities = ['sf', 'boston', 'nyc']
 
-    timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData)
+    timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData, 380)
     timeline = new TimeSeriesTimeline("timeSeriesBrush", groupByTripDate(tripData))
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
     windMap = new WindMap("wind-map", stationData, [42.356070, -71.086808]);
+    dayView = new DayViewRadial('day-view', dayViewData);
+
+    console.log("Day view data: ", dayViewData);
     dayView = new DayViewRadial('day-view', dayViewData);
 }
 
@@ -78,3 +81,5 @@ function timeSeriesBrushed() {
     timeSeriesVis.wrangleData(selectionDomain[0], selectionDomain[1]);
     barVis.onSelectionChange(selectionDomain[0], selectionDomain[1])
 }
+
+let scroller = new Scroller("step");
