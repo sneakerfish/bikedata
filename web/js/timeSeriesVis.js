@@ -1,14 +1,16 @@
+const TIME_SERIES_VIS_DEBUG = false;
+
 class TimeSeriesVis {
 
-
-
-    constructor(parentElement, data, cities) {
+    constructor(parentElement, data, cities, eventData) {
         this.parentElement = parentElement;
         // assumes data is sorted
         this.data = data;
         this.filteredData = data;
         this.formatDate = d3.timeFormat("%Y-%m-%d");
         this.cities = new Set(cities)
+        this.eventData = eventData;
+        this.eventMap = new Map()
         this.initFinished = true;
         this.initVis();
     }
@@ -16,13 +18,13 @@ class TimeSeriesVis {
     initVis() {
         let vis = this;
 
-        console.log(vis.parentElement)
-
-        vis.margin = {top: 120, right: 30, bottom: 20, left: 100};
+        vis.margin = {top: 20, right: 30, bottom: 20, left: 100};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
-        console.log("width:", vis.width, "height:", vis.height)
+        if (TIME_SERIES_VIS_DEBUG) {
+            console.log("width:", vis.width, "height:", vis.height)
+        }
 
         vis.svg = d3.select("#" + vis.parentElement)
             .append("svg")
@@ -59,6 +61,27 @@ class TimeSeriesVis {
             .attr("class", "axis x-axis")
             .attr('transform', 'translate(0,' + vis.height + ')')
 
+        vis.div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        // add the X gridlines
+        vis.xGridLines = vis.svg.append("g")
+            .attr("class", "grid")
+            .attr("transform", "translate(0," + vis.height + ")")
+
+        // add the Y gridlines
+        vis.yGridLines = vis.svg.append("g")
+            .attr("class", "grid")
+
+        // probably a better way to do this
+        vis.eventData.forEach(e => {
+            if (!vis.eventMap.has(e.city)) {
+                vis.eventMap.set(e.city, new Map());
+            }
+            vis.eventMap.get(e.city).set(vis.formatDate(e.event_date), e.description);
+        })
+
         this.wrangleData();
     }
 
@@ -80,10 +103,12 @@ class TimeSeriesVis {
         }
 
         vis.cities = new Set(checkedCities);
-        console.log('cities selected:', vis.cities)
 
         vis.selectedDataType = document.getElementById('timeSeriesDataType').value;
-        console.log('cities selected:', vis.selectedDataType)
+
+        if (TIME_SERIES_VIS_DEBUG) {
+            console.log('cities selected:', vis.selectedDataType)
+        }
 
         if (startDate == undefined && endDate == undefined) {
             vis.filteredData = vis.data.filter(d => vis.cities.has(d.city))
@@ -99,7 +124,9 @@ class TimeSeriesVis {
 
         let cityData = vis.filteredData.filter(d => d.city == city)
 
-        console.log('city:', city, 'data', cityData);
+        if (TIME_SERIES_VIS_DEBUG) {
+            console.log('city:', city, 'data', cityData);
+        }
 
         let cityPathName = city + "Path";
         let cityLineName = city + "Line";
@@ -139,37 +166,63 @@ class TimeSeriesVis {
                 .ease(d3.easeLinear)
                 .attr("stroke-dashoffset", 0);
         }
-
-        // vis[cityPathName].enter()
-        //     .append("path")
-        //     .attr("class", cityLineClass)
-        //     .merge(vis[cityPathName])
-        //     // .transition()
-        //     // improves path animation
-        //     // .attrTween('d', d => d3.interpolatePath(d3.select(this).attr('d'), line(d)))
-        //     // .ease(d3.easeLinear)
-        //     // .duration(10000)
-        //     .attr("d", vis[cityLineName])
-        //     .call(p => {
-        //         p.transition()
-        //             .duration(2000)
-        //             // .attrTween('d', d =stroke> d3.interpolatePath(d3.select(this).attr('d'), line(d)))
-        //             // .attrTween("-dasharray", tweenDash);
-        //
-        //     });
-
         vis[cityPathName].exit().remove();
+
+        // add hover overs
+        let cityPointClass = city + "-point";
+
+        vis[cityPointClass] = vis.svg.selectAll("." + cityPointClass)
+            .data(cityData);
+
+
+        vis[cityPointClass].enter()
+            .append("circle")
+            .attr("class", cityPointClass)
+            .merge(vis[cityPointClass])
+            .attr("r", d => {
+                if (vis.eventMap.has(d.city) && vis.eventMap.get(d.city).has(vis.formatDate(d.trip_date))) {
+                    return 8;
+                }
+                return 1;
+            })
+            .attr("cx", d => vis.x(d.trip_date))
+            .attr("cy", d => vis.y(d[vis.selectedDataType]))
+            .on("mouseover", function(event, d) {
+                vis.div.transition()
+                    .style("opacity", 1);
+
+                let toolTipText =
+                    d.trip_date.toDateString()
+                    + "<br/>"
+                    + "Trips Taken: " + d.trip_count
+                    + "<br/>"
+                    + "Median Trip Duration: " + d.median_trip_duration_minutes.toFixed(2) + " min";
+
+                if (vis.eventMap.has(d.city) && vis.eventMap.get(d.city).has(vis.formatDate(d.trip_date))) {
+                    toolTipText += "<br/><br/>" + vis.eventMap.get(d.city).get(vis.formatDate(d.trip_date))
+                }
+
+                vis.div.html(toolTipText)
+                    .style("left", (event.pageX) + "px")
+                    .style("top", (event.pageY - 50) + "px");
+            })
+            .on("mouseout", function(event, d) {
+                // vis.div.transition()
+                //     .duration(8000)
+                //     .style("opacity", 0);
+            });
+        vis[cityPointClass].exit().remove();
     }
 
     updateVis() {
         let vis = this;
 
-        console.log('Filtered data', vis.filteredData)
+        if (TIME_SERIES_VIS_DEBUG) {
+            console.log('Filtered data', vis.filteredData)
+        }
 
         let trip_metric = vis.filteredData.map(d => d[vis.selectedDataType])
         let trip_metric_max = d3.max(trip_metric);
-
-        console.log('Maximum Trip Count', trip_metric_max);
 
         vis.y.domain([0, trip_metric_max])
 
@@ -179,10 +232,33 @@ class TimeSeriesVis {
             let startDate = vis.filteredData[0].trip_date;
             let endDate = vis.filteredData[vis.filteredData.length - 1].trip_date;
 
-            console.log('Start Date', startDate, 'End Date', endDate);
+            if (TIME_SERIES_VIS_DEBUG) {
+                console.log('Start Date', startDate, 'End Date', endDate);
+            }
 
             vis.x.domain([startDate, endDate])
         }
+
+        //TODO: remove hard coding, compute on the fly
+        let tickValues = [ new Date(2017, 0, 1),
+            new Date(2018, 0, 1),
+            new Date(2019, 0, 1),
+            new Date(2020, 0, 1),
+            new Date(2021, 0, 1)]
+
+        vis.xGridLines
+            .call(d3.axisBottom(vis.x)
+                .tickValues(tickValues)
+                .tickSize(-vis.height)
+                .tickFormat("")
+            );
+
+        vis.yGridLines
+            .call(d3.axisLeft(vis.y)
+                .tickSize(-vis.width)
+                .tickFormat("")
+            );
+
 
         vis.svg.select(".x-axis")
             .transition()
