@@ -50,9 +50,6 @@ function createVis(data) {
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
     windMap = new WindMap("wind-map", stationData, [42.356070, -71.086808]);
     dayView = new DayViewRadial('day-view', dayViewData);
-
-    console.log("Day view data: ", dayViewData);
-    dayView = new DayViewRadial('day-view', dayViewData);
 }
 
 function groupByTripDate(tripData) {
