@@ -22,67 +22,93 @@
         <div class="step">
             <h1>Bikeshare programs have increased ridership and numbers of bikes</h1>
 
-<<<<<<< HEAD
-        <div class="row">
-            <div class="col">
-                <img src="images/intro_infographic.png" style="width:1024px">
-            </div>
+            <div>For the introduction infographic, we'd like to summarize the following data</div>
+            <ul>
+                <li>Summary of different bike share metrics (e.g. total trips, stations, etc.) across systems</li>
+                <li>Membership Plans</li>
+                <li>Unique Attributes about each system (e.g. how NYC has nothing in Staten Island)</li>
+            </ul>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <div>For the introduction infographic, we'd like to summarize the following data</div>
-                <ul>
-                    <li>Summary of different bike share metrics (e.g. total trips, stations, etc.) across systems</li>
-                    <li>Membership Plans</li>
-                    <li>Unique Attributes about each system (e.g. how NYC has nothing in Staten Island)</li>
-                </ul>
-            </div>
+        <div class="step">
+            <h2>Bike-share System Trends Across Time</h2>
 
-    <form class="form-inline row">
-        <div class="form-group col col-md-auto" style="background-color:#f2f2f2">
-            <label for="timeSeriesDataType" style="font-weight: bold">Chart Data: </label>
-            <select class="form-control-lg" id="timeSeriesDataType" onchange="updateVisualization()">
-                <option value="trip_count">Trip Count</option>
-                <option value="median_trip_duration_minutes">Median Trip Duration (minutes)</option>
-            </select>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="normalizedCheckBox" value="sf" unchecked disabled>
-                <label class="form-check-label" for="normalizedCheckBox">Normalized</label>
-            </div>
-
-            <label style="font-weight: bold">Bike Share System: </label>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="sfCheckBox" value="sf" onclick="updateVisualization()" checked>
-                <label class="form-check-label" for="sfCheckBox" style="background-color: #b3995d;color: white">Bay Area</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="bostonCheckBox" value="boston" onclick="updateVisualization()" checked>
-                <label class="form-check-label" for="bostonCheckBox" style="background-color: #FB4D42;color: white">Boston Metro</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="nycCheckBox" value="nyc" onclick="updateVisualization()" checked>
-                <label class="form-check-label" for="nycCheckBox" style="background-color: #041E42;color: white">New York City Metro</label>
-            </div>
+            <div>For the introduction infographic, we'd like to summarize the following data</div>
+            <ul>
+                <li>Summary of different bike share metrics (e.g. total trips, stations, etc.) across systems</li>
+                <li>Membership Plans</li>
+                <li>Unique Attributes about each system (e.g. how NYC has nothing in Staten Island)</li>
+            </ul>
         </div>
-    </form>
 
-    <hr>
+        <div class="step">
 
-    <div class="row">
-        <!-- Parent container for the visualization -->
-        <div id="chart-area" class="col" style="height:600px"></div>
-    </div>
-    <!-- brush -->
-    <div class="brush-container row" style="height: 15vh">
-        <div class="align-self-center col" id="timeSeriesBrush"></div>
-    </div>
+            <ul>
+                <li>This time series chart will show a timelapse for each city and present a news feed from twitter
+                    based on key events (e.g. California Wild-fires, Hurricanes, COVID lock-downs, Bike milestones,
+                    etc.).
+                </li>
+                <li>During the timelapse, the graph will scale based on the time series being shown</li>
+                <li>Once the timelapse is done, users can change different filters, zoom, pane, and explore the time
+                    series data.
+                </li>
+                <li>We will support other metrics such as time duration, rolling averages, etc.</li>
+                <li>Will support brushing</li>
+            </ul>
+        </div>
 
-    <!--https://en.wikipedia.org/wiki/Bay_Wheels#/media/File:Bay_Wheels_logo.png-->
-    <!--https://upload.wikimedia.org/wikipedia/commons/e/e1/Bluebikes_Logo.svg-->
-    <!--https://upload.wikimedia.org/wikipedia/commons/a/ad/Citi_Bike_logo.svg-->
-    <div class="row">
-        <div class="col">
+        <div class="step">
+            <h2>Exploring Bike Shares By City - San Francisco</h2>
+
+
+            <div>For the network graphs, we plan on exploring the n-most common routes for a given time period and
+                implement the following features
+            </div>
+            <ul>
+                <li>Filter for certain time periods</li>
+                <li>Only add labels to major stations</li>
+                <li>Edges for less frequent trips would be greyed out</li>
+                <li>Include directed edges</li>
+            </ul>
+
+        </div>
+
+        <div class="step">
+            <h2>Exploring Bike Shares By City - Boston</h2>
+
+        </div>
+
+        <div class="step">
+            <h2>Exploring Bike Shares By City - New York City</h2>
+
+
+        </div>
+
+        <div class="step">
+            <h2>Windmap showing directions of cyclists at a certain time of day</h2>
+        </div>
+
+        <div class="step">
+            <h2>Day View 21st March 2021</h2>
+        </div>
+
+        <div class="step">
+            <h2>Concluding Statements</h2>
+
+            <ul>
+                <li>Discuss general trends</li>
+                <li>Discuss trends across cities</li>
+                <li>Discuss Future Work</li>
+            </ul>
+        </div>
+    </article>
+    <!-- for showing figures during scrolling -->
+    <figure id="figure">
+        <div id="summary" class="visualization">
+            <!--https://en.wikipedia.org/wiki/Bay_Wheels#/media/File:Bay_Wheels_logo.png-->
+            <!--https://upload.wikimedia.org/wikipedia/commons/e/e1/Bluebikes_Logo.svg-->
+            <!--https://upload.wikimedia.org/wikipedia/commons/a/ad/Citi_Bike_logo.svg-->
+
             <table class="table">
                 <thead>
                 <tr>
@@ -129,7 +155,9 @@
                     <td>
                         <ul>
                             <li>Annual $109 paid at sign up, 45 minutes per ride, $2.50 per 30 minutes thereafter</li>
-                            <li>Annual $11 paid monthly (total $132), 45 minutes per ride, $2.50 per 30 minutes thereafter</li>
+                            <li>Annual $11 paid monthly (total $132), 45 minutes per ride, $2.50 per 30 minutes
+                                thereafter
+                            </li>
                             <li>Monthly $25, 45 minutes per ride, $2.50 per 30 minutes thereafter</li>
                             <li>Single Trip 30 minutes $2.95 to start, $2.50 per 30 minutes thereafter</li>
                             <li>24hr pass $10 for unlimited 2 hour rides, 2.50 per additional 30 minutes</li>
@@ -145,7 +173,8 @@
                 </tr>
                 <tr>
                     <th scope="row">Website</th>
-                    <td><a href="https://www.lyft.com/bikes/bay-wheels" target="_blank">www.lyft.com/bikes/bay-wheels</a></td>
+                    <td><a href="https://www.lyft.com/bikes/bay-wheels"
+                           target="_blank">www.lyft.com/bikes/bay-wheels</a></td>
                     <td><a href="https://www.bluebikes.com/" target="_blank">www.bluebikes.com</a></td>
                     <td><a href="https://www.citibikenyc.com/" target="_blank">www.citibikenyc.com</a></td>
                 </tr>
@@ -153,143 +182,73 @@
             </table>
         </div>
 
-    <div class="step">
-        <div class="row">
-            <div class="col">
-                <h2>Bike-share System Trends Across Time</h2>
-            </div>
-=======
-            <div>For the introduction infographic, we'd like to summarize the following data</div>
-            <ul>
-                <li>Summary of different bike share metrics (e.g. total trips, stations, etc.) across systems</li>
-                <li>Membership Plans</li>
-                <li>Unique Attributes about each system (e.g. how NYC has nothing in Staten Island)</li>
-            </ul>
->>>>>>> f6229ad (Just about complete with scrolly telling.)
-        </div>
-        <div class="step">
-            <h2>Bike-share System Trends Across Time</h2>
-
+        <div id="aggregate" class="visualization">
+            <div id="aggregateBarChart"></div>
         </div>
 
-        <div class="step">
-
-
-                <ul>
-                    <li>This time series chart will show a timelapse for each city and present a news feed from twitter
-                        based on key events (e.g. California Wild-fires, Hurricanes, COVID lock-downs, Bike milestones,
-                        etc.).
-                    </li>
-                    <li>During the timelapse, the graph will scale based on the time series being shown</li>
-                    <li>Once the timelapse is done, users can change different filters, zoom, pane, and explore the time
-                        series data.
-                    </li>
-                    <li>We will support other metrics such as time duration, rolling averages, etc.</li>
-                    <li>Will support brushing</li>
-                </ul>
-            </div>
-        </div>
-        <div class="step">
-            <h2>Exploring Bike Shares By City - San Francisco</h2>
-
-
-
-
-            <div>For the network graphs, we plan on exploring the n-most common routes for a given time period and
-                implement the following features
-            </div>
-            <ul>
-                <li>Filter for certain time periods</li>
-                <li>Only add labels to major stations</li>
-                <li>Edges for less frequent trips would be greyed out</li>
-                <li>Include directed edges</li>
-            </ul>
-
-        </div>
-
-        <div class="step">
-            <h2>Exploring Bike Shares By City - Boston</h2>
-
-        </div>
-
-        <div class="step">
-            <h2>Exploring Bike Shares By City - New York City</h2>
-
-
-        </div>
-
-        <div class="step">
-            <h2>Windmap showing directions of cyclists at a certain time of day</h2>
-        </div>
-
-        <div class="step">
-            <h2>Day View 21st March 2021</h2>
-        </div>
-
-        <div class="step">
-            <h2>Concluding Statements</h2>
-
-            <ul>
-                <li>Discuss general trends</li>
-                <li>Discuss trends across cities</li>
-                <li>Discuss Future Work</li>
-            </ul>
-        </div>
-    </article>
-    <!-- for showing figures during scrolling -->
-    <figure>
-        <div id="summary" class="visualization">
-            <img src='images/intro_infographic.png'>
-        </div>
         <div id="trends" class="visualization">
             <form class="form-inline row">
                 <div class="form-group col col-md-auto" style="background-color:#f2f2f2">
-                    <label for="timeSeriesDataType">Chart Data:</label>
+                    <label for="timeSeriesDataType" style="font-weight: bold">Chart Data: </label>
                     <select class="form-control-lg" id="timeSeriesDataType" onchange="updateVisualization()">
                         <option value="trip_count">Trip Count</option>
-                        <option value="duration">Duration</option>
+                        <option value="median_trip_duration_minutes">Median Trip Duration (minutes)</option>
                     </select>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="normalizedCheckBox" value="sf" unchecked
+                               disabled>
+                        <label class="form-check-label" for="normalizedCheckBox">Normalized</label>
+                    </div>
 
+                    <label style="font-weight: bold">Bike Share System: </label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="sfCheckBox" value="sf"
+                               onclick="updateVisualization()" checked>
+                        <label class="form-check-label" for="sfCheckBox" style="background-color: #b3995d;color: white">Bay
+                            Area</label>
+                    </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="bostonCheckBox" value="boston"
                                onclick="updateVisualization()" checked>
-                        <label class="form-check-label" for="bostonCheckBox">Boston</label>
+                        <label class="form-check-label" for="bostonCheckBox"
+                               style="background-color: #FB4D42;color: white">Boston Metro</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="nycCheckBox" value="nyc"
                                onclick="updateVisualization()" checked>
-                        <label class="form-check-label" for="nycCheckBox">New York City</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="sfCheckBox" value="sf"
-                               onclick="updateVisualization()" checked>
-                        <label class="form-check-label" for="sfCheckBox">San Francisco</label>
+                        <label class="form-check-label" for="nycCheckBox"
+                               style="background-color: #041E42;color: white">New York City Metro</label>
                     </div>
                 </div>
             </form>
 
             <!-- Parent container for the visualization -->
-            <div id="chart-area"></div>
-
+            <div id="chart-area" class="col"></div>
             <!-- brush -->
-            <div class="brush-container row" style="height: 15vh">
-                <div class="align-self-center col" id="timeSeriesBrush"></div>
-            </div>
 
+            <div class="align-self-center col" id="timeSeriesBrush"></div>
         </div>
-        <div id="sharemap" class="visualization"></div>
+
         <div id="sf" class="visualization">
             <h2>Bike Share Networks</h2>
-            <img src="images/sf_network_graph.png" height="420" width="984">
+            <img src="images/sf_network_graph.png" height="420" >
         </div>
+
         <div id="boston" class="visualization">
-            <img src="images/bos_network_graph.png" height="420" width="984">
+            <img src="images/bos_network_graph.png" height="420">
         </div>
+
         <div id="nyc" class="visualization">
-            <img src="images/nyc_network_graph.png" height="420" width="984">
+            <img src="images/nyc_network_graph.png" height="420">
         </div>
-        <div id="wind-map" class="visualization"></div>
-        <div id="day-view" class="visualization"></div>
+
+        <div id="wind" class="visualization">
+            <div id="wind-map"></div>
+        </div>
+
+        <div id="radial" class="visualization">
+            <div id="day-view"></div>
+        </div>
 
     </figure>
 
@@ -312,10 +271,7 @@
 <script src="https://unpkg.com/scrollama"></script>
 
 <!-- Your implementation -->
-<<<<<<< HEAD
 <script src="js/barVis.js"></script>
-=======
->>>>>>> f6229ad (Just about complete with scrolly telling.)
 <script src="js/windMap.js"></script>
 <script src="js/timeSeriesVis.js"></script>
 <script src="js/timeSeriesTimeline.js"></script>

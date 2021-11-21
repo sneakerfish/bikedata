@@ -15,14 +15,6 @@ let promises = [
         row.median_trip_duration_minutes = +row.median_trip_duration_minutes
         return row;
     }),
-    d3.csv("data/2017_present_trip_data.csv", row => {
-         delete row[""]
-         row.trip_count = +row.trip_count
-         row.trip_date = parseDate(row.trip_date)
-         row.median_trip_duration_minutes = +row.median_trip_duration_minutes
-         // row.median_trip_duration_minutes = +parseFloat(row.median_trip_duration_minutes).toFixed(2);
-         return row;
-    }),
     fetch('https://gbfs.bluebikes.com/gbfs/en/station_information.json')
         .then(response => response.json()),
     d3.csv("data/2021-03-21 dayview.csv", row => {
@@ -53,7 +45,7 @@ function createVis(data) {
 
     let cities = ['sf', 'boston', 'nyc']
 
-    timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData)
+    timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData, 380)
     timeline = new TimeSeriesTimeline("timeSeriesBrush", groupByTripDate(tripData))
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
     windMap = new WindMap("wind-map", stationData, [42.356070, -71.086808]);

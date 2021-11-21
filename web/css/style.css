@@ -46,7 +46,6 @@
     width: 100%;
     height: 90vh;
 }
-<<<<<<< HEAD
 
 .sf-bar {
     fill: #b3995d;
@@ -94,8 +93,6 @@ div.tooltip {
 .grid path {
     stroke-width: 0;
 }
-=======
->>>>>>> f6229ad (Just about complete with scrolly telling.)
 
 #scrolly {
     position: relative;
@@ -126,7 +123,7 @@ figure {
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
-    background-color: #8a8a8a;
+    background-color: white;
     z-index: 0;
 }
 
@@ -158,8 +155,3 @@ figure > .visualization {
     padding: 1rem;
     font-size: 1.5rem;
 }
-<<<<<<< HEAD
-k
-=======
-
->>>>>>> f6229ad (Just about complete with scrolly telling.)

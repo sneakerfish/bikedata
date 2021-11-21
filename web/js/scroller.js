@@ -13,7 +13,7 @@ class Scroller {
         d3.select("article").selectAll(".step")
             .style("height", stepH + "px");
 
-        let figureHeight = window.innerHeight * 0.6;
+        let figureHeight = window.innerHeight * 0.75;
         let figureMarginTop = (window.innerHeight - figureHeight) / 2;
 
         d3.select("#scrolly").select("figure")
@@ -22,13 +22,11 @@ class Scroller {
 
         // 3. tell scrollama to update new element dimensions
         // scroller.scroller.resize();
-        console.log("Resized, height: " + figureHeight);
     }
 
     // scrollama event handlers
     handleStepEnter(response) {
         let vis = this;
-        console.log(response);
         // response = { element, direction, index }
 
         // add color to current step only
@@ -45,17 +43,13 @@ class Scroller {
             .style("display", "none");
 
         // update graphic based on step
-        let vizes = ["summary", "trends", "sharemap", "sf", "boston", "nyc", "wind-map", "day-view"];
+        let vizes = ["summary", "aggregate", "trends", "sf", "boston", "nyc", "wind", "radial"];
         d3.select("figure").select("#" + vizes[response.index])
             .transition()
             .duration(500)
             .style("visibility", "visible")
             .style("opacity", 1)
             .style("display", "block");
-    }
-
-    handleStepExit(response) {
-        console.log("Exiting: ",    response);
     }
 
     setupStickyfill() {
@@ -83,8 +77,7 @@ class Scroller {
                 debug: true,
                 offset: 0.3
             })
-            .onStepEnter(vis.handleStepEnter)
-            .onStepExit(vis.handleStepExit);
+            .onStepEnter(vis.handleStepEnter);
     }
 
 }

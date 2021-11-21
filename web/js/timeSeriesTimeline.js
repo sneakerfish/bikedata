@@ -29,7 +29,7 @@ class TimeSeriesTimeline {
 		// vis.width = document.getElementById(vis._parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
 		// vis.height = document.getElementById(vis._parentElement).getBoundingClientRect().height  - vis.margin.top - vis.margin.bottom;
 
-		vis.width = document.getElementById(vis._parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+		vis.width = document.getElementById(vis._parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
 		vis.height = 150  - vis.margin.top - vis.margin.bottom;
 
 
