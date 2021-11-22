@@ -74,7 +74,7 @@ class Scroller {
         vis.scroller
             .setup({
                 step: "." + vis.initClass,
-                debug: true,
+                debug: false,
                 offset: 0.3
             })
             .onStepEnter(vis.handleStepEnter);
