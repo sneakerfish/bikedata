@@ -58,33 +58,7 @@
         </div>
 
         <div class="step">
-            <h2>Exploring Bike Shares By City - San Francisco</h2>
 
-
-            <div>For the network graphs, we plan on exploring the n-most common routes for a given time period and
-                implement the following features
-            </div>
-            <ul>
-                <li>Filter for certain time periods</li>
-                <li>Only add labels to major stations</li>
-                <li>Edges for less frequent trips would be greyed out</li>
-                <li>Include directed edges</li>
-            </ul>
-
-        </div>
-
-        <div class="step">
-            <h2>Exploring Bike Shares By City - Boston</h2>
-
-        </div>
-
-        <div class="step">
-            <h2>Exploring Bike Shares By City - New York City</h2>
-
-
-        </div>
-
-        <div class="step">
             <h2>Windmap showing directions of cyclists at a certain time of day</h2>
         </div>
 
@@ -229,20 +203,21 @@
             <div class="align-self-center col" id="timeSeriesBrush"></div>
         </div>
 
-        <div id="sf" class="visualization">
-            <h2>Bike Share Networks</h2>
-            <img src="images/sf_network_graph.png" height="420" >
-        </div>
-
-        <div id="boston" class="visualization">
-            <img src="images/bos_network_graph.png" height="420">
-        </div>
-
-        <div id="nyc" class="visualization">
-            <img src="images/nyc_network_graph.png" height="420">
-        </div>
-
         <div id="wind" class="visualization">
+            <h2>Overall movement of cyclists at <span id="showWindTime"></span> </h2></br>
+            City: <span class="inline-input"> <input type="radio" checked id="boston" name="singleCity" value="boston" onclick="updateWindmap()">
+            <label for="boston">Boston</label>
+            <input type="radio" id="nyc" name="singleCity" value="nyc" onclick="updateWindmap()">
+            <label for="nyc">New York City</label>
+            <input type="radio" id="sf" name="singleCity" value="sf" onclick="updateWindmap()">
+            <label for="sf">San-Francisco</label></span>
+            <span class="inline-input">
+                <span id="showWindDay"></span>
+            </span>
+            <span class="inline-input">
+                <label for="windTime">Time: </label>
+                <input type="range" id="windTime" min="0" max="1440" width="400px" value=60 onclick="updateWindmap()">
+            </span>
             <div id="wind-map"></div>
         </div>
 
