@@ -9,11 +9,21 @@ class StackedBarVis {
 
     constructor(parentElement, data, category_field) {
         this.parentElement = parentElement;
-        this.data = data;
+        this.data = data.sort((a, b) => {
+            return (a.event_date - b.event_date)
+        });
+        console.log(this.data);
+
         this.category_field = category_field;
-        this.categories = data.map((d) => d[category_field])
-            .filter((e, i, a) => a.indexOf(e) == i);
-        this.filteredData = this.data;
+        this.categories = ["nyc", "boston", "sf"];
+
+        // prepare colors for range
+        let colorArray = [ "#041E42", "#FB4D42", "#b3995d"];
+
+        // Set ordinal color scale
+        this.colorScale = d3.scaleOrdinal()
+            .domain(this.categories)
+            .range(colorArray);
 
         this.initVis();
     }
@@ -26,16 +36,10 @@ class StackedBarVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 40, right: 0, bottom: 40, left: 40};
+        vis.margin = { top: 30, right: 0, bottom: 20, left: 100 };
+
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
-
-        // init drawing area
-        vis.svg = d3.select("#" + vis.parentElement).append("svg")
-            .attr("width", vis.width + vis.margin.left + vis.margin.right)
-            .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
         // scales and axes
         vis.x = d3.scaleLinear()
@@ -51,16 +55,48 @@ class StackedBarVis {
         vis.yAxis = d3.axisLeft()
             .scale(vis.y);
 
+
+        // init drawing area
+        vis.svg = d3.select("#" + vis.parentElement).append("svg")
+            .attr("width", vis.width + vis.margin.left + vis.margin.right)
+            .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
+
+
         // Add x and y axis groups
         vis.svg.append("g")
-            .attr("transform", "translate(" + vis.margin.left + "," + vis.height + ")")
+            .attr("transform", "translate(0," + vis.height + ")")
             .attr("class", "x-axis axis");
 
         vis.svg.append("g")
-            .attr("transform", "translate(" + vis.margin.left + ",0)")
             .attr("class", "y-axis axis");
 
-        vis.stack = d3.stack().keys(["bos", "sf", "nyc"]);
+        // vis.svg = d3.select("#" + vis.parentElement).select("svg").select("g");
+        vis.stack = d3.stack().keys(["boston", "sf", "nyc"]);
+
+        let tooltip = vis.svg.append("g")
+            .attr("id", "chart-tooltip");
+        tooltip.append("line")
+            .attr("class", "tipline")
+            .attr("id", "tipline")
+            .attr("x1", vis.x(d3.min(vis.data, (d) => d.event_date)))
+            .attr("y1", vis.y(0))
+            .attr("x2", vis.x(d3.min(vis.data, (d) => d.event_date)))
+            .attr("y2", vis.y(2500));
+        tooltip.append("text")
+            .attr("x", 10)
+            .attr("y", 20)
+            .attr("id", "chart-tooltext")
+            .attr("class", "tiptext");
+        tooltip.append("text")
+            .attr("class", "tiptext")
+            .attr("id", "datetext")
+            .attr("x", vis.x(d3.min(vis.data, (d) => d.event_date)) + 10)
+            .attr("y", vis.y(2500));
+
+
+
 
         vis.wrangleData();
     }
@@ -72,14 +108,30 @@ class StackedBarVis {
         let layer_keys = {}
         vis.data.forEach((d) => {
             if (! layer_keys.hasOwnProperty(d.event_date)) {
-                layer_keys[d.event_date] = {}
+                layer_keys[d.event_date] = {};
+                layer_keys[d.event_date]["month"] = d.event_date;
             }
             layer_keys[d.event_date][d.city] = d.station_count;
         })
-        console.log(layer_keys);
 
-        vis.stackedData = vis.stack(layer_keys);
-        console.log(vis.stackedData);
+        let newdata = Object.values(layer_keys);
+
+        vis.stack = d3.stack().keys(["nyc", "boston", "sf"]);
+        vis.stackedData = vis.stack(newdata);
+
+        // Area generator
+        vis.area = d3.area()
+            .x(function (d) {
+                return vis.x(d.data.month);
+            })
+            .y0(function (d) {
+                return vis.y(d[0]);
+            })
+            .y1(function (d) {
+                return vis.y(d[1]);
+            })
+        // vis.stackedData = vis.stack(layer_keys);
+        // console.log(vis.stackedData);
 
         vis.updateVis();
     }
@@ -87,17 +139,64 @@ class StackedBarVis {
     updateVis() {
         let vis = this;
 
-        let xExtent = d3.extent(vis.filteredData, (d) => d.event_date);
+        let xExtent = d3.extent(vis.data, (d) => d.event_date);
         vis.x.domain(xExtent);
-        let yExtent = d3.max(vis.filteredData, (d) => d.station_count);
+        let yExtent = d3.max(vis.stackedData[2], (d) => {
+            return d[1];
+        });
         vis.y.domain([0, yExtent]);
-        console.log(yExtent);
+
+        // Draw the layers
+        let categories = vis.svg.selectAll(".area")
+            .data(vis.stackedData);
+
+        categories.enter().append("path")
+            .attr("class", "area")
+            .merge(categories)
+            .style("fill", d => {
+                return vis.colorScale(d);
+            })
+            .attr("d", d => vis.area(d))
+
+            .on("mouseover", (e, d) => {
+                console.log("mouseover");
+                d3.select("#chart-tooltip").style("display", null);
+                d3.select("#chart-tooltext")
+                    .text(d.key);
+            })
+            .on("mouseout", function (d) {
+                d3.select(".tooltip").style("display", "none");
+                d3.select("#chart-tooltext")
+                    .text("");
+            })
+            .on("mousemove", (e, d) => {
+                let ptr = d3.pointer(e);
+                const formatDate = d3.timeFormat("%Y-%m-%d");
+                const formatPop = d3.format(',');
+                const bisectDate = d3.bisector((dx) => { return dx.event_date; }).right;
+                let xdate = vis.x.invert(ptr[0]);
+                let i = bisectDate(vis.data, xdate);
+                let shiftLeft = 0;
+                d3.select("#tooltip")
+                    .attr("transform", "translate(" + (ptr[0] - vis.margin.left) + ", 0)");
+                if (ptr[0] > vis.width - 60) {
+                    shiftLeft = -85;
+                }
+                d3.select("#datetext")
+                    .text(formatDate(vis.data[i].event_date))
+                    .attr("transform", "translate(" + shiftLeft + ", 0)");
+                d3.select("#stationtext")
+                    .text(formatPop(vis.data[i].population))
+                    .attr("transform", "translate(" + shiftLeft + ", 0)");
+            });
+
 
         vis.svg.select(".y-axis")
             .call(vis.yAxis);
         // Update the x-axis
         vis.svg.select(".x-axis")
             .call(vis.xAxis)
+
 
 
     }

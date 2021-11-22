@@ -172,3 +172,17 @@ section h1 {
     padding: 0 1rem;
     margin-top: 0 !important;
 }
+
+.tipline {
+    stroke: dimgrey;
+    stroke-width: 3;
+}
+.tiptext {
+    font-size: 11px;
+    text-anchor: start;
+    fill: black;
+}
+#poptext.tiptext {
+    font-size: 14px;
+    font-weight: bold;
+}
