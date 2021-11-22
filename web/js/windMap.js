@@ -47,6 +47,22 @@ class WindMap {
 			scrollWheelZoom: false,
 		}).setView(vis.mapCenter, 12)
 
+		// Because of scrolly-telling the leaflet changes size.
+		// Check when it is made visible and recalculate size.
+		var element = document.getElementById('wind')
+
+		var observer = new MutationObserver(function(mutations) {
+			mutations.forEach(function(mutation) {
+				if (mutation.type === "attributes") {
+					vis.map.invalidateSize()
+				}
+			});
+		});
+
+		observer.observe(element, {
+			attributes: true
+		})
+
 		// Add tile-layer to the map.
 		L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
 			attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',

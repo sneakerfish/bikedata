@@ -65,8 +65,6 @@ function createVis(data) {
     let fromToData = data[2];
     let eventData = data[3]
 
-    console.log("fromToData", fromToData)
-
     let cities = ['sf', 'boston', 'nyc']
 
     timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData, 380)
