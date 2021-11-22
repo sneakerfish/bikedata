@@ -135,10 +135,13 @@ figure > .visualization {
     height: 100%;
 }
 
+section h1 {
+    padding: 0 3rem;
+}
 .step {
     margin: 0 auto 2rem auto;
-    background-color: #3b3b3b;
-    color: #fff;
+    background-color: #dddddd;
+    color: #3b3b3b;
 }
 
 .step:last-child {
@@ -152,6 +155,11 @@ figure > .visualization {
 
 .step p {
     text-align: center;
-    padding: 1rem;
+    padding: 0 1rem;
     font-size: 1.5rem;
+}
+
+.step h1, h2 {
+    padding: 0 1rem;
+    margin-top: 0 !important;
 }
