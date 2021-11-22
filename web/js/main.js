@@ -49,6 +49,15 @@ let promises = [
     d3.csv("data/2017_present_events.csv", row => {
         row.event_date = parseDate(row.event_date)
         return row;
+    }),
+    d3.csv("data/summary_by_city_by_month.csv", row => {
+        row.station_count = +row.station_count;
+        row.event_date = parseDate(row.year + "-" + row.month + "-01");
+        row.trip_count = +row.trip_count;
+        row.average_duration = +row.average_duration;
+        row.year = +row.year;
+        row.month = +row.month;
+        return row;
     })
 ];
 
@@ -65,7 +74,8 @@ function createVis(data) {
     let tripData = data[0];
     let dayViewData = data[1];
     let fromToData = data[2];
-    let eventData = data[3]
+    let eventData = data[3];
+    let monthlySummaryData = data[4];
 
     let cities = ['sf', 'boston', 'nyc']
 
@@ -78,6 +88,7 @@ function createVis(data) {
     updateWindmap()
 
     dayView = new DayViewRadial('day-view', dayViewData);
+    stackedBar = new StackedBarVis('stackedBarChart', monthlySummaryData, 'city');
 }
 
 function groupByTripDate(tripData) {
