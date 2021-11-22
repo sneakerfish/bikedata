@@ -208,9 +208,9 @@ class TimeSeriesVis {
                     .style("top", (event.pageY - 50) + "px");
             })
             .on("mouseout", function(event, d) {
-                // vis.div.transition()
-                //     .duration(8000)
-                //     .style("opacity", 0);
+                vis.div.transition()
+                    .duration(4000)
+                    .style("opacity", 0);
             });
         vis[cityPointClass].exit().remove();
     }
