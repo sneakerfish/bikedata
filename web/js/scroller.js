@@ -9,7 +9,7 @@ class Scroller {
     handleResize() {
         let vis = this;
         // 1. update height of step elements
-        let stepH = Math.floor(window.innerHeight * 0.95);
+        let stepH = Math.floor(window.innerHeight * 1.6);
         d3.select("article").selectAll(".step")
             .style("height", stepH + "px");
 
