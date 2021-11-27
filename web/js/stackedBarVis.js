@@ -41,12 +41,16 @@ class StackedBarVis {
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
+        let xExtent = d3.extent(vis.data, (d) => d.event_date);
+
         // scales and axes
         vis.x = d3.scaleLinear()
-            .range([0, vis.width]);
+            .range([0, vis.width])
+            .domain(xExtent);
 
         vis.y = d3.scaleLinear()
-            .range([vis.height, 0]);
+            .range([vis.height, 0])
+            .domain([0, 2500]);
 
         vis.xAxis = d3.axisBottom()
             .scale(vis.x)
@@ -79,11 +83,11 @@ class StackedBarVis {
             .attr("id", "chart-tooltip");
         tooltip.append("line")
             .attr("class", "tipline")
-            .attr("id", "tipline")
+            .attr("id", "chart-tipline")
             .attr("x1", vis.x(d3.min(vis.data, (d) => d.event_date)))
-            .attr("y1", vis.y(0))
+            .attr("y1", vis.y(2500))
             .attr("x2", vis.x(d3.min(vis.data, (d) => d.event_date)))
-            .attr("y2", vis.y(2500));
+            .attr("y2", vis.y(0));
         tooltip.append("text")
             .attr("x", 10)
             .attr("y", 20)
@@ -91,7 +95,7 @@ class StackedBarVis {
             .attr("class", "tiptext");
         tooltip.append("text")
             .attr("class", "tiptext")
-            .attr("id", "datetext")
+            .attr("id", "chart-datetext")
             .attr("x", vis.x(d3.min(vis.data, (d) => d.event_date)) + 10)
             .attr("y", vis.y(2500));
 
@@ -136,6 +140,15 @@ class StackedBarVis {
         vis.updateVis();
     }
 
+    stationCount(city, year, month) {
+        let vis = this;
+        let lst = vis.data.filter((d) => {
+            return d.city == city && d.year == year && d.month == month;
+        });
+        console.log(lst[0]);
+        return lst[0].station_count;
+    }
+
     updateVis() {
         let vis = this;
 
@@ -159,34 +172,30 @@ class StackedBarVis {
             .attr("d", d => vis.area(d))
 
             .on("mouseover", (e, d) => {
-                console.log("mouseover");
                 d3.select("#chart-tooltip").style("display", null);
                 d3.select("#chart-tooltext")
                     .text(d.key);
             })
             .on("mouseout", function (d) {
-                d3.select(".tooltip").style("display", "none");
+                d3.select("#chart-tooltip").style("display", "none");
                 d3.select("#chart-tooltext")
                     .text("");
             })
             .on("mousemove", (e, d) => {
                 let ptr = d3.pointer(e);
-                const formatDate = d3.timeFormat("%Y-%m-%d");
-                const formatPop = d3.format(',');
+                const formatDate = d3.timeFormat("%b %Y");
                 const bisectDate = d3.bisector((dx) => { return dx.event_date; }).right;
                 let xdate = vis.x.invert(ptr[0]);
                 let i = bisectDate(vis.data, xdate);
                 let shiftLeft = 0;
-                d3.select("#tooltip")
-                    .attr("transform", "translate(" + (ptr[0] - vis.margin.left) + ", 0)");
-                if (ptr[0] > vis.width - 60) {
-                    shiftLeft = -85;
-                }
-                d3.select("#datetext")
+                let dateval = new Date(xdate);
+                d3.select("#chart-tooltip")
+                    .attr("transform", "translate(" + (ptr[0]) + ", 0)");
+                d3.select("#chart-datetext")
                     .text(formatDate(vis.data[i].event_date))
                     .attr("transform", "translate(" + shiftLeft + ", 0)");
-                d3.select("#stationtext")
-                    .text(formatPop(vis.data[i].population))
+                d3.select("#chart-tooltext")
+                    .text(d.key + ": " + vis.stationCount(d.key, dateval.getFullYear(), dateval.getMonth()) + " stations")
                     .attr("transform", "translate(" + shiftLeft + ", 0)");
             });
 
