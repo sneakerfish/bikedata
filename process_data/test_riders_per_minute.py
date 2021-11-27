@@ -48,6 +48,13 @@ class TestRidersPerMinute:
         assert r.get_minute(23, 5) == 1
         assert r.get_minute(23, 59) == 1
 
+    def test_start_after_end(self):
+        r = RidersPerMinute(datetime.date(2021, 5, 1))
+        r.count(datetime.datetime(2021, 5, 1, 4, 0),
+                datetime.datetime(2021, 5, 1, 3, 0))
+        assert r.get_minute(4, 0) == 0
+        assert r.get_minute(3, 0) == 0
+        assert r.get_minute(4, 30) == 0
 
 class TestRidersPerMinuteDay:
     def test_count_1(self):
@@ -62,6 +69,8 @@ class TestRidersPerMinuteDay:
         # One rider from 2/1/2021 11-12, another rider from 2/1/2021 23:00-2/2/2021 0:00
         r = RidersPerMinuteDay()
         r.count(datetime.datetime(2021, 2, 1, 11, 0),
+                datetime.datetime(2021, 2, 1, 12, 0))
+        r.count(datetime.datetime(2021, 2, 1, 23, 0),
                 datetime.datetime(2021, 2, 2, 0, 0))
         assert r.days_counted() == [datetime.date(2021, 2, 1), datetime.date(2021, 2, 2)]
         assert r.get_minute(datetime.date(2021, 2, 1), 11, 5) == 1

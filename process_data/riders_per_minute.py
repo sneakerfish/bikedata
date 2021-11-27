@@ -19,6 +19,14 @@ class RidersPerMinute:
         self.day_to_record = day_to_record
 
     def count(self, start_time, end_time):
+        # Ignore if start is after end or equal to end
+        if (start_time >= end_time):
+            return
+
+        # Ignore if end_time - start_time > 10 hours
+        if (end_time - start_time).seconds > 10 * 60 * 60:
+            return
+
         if ((datetime.datetime.date(start_time) != self.day_to_record) and
                 (datetime.datetime.date(end_time) != self.day_to_record)):
             return
@@ -82,10 +90,10 @@ if __name__ == "__main__":
 
     for dt in rpmd.days_counted():
         filename_prefix = os.path.splitext(input_filename)[0]
-        output_filename = "{}_{}{}{}.csv".format(filename_prefix, dt.year, dt.month, dt.day)
+        output_filename = "{}_{}{:02}{:02}.csv".format(filename_prefix, dt.year, dt.month, dt.day)
         with open(output_filename, "w") as csvfile:
             csvwriter = csv.writer(csvfile)
             csvwriter.writerow(["date", "hour", "minute", "riders"])
             for hr in range(24):
                 for mn in range(60):
-                    csvwriter.writerow([dt, hr, mn, rpmd.get_minute(hr, mn)])
+                    csvwriter.writerow([dt, hr, mn, rpmd.get_minute(dt,     hr, mn)])
