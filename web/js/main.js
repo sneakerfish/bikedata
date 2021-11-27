@@ -32,6 +32,8 @@ let promises = [
         row.trip_count = +row.trip_count
         row.trip_date = parseDate(row.trip_date)
         row.median_trip_duration_minutes = +row.median_trip_duration_minutes
+        row.trip_count_7d_ma = +row.trip_count_7d_ma
+        row.trip_count_14d_ma = +row.trip_count_14d_ma
         return row;
     }),
     d3.csv("data/2021-03-21 dayview.csv", row => {
@@ -88,6 +90,8 @@ function groupByTripDate(tripData) {
         res[value.trip_date].trip_count += value.trip_count;
         return res;
     }, {});
+
+    result.sort((a,b) => b.trip_date - a.trip_date)
     return result;
 }
 
