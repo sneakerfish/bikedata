@@ -58,6 +58,12 @@ let promises = [
         row.year = +row.year;
         row.month = +row.month;
         return row;
+    }),
+    d3.csv('data/2017_present_trips.csv', row => {
+        delete row[""]
+        row.trip_count = +row.trip_count;
+        row.distance = +row.distance;
+        return row;
     })
 ];
 
@@ -76,12 +82,14 @@ function createVis(data) {
     let fromToData = data[2];
     let eventData = data[3];
     let monthlySummaryData = data[4];
+    let tripStationData = data[5];
 
     let cities = ['sf', 'boston', 'nyc']
 
     timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData, 380)
     timeline = new TimeSeriesTimeline("timeSeriesBrush", groupByTripDate(tripData))
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
+    // forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc')
 
     let date = new Date("2021-07-01T00:00:00-04:00") // keep -04:00
     windMap = new WindMap(windIds, fromToData, date);
