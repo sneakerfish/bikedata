@@ -255,7 +255,26 @@
         </div>
 
         <div id="radial" class="visualization">
-            <div id="day-view"></div>
+            <div class="container">
+                <form>
+                    <label>Toggle dates to show the number of active riders at any moment in time on those days.</label>
+                    <select id="day-view-selection" class="form-select" multiple aria-label="Boston">
+                    </select>
+                </form>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col day-view">
+                        <div id="day-view-boston"></div>
+                    </div>
+                    <div class="col">
+                        <div id="day-view-nyc"></div>
+                    </div>
+                    <div class="col day-view">
+                        <div id="day-view-sf"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </figure>
@@ -269,7 +288,7 @@
         crossorigin="anonymous"></script>
 
 <!-- d3 -->
-<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://d3js.org/d3.v7.js"></script>
 
 <!-- leaflet -->
 <script src="js/leaflet.js"></script>

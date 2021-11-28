@@ -12,11 +12,19 @@ class DayViewRadial {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
-        vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
+        let selection = d3.select("#day-view-selection");
+        let first = true;
+        for (let row in vis.data) {
+            selection.append("option").attr("selected", first ? "selected" : null).attr("value", row).text(row);
+            first = false;
+        }
 
-        vis.outerRadius = Math.round(Math.min(vis.width, vis.height) / 2 - 6);
+        vis.margin = {top: 0, right: 0, bottom: 0, left: 0};
+        vis.width = document.getElementById(vis.parentElement).parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+        vis.height = document.getElementById(vis.parentElement).parentElement.getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
+        console.log(vis.width + " " + vis.height)
+
+        vis.outerRadius = Math.round(Math.min(vis.width, vis.height) / 2);
         vis.innerRadius = vis.outerRadius / 4;
 
         vis.svg = d3.select("#" + vis.parentElement)
@@ -25,6 +33,7 @@ class DayViewRadial {
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append("g")
             .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
+
 
         // Scales and axes
         vis.x = d3.scaleTime()

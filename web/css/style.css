@@ -42,8 +42,8 @@
     height: 600px;
 }
 
-#day-view {
-    width: 100%;
+.day-view {
+    width: 150px;
     height: 90vh;
 }
 

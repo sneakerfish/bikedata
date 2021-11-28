@@ -1,5 +1,6 @@
 let parseDate = d3.timeParse("%Y-%m-%d");
-let parseDateTime = d3.timeParse("%m/%d/%Y %H:%M"); // 3/21/21 19:42
+let parseTimeDayview = d3.timeParse("%H:%M");
+let parseDateDayview = d3.timeParse("%m/%d/%Y");
 let parseUTC = d3.utcParse("%Y-%m-%dT%H:%M:%S.%L%Z");
 
 // HTML element ID's for windmap.
@@ -36,9 +37,11 @@ let promises = [
         row.trip_count_14d_ma = +row.trip_count_14d_ma
         return row;
     }),
-    d3.csv("data/2021-03-21 dayview.csv", row => {
-        row.Time = parseDateTime(row.Time)
-        row.Riders = +row.Riders
+    d3.csv("data/minute_summary.csv", row => {
+        row.time = parseTimeDayview(row.hour+":"+row.minute);
+        row.minute = +row.hour * 60 + +row.minute;
+        row.riders = +row.riders;
+        row.date = parseDateDayview(row.date);
         return row;
     }),
     d3.csv("data/all_trips_by_date.csv", row => {
@@ -63,7 +66,7 @@ Promise.all(promises)
 function createVis(data) {
 
     let tripData = data[0];
-    let dayViewData = data[1];
+    let dayViewData = prepDayData(data[1]);
     let fromToData = data[2];
     let eventData = data[3]
 
@@ -77,7 +80,9 @@ function createVis(data) {
     windMap = new WindMap(windIds, fromToData, date);
     updateWindmap()
 
-    dayView = new DayViewRadial('day-view', dayViewData);
+    dayViewBoston = new DayViewRadial('day-view-boston', dayViewData['Boston']);
+    dayViewNyc = new DayViewRadial('day-view-nyc', dayViewData['NYC']);
+    dayViewSf = new DayViewRadial('day-view-sf', dayViewData['SF']);
 }
 
 function groupByTripDate(tripData) {
@@ -93,6 +98,23 @@ function groupByTripDate(tripData) {
 
     result.sort((a,b) => b.trip_date - a.trip_date)
     return result;
+}
+
+function prepDayData(data) {
+    let map = {
+        "Boston": [],
+        "NYC": [],
+        "SF": []
+    };
+    let dateFormat = d3.timeFormat("%Y-%m-%d");
+    for (let row of data) {
+        let date = dateFormat(row.date);
+        if (map[row.City][date] === undefined) {
+            map[row.City][date] = [];
+        }
+        map[row.City][date].push(row);
+    }
+    return map;
 }
 
 function updateVisualization() {
