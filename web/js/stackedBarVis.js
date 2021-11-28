@@ -16,7 +16,7 @@ class StackedBarVis {
 
         this.category_field = category_field;
         this.categories = ["nyc", "boston", "sf"];
-
+        this.title = "Stations by city by month";
         // prepare colors for range
         let colorArray = [ "#041E42", "#FB4D42", "#b3995d"];
 
@@ -97,10 +97,14 @@ class StackedBarVis {
             .attr("class", "tiptext")
             .attr("id", "chart-datetext")
             .attr("x", vis.x(d3.min(vis.data, (d) => d.event_date)) + 10)
-            .attr("y", vis.y(2500));
+            .attr("y", vis.y(2450));
 
 
-
+        // Axis title
+        vis.svg.append("text")
+            .attr("x", -50)
+            .attr("y", -10)
+            .text(vis.title);
 
         vis.wrangleData();
     }
@@ -145,8 +149,21 @@ class StackedBarVis {
         let lst = vis.data.filter((d) => {
             return d.city == city && d.year == year && d.month == month;
         });
-        console.log(lst[0]);
-        return lst[0].station_count;
+        if (lst.length == 1) {
+            return lst[0].station_count;
+        } else {
+            return 0;
+        }
+    }
+
+    areaName(city) {
+        if (city == "sf") {
+            return "Bay Area";
+        } else if (city == "boston") {
+            return "Boston Metro";
+        } else if (city == "nyc") {
+            return "New York City Metro";
+        }
     }
 
     updateVis() {
@@ -195,7 +212,7 @@ class StackedBarVis {
                     .text(formatDate(vis.data[i].event_date))
                     .attr("transform", "translate(" + shiftLeft + ", 0)");
                 d3.select("#chart-tooltext")
-                    .text(d.key + ": " + vis.stationCount(d.key, dateval.getFullYear(), dateval.getMonth()) + " stations")
+                    .text(vis.areaName(d.key) + ": " + vis.stationCount(d.key, dateval.getFullYear(), dateval.getMonth()) + " stations")
                     .attr("transform", "translate(" + shiftLeft + ", 0)");
             });
 
