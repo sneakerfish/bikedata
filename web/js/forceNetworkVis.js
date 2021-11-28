@@ -17,6 +17,11 @@ class ForceNetworkVis {
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
+        // vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+        // vis.height = 600 //vis.maxHeight;
+
+        console.log(vis.width, vis.height)
+
         vis.svg = d3.select("#" + vis.parentElement)
             .append("svg")
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
@@ -24,17 +29,29 @@ class ForceNetworkVis {
             .append("g")
             .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
+        vis.links = vis.svg.append("g")
+            .attr("class", "links");
+
+        vis.nodes = vis.svg.append("g")
+            .attr("class", "nodes");
+
+        vis.textGroup = vis.svg.append("g")
+            .attr("class", "textGroup")
+
         vis.wrangleData();
     }
 
     wrangleData() {
         let vis = this;
 
+        vis.city = document.querySelector('input[name="cityNetworkRadioOptions"]:checked').value;
+        vis.topN = parseInt(document.getElementById('topStations').value);
+
+        document.getElementById('topStationsLabel').innerHTML='Top ' + vis.topN + " Most Frequented Trip Routs";
+
         vis.filteredData = vis.data.filter(d => d.city == vis.city)
             .sort((a,b) => b.trip_count - a.trip_count)
-            .slice(0, 100);
-
-        console.log(vis.filteredData)
+            .slice(0, vis.topN);
 
         let stationSet = new Set(vis.filteredData.map(d => d.start_station_name))
         vis.filteredData.map(d => d.end_station_name).forEach(item => stationSet.add(item))
@@ -61,46 +78,39 @@ class ForceNetworkVis {
     updateVis() {
         let vis = this;
 
-        console.log(vis.stationNames)
-        console.log(vis.stationLinks)
+        var line = vis.links.selectAll(".edge")
+            .data(vis.stationLinks);
 
-        var simulation = d3.forceSimulation()
-            .nodes(vis.stationNames);
+        line.exit().remove()
 
-        console.log(vis.width, vis.height)
+        var link = line.enter()
+            .append("line")
+            .merge(line)
+            .attr("class", "edge")
 
-        simulation
-            .force("charge_force", d3.forceManyBody())
-            .force("center_force", d3.forceCenter(vis.width / 2, vis.height / 2))
-            .on("tick", tickActions);
+        var node = vis.nodes.selectAll(".nodes")
+            .data(vis.stationNames, d => d.name);
 
-        var link_force = d3.forceLink(vis.stationLinks)
-            .id(function (d) {
-                return d.name;
-            })
+        var nodeEnter = node.enter()
+            .append("g")
+            .attr("class", "nodes");
 
-        simulation.force("links", link_force)
+        node.exit().remove();
 
-        var link = vis.svg.append("g")
-            .attr("class", "links")
-            .selectAll("line")
-            .data(vis.stationLinks)
-            .enter().append("line")
-            .attr("stroke-width", 2);
+        nodeEnter
+            .append("circle")
+            .attr("class", vis.city +"-point")
+            .attr("r", 5);
 
-        var node = vis.svg.append("g")
-            .attr("class", "nodes")
-            .selectAll("g")
-            .data(vis.stationNames)
-            .enter().append("g");
+        node = nodeEnter.merge(node)
 
-        node.append("circle")
-            .attr("r", 5)
-            .attr("class", vis.city +"-point");
 
-        var texts = vis.svg.selectAll(".nodeLabels")
-            .data(vis.stationNames)
-            .enter()
+        var texts = vis.textGroup.selectAll(".nodeLabels")
+            .data(vis.stationNames, d => d.name);
+
+        texts.exit().remove()
+
+        var textEnter = texts.enter()
             .append("text")
             .attr("class", "nodeLabels")
             .attr("dx", 12)
@@ -108,6 +118,23 @@ class ForceNetworkVis {
             .text(function(d) {
                 return d.name
             });
+
+        texts = textEnter.merge(texts)
+
+
+        var simulation = d3.forceSimulation()
+            .nodes(vis.stationNames);
+
+        var link_force = d3.forceLink(vis.stationLinks)
+            .id(function (d) {
+                return d.name;
+            });
+
+        simulation
+            .force("charge_force", d3.forceManyBody())
+            .force("center_force", d3.forceCenter(vis.width / 2, vis.height / 2))
+            .force("links", link_force)
+            .on("tick", tickActions);
 
         function tickActions() {
             node

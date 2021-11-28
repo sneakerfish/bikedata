@@ -89,7 +89,7 @@ function createVis(data) {
     timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData, 380)
     timeline = new TimeSeriesTimeline("timeSeriesBrush", groupByTripDate(tripData))
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
-    // forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc')
+    forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc')
 
     let date = new Date("2021-07-01T00:00:00-04:00") // keep -04:00
     windMap = new WindMap(windIds, fromToData, date);
@@ -118,6 +118,7 @@ function updateVisualization() {
     timeSeriesVis.wrangleData();
     dayView.wrangleData();
     barVis.wrangleData();
+    forceNetworkVis.wrangleData();
 }
 
 function updateWindmap() {
