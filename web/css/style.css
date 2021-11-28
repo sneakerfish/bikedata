@@ -186,3 +186,30 @@ section h1 {
     font-size: 14px;
     font-weight: bold;
 }
+
+.nodeText {
+    font-size: 11px;
+    text-anchor: start;
+    fill: black;
+}
+
+.sfInputLabel {
+    background-color: #b3995d;
+    color: white;
+}
+
+.bostonInputLabel {
+    background-color: #FB4D42;
+    color: white;
+}
+
+.nycInputLabel {
+    background-color: #041E42;
+    color: white;
+}
+
+.edge {
+    stroke-width: 2;
+    stroke: #808080;
+    opacity: 0.3;
+}

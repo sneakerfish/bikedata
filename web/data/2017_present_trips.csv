@@ -1,2 +1,301 @@
 ,city,start_station_name,end_station_name,trip_count,distance
-0,boston,1200 Beacon St,Ruggles T Stop - Columbus Ave at Melnea Cass Blvd,17,1.4714668329949951
+0,boston,MIT at Mass Ave / Amherst St,Beacon St at Massachusetts Ave,17793,0.53111453001833
+1,boston,Beacon St at Massachusetts Ave,MIT at Mass Ave / Amherst St,17701,0.53111453001833
+2,boston,MIT Pacific St at Purrington St,MIT Stata Center at Vassar St / Main St,16945,0.5445602892846759
+3,boston,MIT at Mass Ave / Amherst St,MIT Vassar St,16841,0.5765549706280725
+4,boston,MIT Stata Center at Vassar St / Main St,MIT Pacific St at Purrington St,15436,0.5445602892846759
+5,boston,MIT Vassar St,MIT Stata Center at Vassar St / Main St,15416,0.7882603467139909
+6,boston,MIT Vassar St,MIT at Mass Ave / Amherst St,14312,0.5765549706280725
+7,boston,MIT Pacific St at Purrington St,Ames St at Main St,13255,0.6991073076261036
+8,boston,Central Square at Mass Ave / Essex St,MIT Pacific St at Purrington St,13214,0.39049186671107994
+9,boston,MIT at Mass Ave / Amherst St,Central Square at Mass Ave / Essex St,13077,0.69882658533206
+10,boston,MIT Stata Center at Vassar St / Main St,MIT Vassar St,12156,0.7882603467139909
+11,boston,MIT Pacific St at Purrington St,MIT at Mass Ave / Amherst St,11942,0.42677032420286914
+12,boston,MIT Vassar St,Ames St at Main St,11828,0.9352539383894336
+13,boston,Linear Park - Mass. Ave. at Cameron Ave. ,Davis Square,11063,0.38784580695772825
+14,boston,MIT Pacific St at Purrington St,Central Square at Mass Ave / Essex St,10958,0.39049186671107994
+15,boston,Davis Square,Linear Park - Mass. Ave. at Cameron Ave. ,10689,0.38784580695772825
+16,boston,MIT at Mass Ave / Amherst St,MIT Pacific St at Purrington St,10302,0.42677032420286914
+17,boston,Murphy Skating Rink - 1880 Day Blvd,Murphy Skating Rink - 1880 Day Blvd,9803,0.0
+18,boston,Ames St at Main St,MIT Pacific St at Purrington St,9738,0.6991073076261036
+19,boston,MIT Pacific St at Purrington St,Kendall T,9676,0.8593241077574523
+20,boston,Central Square at Mass Ave / Essex St,MIT at Mass Ave / Amherst St,9514,0.69882658533206
+21,boston,MIT Stata Center at Vassar St / Main St,Central Square at Mass Ave / Essex St,8932,0.6479165393500252
+22,boston,Kendall T,MIT Pacific St at Purrington St,8809,0.8593241077574523
+23,boston,Ames St at Main St,MIT Vassar St,8271,0.9352539383894336
+24,boston,Kendall T,MIT at Mass Ave / Amherst St,7901,0.5170012189307064
+25,boston,MIT at Mass Ave / Amherst St,MIT at Mass Ave / Amherst St,7809,0.0
+26,boston,Central Square at Mass Ave / Essex St,MIT Vassar St,7761,0.6549845426511491
+27,boston,Mugar Way at Beacon St,Mugar Way at Beacon St,7488,0.0
+28,boston,Charles Circle - Charles St at Cambridge St,Charles Circle - Charles St at Cambridge St,7408,0.0
+29,boston,Harvard University River Houses at DeWolfe St / Cowperthwaite St,Harvard University River Houses at DeWolfe St / Cowperthwaite St,7209,0.0
+30,boston,MIT Vassar St,Kendall T,7029,1.0802880661323997
+31,boston,Ames St at Main St,Central Square at Mass Ave / Essex St,6972,0.7820433284532837
+32,boston,Community Path at Cedar Street,Grove St at Community Path,6963,0.4761200895185558
+33,boston,MIT at Mass Ave / Amherst St,Kendall T,6865,0.5170012189307064
+34,boston,Kendall T,MIT Vassar St,6759,1.0802880661323997
+35,boston,MIT Vassar St,Central Square at Mass Ave / Essex St,6757,0.6549845426511491
+36,boston,Roxbury Crossing T Stop - Columbus Ave at Tremont St,Ruggles T Stop - Columbus Ave at Melnea Cass Blvd,6750,0.5139376242795788
+37,boston,MIT Stata Center at Vassar St / Main St,MIT at Mass Ave / Amherst St,6731,0.286338514939807
+38,boston,Ruggles T Stop - Columbus Ave at Melnea Cass Blvd,Roxbury Crossing T Stop - Columbus Ave at Tremont St,6723,0.5139376242795788
+39,boston,MIT at Mass Ave / Amherst St,MIT Stata Center at Vassar St / Main St,6637,0.286338514939807
+40,boston,MIT at Mass Ave / Amherst St,Ames St at Main St,6535,0.3964420007759083
+41,boston,South Station - 700 Atlantic Ave,Lewis Wharf at Atlantic Ave,6433,0.8419358650479037
+42,boston,Ames St at Main St,MIT at Mass Ave / Amherst St,6290,0.3964420007759083
+43,boston,Grove St at Community Path,Community Path at Cedar Street,6115,0.4761200895185558
+44,boston,Harvard Square at Mass Ave/ Dunster,Harvard University Radcliffe Quadrangle at Shepard St / Garden St,5952,0.5884872633393824
+45,boston,B.U. Central - 725 Comm. Ave.,Packard's Corner - Commonwealth Ave at Brighton Ave,5915,0.8064432536567628
+46,boston,Coolidge Corner - Beacon St at Centre St,Longwood Ave at Binney St,5828,0.8862254949957853
+47,boston,Airport T Stop - Bremen St at Brooks St,Airport T Stop - Bremen St at Brooks St,5750,0.0
+48,boston,Christian Science Plaza - Massachusetts Ave at Westland Ave,Christian Science Plaza - Massachusetts Ave at Westland Ave,5722,0.0
+49,boston,South Station - 700 Atlantic Ave,Aquarium T Stop - 200 Atlantic Ave,5716,0.565007917850559
+50,boston,MIT at Mass Ave / Amherst St,Harvard Square at Mass Ave/ Dunster,5651,1.668474130900278
+51,boston,Central Square at Mass Ave / Essex St,Ames St at Main St,5559,0.7820433284532837
+52,boston,Beacon St at Massachusetts Ave,Beacon St at Massachusetts Ave,5558,0.0
+53,boston,MIT Pacific St at Purrington St,MIT Pacific St at Purrington St,5429,0.0
+54,boston,One Kendall Square at Hampshire St / Portland St,Kendall T,5395,0.43524620090353006
+55,boston,Central Square at Mass Ave / Essex St,Harvard Square at Mass Ave/ Dunster,5264,0.9735729526644725
+56,boston,Lafayette Square at Mass Ave / Main St / Columbia St,MIT at Mass Ave / Amherst St,5218,0.5288102388166487
+57,boston,Harvard University Radcliffe Quadrangle at Shepard St / Garden St,Harvard Square at Mass Ave/ Dunster,5172,0.5884872633393824
+58,boston,Central Square at Mass Ave / Essex St,Lower Cambridgeport at Magazine St / Riverside Rd,5106,0.7731197681921608
+59,boston,Lower Cambridgeport at Magazine St / Riverside Rd,MIT Vassar St,5090,0.5202994059523514
+60,boston,Lewis Wharf at Atlantic Ave,South Station - 700 Atlantic Ave,5032,0.8419358650479037
+61,boston,Kendall T,Central Square at Mass Ave / Essex St,5008,0.9465330448980445
+62,boston,Harvard Square at Mass Ave/ Dunster,Harvard Square at Mass Ave/ Dunster,4996,0.0
+63,boston,Central Square at Mass Ave / Essex St,MIT Stata Center at Vassar St / Main St,4942,0.6479165393500252
+64,boston,Lewis Wharf at Atlantic Ave,Lewis Wharf at Atlantic Ave,4916,0.0
+65,boston,Washington St at Rutland St,Back Bay T Stop - Dartmouth St at Stuart St,4883,0.6724063019435237
+66,boston,Harvard Square at Mass Ave/ Dunster,MIT at Mass Ave / Amherst St,4802,1.668474130900278
+67,boston,Lower Cambridgeport at Magazine St / Riverside Rd,MIT Pacific St at Purrington St,4780,0.6640224523006077
+68,boston,Commonwealth Ave at Agganis Way,Packard's Corner - Commonwealth Ave at Brighton Ave,4779,0.24866451228645123
+69,boston,Kendall T,One Kendall Square at Hampshire St / Portland St,4766,0.43524620090353006
+70,boston,Seaport Blvd at Sleeper St,Lewis Wharf at Atlantic Ave,4736,0.7509094794037775
+71,boston,University Park,MIT at Mass Ave / Amherst St,4721,0.4711172131006244
+72,boston,B.U. Central - 725 Comm. Ave.,Commonwealth Ave at Agganis Way,4681,0.5577788509937021
+73,boston,Central Sq Post Office / Cambridge City Hall at Mass Ave / Pleasant St,MIT at Mass Ave / Amherst St,4680,0.8523345216830567
+74,boston,Packard's Corner - Commonwealth Ave at Brighton Ave,B.U. Central - 725 Comm. Ave.,4647,0.8064432536567628
+75,boston,Farragut Rd at E. 6th St,Farragut Rd at E. 6th St,4592,0.0
+76,boston,Central Square at Mass Ave / Essex St,Harvard University Housing - 115 Putnam Ave at Peabody Terrace,4549,0.5788569802615947
+77,boston,Lewis Wharf at Atlantic Ave,Seaport Blvd at Sleeper St,4514,0.7509094794037775
+78,boston,South Station - 700 Atlantic Ave,Nashua Street at Red Auerbach Way,4495,1.032988689803779
+79,boston,MIT at Mass Ave / Amherst St,University Park,4493,0.4711172131006244
+80,boston,MIT Vassar St,MIT Vassar St,4426,0.0
+81,boston,Seaport Blvd at Sleeper St,Cross St at Hanover St,4260,0.7780408718624181
+82,boston,South Station - 700 Atlantic Ave,Seaport Square - Seaport Blvd at Northern Ave,4215,0.5958114625882711
+83,boston,Mass Ave at Albany St,Central Square at Mass Ave / Essex St,4198,0.41576348196676394
+84,boston,MIT Pacific St at Purrington St,Lower Cambridgeport at Magazine St / Riverside Rd,4125,0.6640224523006077
+85,boston,Lafayette Square at Mass Ave / Main St / Columbia St,MIT Pacific St at Purrington St,4058,0.27112630576311947
+86,boston,MIT at Mass Ave / Amherst St,Deerfield St at Commonwealth Ave,4044,0.6483430418770979
+87,boston,MIT Stata Center at Vassar St / Main St,Nashua Street at Red Auerbach Way,4038,1.4000022825638385
+88,boston,MIT at Mass Ave / Amherst St,Boylston St at Massachusetts Ave,4037,0.8167658546889234
+89,boston,Harvard Square at Mass Ave/ Dunster,Central Square at Mass Ave / Essex St,4003,0.9735729526644725
+90,boston,MIT Vassar St,Lower Cambridgeport at Magazine St / Riverside Rd,3989,0.5202994059523514
+91,boston,Central Sq Post Office / Cambridge City Hall at Mass Ave / Pleasant St,MIT Stata Center at Vassar St / Main St,3987,0.796007190485094
+92,boston,Lower Cambridgeport at Magazine St / Riverside Rd,Central Square at Mass Ave / Essex St,3974,0.7731197681921608
+93,boston,MIT at Mass Ave / Amherst St,Christian Science Plaza - Massachusetts Ave at Westland Ave,3950,1.0654112770945283
+94,boston,Back Bay T Stop - Dartmouth St at Stuart St,Washington St at Rutland St,3949,0.6724063019435237
+95,boston,Aquarium T Stop - 200 Atlantic Ave,Aquarium T Stop - 200 Atlantic Ave,3877,0.0
+96,boston,Kendall T,CambridgeSide Galleria - CambridgeSide PL at Land Blvd,3864,0.5359969474590166
+97,boston,Tremont St at West St,Tremont St at West St,3844,0.0
+98,boston,Harvard Kennedy School at Bennett St / Eliot St,175 N Harvard St,3833,0.6774688409898344
+99,boston,Deerfield St at Commonwealth Ave,Commonwealth Ave at Agganis Way,3821,1.1274161051903155
+100,nyc,Central Park S & 6 Ave,Central Park S & 6 Ave,38950,2.6756489928449287e-05
+101,nyc,West Drive & Prospect Park West,West Drive & Prospect Park West,30799,2.892194592288731e-05
+102,nyc,Hamilton Park,Grove St PATH,27816,0.5558148090357937
+103,nyc,Grand Army Plaza & Central Park S,Grand Army Plaza & Central Park S,24841,3.410218230071464e-05
+104,nyc,W 21 St & 6 Ave,9 Ave & W 22 St,23554,0.48528464583935543
+105,nyc,12 Ave & W 40 St,West St & Chambers St,22869,3.037448892305909
+106,nyc,E 7 St & Avenue A,Cooper Square & Astor Pl,22277,0.43019561179496346
+107,nyc,12 Ave & W 40 St,12 Ave & W 40 St,21605,3.5678012170253594e-05
+108,nyc,Central Park S & 6 Ave,5 Ave & E 88 St,21368,1.4808472632026095
+109,nyc,Grove St PATH,Hamilton Park,20335,0.55588108465106
+110,nyc,Centre St & Chambers St,Centre St & Chambers St,19986,4.554148646264586e-05
+111,nyc,Pier 40 - Hudson River Park,West St & Chambers St,19793,0.7087253236650763
+112,nyc,Central Park West & W 72 St,Central Park West & W 72 St,19642,6.551377473863534e-05
+113,nyc,Soissons Landing,Soissons Landing,19476,5.77246164698726e-05
+114,nyc,12 Ave & W 40 St,Pier 40 - Hudson River Park,18410,2.331471576216179
+115,nyc,N 6 St & Bedford Ave,S 4 St & Wythe Ave,18269,0.5011095497445655
+116,nyc,West St & Chambers St,Pier 40 - Hudson River Park,18227,0.7087146502986533
+117,nyc,1 Ave & E 62 St,1 Ave & E 68 St,18080,0.2980854520777748
+118,nyc,West St & Chambers St,West St & Chambers St,17973,3.622618529352324e-05
+119,nyc,Yankee Ferry Terminal,Yankee Ferry Terminal,17871,4.4710805041392304e-05
+120,nyc,West St & Chambers St,12 Ave & W 40 St,17766,3.0395035612539663
+121,nyc,S 4 St & Wythe Ave,N 6 St & Bedford Ave,17549,0.5011393957247677
+122,nyc,7 Ave & Central Park South,7 Ave & Central Park South,17136,6.48880870965398e-05
+123,nyc,W 22 St & 10 Ave,W 22 St & 8 Ave,16963,0.3187992333543038
+124,nyc,Central Park North & Adam Clayton Powell Blvd,Central Park North & Adam Clayton Powell Blvd,16938,0.0
+125,nyc,Pershing Square North,W 33 St & 7 Ave,16915,0.7035160339635675
+126,nyc,Broadway & W 60 St,Broadway & W 60 St,16910,0.0
+127,nyc,Liberty Light Rail,Liberty Light Rail,16506,0.0
+128,nyc,Central Park West & W 68 St,Central Park West & W 68 St,16369,4.140178771589737e-05
+129,nyc,Yankee Ferry Terminal,Soissons Landing,15784,0.38463772396602225
+130,nyc,Soissons Landing,Yankee Ferry Terminal,15619,0.3846190345571184
+131,nyc,McGuinness Blvd & Eagle St,Vernon Blvd & 50 Ave,15565,0.4677057829451505
+132,nyc,W 21 St & 6 Ave,W 22 St & 10 Ave,15553,0.6508596112973367
+133,nyc,E 102 St & 1 Ave,2 Ave & E 96 St,15327,0.3570912439644242
+134,nyc,5 Ave & E 73 St,5 Ave & E 73 St,14915,0.0
+135,nyc,Richardson St & N Henry St,Graham Ave & Conselyea St,14788,0.29654954378179915
+136,nyc,McGinley Square,Sip Ave,14761,0.4238155713439298
+137,nyc,11 Ave & W 41 St,8 Ave & W 33 St,14735,0.6563397838090901
+138,nyc,Soissons Landing,Picnic Point,14561,0.7413707883667889
+139,nyc,Brunswick & 6th,Grove St PATH,14532,0.5850240110715249
+140,nyc,Pershing Square North,E 24 St & Park Ave S,14466,0.8701287668090044
+141,nyc,Brunswick St,Grove St PATH,14407,0.5069099416205048
+142,nyc,Picnic Point,Soissons Landing,14366,0.7413968095456962
+143,nyc,Vernon Blvd & 50 Ave,McGuinness Blvd & Eagle St,14311,0.4677057829451505
+144,nyc,Central Park S & 6 Ave,Central Park North & Adam Clayton Powell Blvd,14305,2.559190221155832
+145,nyc,Brooklyn Bridge Park - Pier 2,Brooklyn Bridge Park - Pier 2,14281,0.0
+146,nyc,Grand Army Plaza & Plaza St West,Grand Army Plaza & Plaza St West,14213,7.618490776636151e-05
+147,nyc,N 6 St & Bedford Ave,Wythe Ave & Metropolitan Ave,14201,0.24923906275112784
+148,nyc,Jersey & 6th St,Grove St PATH,14180,0.41407185574230826
+149,nyc,Pier 40 - Hudson River Park,12 Ave & W 40 St,13889,2.3314573275769312
+150,nyc,Marin Light Rail,Grove St PATH,13838,0.3455087196805909
+151,nyc,W 21 St & 6 Ave,W 15 St & 7 Ave,13758,0.316989790310256
+152,nyc,S 3 St & Bedford Ave,N 6 St & Bedford Ave,13753,0.3987793641431142
+153,nyc,E 13 St & Avenue A,Broadway & E 14 St,13680,0.6352504650057937
+154,nyc,Wythe Ave & Metropolitan Ave,N 6 St & Bedford Ave,13467,0.18328774414709761
+155,nyc,DeKalb Ave & Vanderbilt Ave,DeKalb Ave & Hudson Ave,13467,0.6394966916425389
+156,nyc,5 Ave & E 88 St,5 Ave & E 88 St,13365,0.0
+157,nyc,Old Fulton St,Old Fulton St,13231,4.071125809809859e-05
+158,nyc,3 St & Prospect Park West,3 St & Prospect Park West,13196,0.0
+159,nyc,Henry St & Grand St,Canal St & Rutgers St,13172,0.46232149783742693
+160,nyc,W 21 St & 6 Ave,W 22 St & 8 Ave,13120,0.2896818073333703
+161,nyc,Dixon Mills,Grove St PATH,13104,0.3862890989862414
+162,nyc,W 22 St & 10 Ave,W 21 St & 6 Ave,13067,0.6507483868485969
+163,nyc,West St & Chambers St,Christopher St & Greenwich St,13014,1.107786566397796
+164,nyc,W 26 St & 8 Ave,11 Ave & W 27 St,13014,0.5038536210284265
+165,nyc,University Pl & E 8 St,University Pl & E 14 St,12880,0.27827391721158407
+166,nyc,Grove St PATH,Marin Light Rail,12856,0.3455087196805909
+167,nyc,Amsterdam Ave & W 73 St,Amsterdam Ave & W 82 St,12827,0.4450177248859517
+168,nyc,Grand Army Plaza & Central Park S,5 Ave & E 88 St,12726,1.491582508152397
+169,nyc,Norfolk St & Broome St,Henry St & Grand St,12626,0.4189316474948322
+170,nyc,Milton St & Franklin St,Kent Ave & N 7 St,12520,0.6331030718310469
+171,nyc,11 Ave & W 27 St,W 26 St & 8 Ave,12506,0.5038313471504766
+172,nyc,Sip Ave,McGinley Square,12488,0.42375939642851423
+173,nyc,E 30 St & Park Ave S,Pershing Square North,12477,0.583637405175635
+174,nyc,Willoughby St & Fleet St,Adelphi St & Myrtle Ave,12475,0.5054998791602648
+175,nyc,Central Park S & 6 Ave,Central Park West & W 72 St,12446,0.6821149671849237
+176,nyc,West St & Chambers St,Little West St & 1 Pl,12358,0.8391003801285332
+177,nyc,Graham Ave & Conselyea St,Richardson St & N Henry St,12334,0.2965881527193958
+178,nyc,9 Ave & W 22 St,W 21 St & 6 Ave,12267,0.4852343614487382
+179,nyc,West Thames St,South End Ave & Liberty St,12237,0.23007483963333775
+180,nyc,W 42 St & 8 Ave,11 Ave & W 41 St,12222,0.45330732558193315
+181,nyc,Canal St & Rutgers St,Henry St & Grand St,12024,0.4623209324761503
+182,nyc,1 Ave & E 68 St,1 Ave & E 78 St,12008,0.5048988590535641
+183,nyc,W 22 St & 8 Ave,W 22 St & 10 Ave,11941,0.3188873869576136
+184,nyc,Grove St PATH,Dixon Mills,11935,0.38632944123026614
+185,nyc,Pier 40 - Hudson River Park,Little West St & 1 Pl,11837,1.5465478590975739
+186,nyc,Central Park S & 6 Ave,5 Ave & E 73 St,11824,0.6897261566641005
+187,nyc,Broadway & W 60 St,11 Ave & W 59 St,11812,0.47635807597697516
+188,nyc,Monmouth and 6th,Grove St PATH,11806,0.5155651226540278
+189,nyc,Pershing Square North,W 41 St & 8 Ave,11758,0.7181319592506102
+190,nyc,Newport Pkwy,Newport Pkwy,11710,5.520195487559498e-05
+191,nyc,6 Ave & W 33 St,Pershing Square North,11689,0.5989994048205696
+192,nyc,E 10 St & Avenue A,Lafayette St & E 8 St,11634,0.539984189296365
+193,nyc,E 32 St & Park Ave,E 33 St & 1 Ave,11632,0.42694141027321647
+194,nyc,11 Ave & W 41 St,W 42 St & 8 Ave,11613,0.4532539669886807
+195,nyc,W 33 St & 7 Ave,Pershing Square North,11605,0.703482800062615
+196,nyc,Christopher St & Greenwich St,West St & Chambers St,11582,1.1077748041626747
+197,nyc,Cooper Square & Astor Pl,E 6 St & Avenue B,11537,0.5797565049420698
+198,nyc,Central Park West & W 72 St,Central Park S & 6 Ave,11336,0.6820627393956475
+199,nyc,Henry St & Grand St,Norfolk St & Broome St,11319,0.4189699240814221
+200,sf,San Francisco Ferry Building (Harry Bridges Plaza),The Embarcadero at Sansome St,16715,0.7361411639274077
+201,sf,Berry St at 4th St,San Francisco Ferry Building (Harry Bridges Plaza),12084,0.30216150748895626
+202,sf,The Embarcadero at Sansome St,Steuart St at Market St,10460,0.8798794044103667
+203,sf,Grand Ave at Perkins St,19th Street BART Station,9471,0.6288044197665008
+204,sf,The Embarcadero at Sansome St,San Francisco Ferry Building (Harry Bridges Plaza),9237,0.8191760799539077
+205,sf,19th Street BART Station,Grand Ave at Perkins St,9083,0.6287612698697319
+206,sf,San Francisco Ferry Building (Harry Bridges Plaza),Berry St at 4th St,8447,1.3836794362112832
+207,sf,Market St at 10th St,Powell St BART Station (Market St at 4th St),8065,0.6728239998520235
+208,sf,Steuart St at Market St,The Embarcadero at Sansome St,7406,0.8815494052067605
+209,sf,Bay Pl at Vernon St,19th Street BART Station,7016,0.4537347852326979
+210,sf,Bryant St at 2nd St,Montgomery St BART Station (Market St at 2nd St),6576,0.18103186496159235
+211,sf,Montgomery St BART Station (Market St at 2nd St),San Francisco Caltrain (Townsend St at 4th St),6498,0.93237316009485
+212,sf,Steuart St at Market St,Berry St at 4th St,6440,1.2568001048557966
+213,sf,Howard St at Beale St,San Francisco Caltrain (Townsend St at 4th St),6331,0.8799407970542957
+214,sf,Embarcadero BART Station (Beale St at Market St),Beale St at Harrison St,6263,0.3611248517584402
+215,sf,Townsend St at 7th St,San Francisco Caltrain Station 2  (Townsend St at 4th St),6183,0.5505641448108055
+216,sf,Market St at 10th St,San Francisco Caltrain Station 2  (Townsend St at 4th St),5932,1.196582893690009
+217,sf,The Embarcadero at Sansome St,The Embarcadero at Sansome St,5884,0.03831160490397138
+218,sf,2nd St at Townsend St,San Francisco Ferry Building (Harry Bridges Plaza),5854,1.0386587667124627
+219,sf,Bancroft Way at College Ave,Downtown Berkeley BART,5723,0.7360407489357612
+220,sf,Market St at 10th St,Montgomery St BART Station (Market St at 2nd St),5658,1.2225977392896075
+221,sf,Berry St at 4th St,Howard St at Beale St,5614,0.9278257709426743
+222,sf,Fell St at Stanyan St,Fell St at Stanyan St,5547,0.20415512991796553
+223,sf,2nd St at Townsend St,Montgomery St BART Station (Market St at 2nd St),5425,0.5026149654896201
+224,sf,Bancroft Way at College Ave,Bancroft Way at Telegraph Ave,5376,0.2449660061157116
+225,sf,19th Street BART Station,Bay Pl at Vernon St,5353,0.4536723366985568
+226,sf,Powell St BART Station (Market St at 5th St),Market St at 10th St,5344,0.5690050872305306
+227,sf,Powell St BART Station (Market St at 4th St),Market St at 10th St,5296,0.6416322660817572
+228,sf,Berry St at 4th St,Steuart St at Market St,5203,1.2300969265489596
+229,sf,3rd St at Townsend St,San Francisco Ferry Building (Harry Bridges Plaza),5128,1.1822288785458543
+230,sf,Market St at 10th St,Powell St BART Station (Market St at 5th St),5032,0.4670542661449357
+231,sf,Steuart St at Market St,San Francisco Caltrain (Townsend St at 4th St),4853,1.2073494610334812
+232,sf,Lake Merritt BART Station,2nd Ave at E 18th St,4853,0.6607145984811148
+233,sf,San Francisco Ferry Building (Harry Bridges Plaza),San Francisco Ferry Building (Harry Bridges Plaza),4817,0.0069609139259941555
+234,sf,Bancroft Way at Telegraph Ave,Downtown Berkeley BART,4756,0.5004811822937819
+235,sf,San Francisco Caltrain (Townsend St at 4th St),Montgomery St BART Station (Market St at 2nd St),4684,0.8843302547300509
+236,sf,The Embarcadero at Steuart St,San Francisco Caltrain (Townsend St at 4th St),4559,1.043959435605378
+237,sf,Broadway at 40th St,MacArthur BART Station,4549,0.5270627327124234
+238,sf,Montgomery St BART Station (Market St at 2nd St),Bryant St at 2nd St,4507,0.5817060715431296
+239,sf,El Embarcadero at Grand Ave,El Embarcadero at Grand Ave,4492,0.0
+240,sf,14th St at Mandela Pkwy,West Oakland BART Station,4469,0.4211817612441234
+241,sf,Montgomery St BART Station (Market St at 2nd St),2nd St at Townsend St,4452,0.8162976522227461
+242,sf,2nd Ave at E 18th St,Lake Merritt BART Station,4405,0.6607393213203682
+243,sf,Beale St at Harrison St,San Francisco Caltrain (Townsend St at 4th St),4385,0.7802751687849824
+244,sf,The Embarcadero at Steuart St,Berry St at 4th St,4379,1.073959484164814
+245,sf,Powell St BART Station (Market St at 5th St),5th St at Brannan St,4363,0.7135491950526975
+246,sf,Division St at Potrero Ave,San Francisco Caltrain Station 2  (Townsend St at 4th St),4354,0.8379458205158078
+247,sf,4th St at Mission Bay Blvd S,Berry St at 4th St,4338,0.37150462697037623
+248,sf,Berry St at 4th St,The Embarcadero at Steuart St,4307,1.049425919390536
+249,sf,Central Ave at Fell St,Central Ave at Fell St,4305,0.019852807029313798
+250,sf,Berry St at 4th St,4th St at Mission Bay Blvd S,4289,0.4240905823944823
+251,sf,4th St at 16th St,Berry St at 4th St,4281,0.4207387156147058
+252,sf,San Francisco Caltrain (Townsend St at 4th St),San Francisco Ferry Building (Harry Bridges Plaza),4260,1.2860518739399691
+253,sf,Powell St BART Station (Market St at 4th St),San Francisco Caltrain (Townsend St at 4th St),4236,0.888901935833032
+254,sf,Broadway at 30th St,19th Street BART Station,4229,0.7873614023922327
+255,sf,Buchanan St at North Point St,Buchanan St at North Point St,4196,0.12137793219304384
+256,sf,Howard St at Beale St,Berry St at 4th St,4187,0.9569434983160572
+257,sf,West Oakland BART Station,14th St at Mandela Pkwy,4185,0.4211817612441234
+258,sf,5th St at Virginia St,San Fernando St at 4th St,4145,0.7377941420423131
+259,sf,2nd Ave at E 18th St,10th St at Fallon St,4109,0.5324254923322317
+260,sf,19th Street BART Station,Grand Ave at Santa Clara Ave,4084,1.1633656028525337
+261,sf,San Francisco Caltrain Station 2  (Townsend St at 4th St),Townsend St at 7th St,4047,0.5505641448108055
+262,sf,Beale St at Harrison St,Embarcadero BART Station (Beale St at Market St),3933,3.8606815399733474
+263,sf,5th St at Brannan St,Powell St BART Station (Market St at 5th St),3919,0.7135491950526975
+264,sf,Powell St BART Station (Market St at 4th St),4th St at Harrison St,3913,0.4304008277259687
+265,sf,San Francisco Caltrain (Townsend St at 4th St),Howard St at Beale St,3910,0.9080002977510657
+266,sf,Civic Center/UN Plaza BART Station (Market St at McAllister St),Powell St BART Station (Market St at 4th St),3892,0.49316180652642844
+267,sf,Embarcadero BART Station (Beale St at Market St),San Francisco Caltrain (Townsend St at 4th St),3879,1.0351695474120242
+268,sf,Market St at 10th St,Civic Center/UN Plaza BART Station (Market St at McAllister St),3858,0.38467974855735665
+269,sf,19th Street BART Station,El Embarcadero at Grand Ave,3858,1.023365062183018
+270,sf,4th St at Mission Bay Blvd S,San Francisco Ferry Building (Harry Bridges Plaza),3847,1.744052541657444
+271,sf,Embarcadero BART Station (Beale St at Market St),The Embarcadero at Sansome St,3818,0.9598234303737978
+272,sf,MacArthur BART Station,Broadway at 40th St,3776,0.5269902004190783
+273,sf,San Francisco Ferry Building (Harry Bridges Plaza),2nd St at Townsend St,3739,1.0524778757798263
+274,sf,Telegraph Ave at 27th St,19th Street BART Station,3709,0.48695322789303624
+275,sf,San Francisco Ferry Building (Harry Bridges Plaza),3rd St at Townsend St,3705,1.171612254399324
+276,sf,The Embarcadero at Sansome St,Embarcadero BART Station (Beale St at Market St),3651,0.9597212125993025
+277,sf,San Fernando St at 4th St,5th St at Virginia St,3651,0.8316936871256738
+278,sf,The Embarcadero at Sansome St,Howard St at Beale St,3613,1.170594432134565
+279,sf,45th St at Manila,MacArthur BART Station,3597,0.6465998383891178
+280,sf,Montgomery St BART Station (Market St at 2nd St),San Francisco Ferry Building (Harry Bridges Plaza),3564,0.4572034218612254
+281,sf,Montgomery St BART Station (Market St at 2nd St),S Park St at 3rd St,3559,0.6735242107720002
+282,sf,Genoa St at 55th St,MacArthur BART Station,3521,0.8302499465423807
+283,sf,Townsend St at 7th St,Civic Center/UN Plaza BART Station (Market St at McAllister St),3503,0.7861413018648654
+284,sf,San Francisco Caltrain Station 2  (Townsend St at 4th St),Montgomery St BART Station (Market St at 2nd St),3484,0.9411804710276894
+285,sf,8th St at Ringold St,San Francisco Caltrain Station 2  (Townsend St at 4th St),3434,0.7760646577061727
+286,sf,7th St at Brannan St,Civic Center/UN Plaza BART Station (Market St at McAllister St),3430,0.6929469168075949
+287,sf,Howard St at Beale St,The Embarcadero at Sansome St,3427,1.1900246364191531
+288,sf,Clay St at Battery St,San Francisco Caltrain (Townsend St at 4th St),3407,1.240608249534628
+289,sf,Grand Ave at Santa Clara Ave,19th Street BART Station,3403,1.1634068615422155
+290,sf,Steuart St at Market St,2nd St at Townsend St,3364,0.9564715007654013
+291,sf,Hearst Ave at Euclid Ave,Downtown Berkeley BART,3362,0.5390773239281949
+292,sf,Montgomery St BART Station (Market St at 2nd St),Market St at 10th St,3353,1.2630385860319584
+293,sf,Berry St at 4th St,Beale St at Harrison St,3344,0.8087366837882606
+294,sf,Hearst Ave at Euclid Ave,Bancroft Way at Telegraph Ave,3280,0.4410015361769542
+295,sf,Ashby BART Station,Woolsey St at Sacramento St,3268,0.45467091438100765
+296,sf,Steuart St at Market St,4th St at Mission Bay Blvd S,3252,1.641390061386516
+297,sf,San Francisco Ferry Building (Harry Bridges Plaza),San Francisco Caltrain (Townsend St at 4th St),3234,1.288633438963698
+298,sf,Powell St BART Station (Market St at 5th St),Townsend St at 5th St,3212,0.8338554762483524
+299,sf,The Embarcadero at Bryant St,San Francisco Ferry Building (Harry Bridges Plaza),3198,0.6444318512724341
