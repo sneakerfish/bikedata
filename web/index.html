@@ -255,22 +255,22 @@
         </div>
 
         <div id="radial" class="visualization">
-            <div class="container">
+            <div class="container-fluid">
                 <form>
                     <label>Toggle dates to show the number of active riders at any moment in time on those days.</label>
-                    <select id="day-view-selection" class="form-select" multiple aria-label="Boston">
+                    <select id="day-view-selection" class="form-select" multiple aria-label="Boston" onchange="updateDayDates()">
                     </select>
                 </form>
             </div>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col day-view">
+                    <div class="col-4 day-view">
                         <div id="day-view-boston"></div>
                     </div>
-                    <div class="col">
+                    <div class="col-4 day-view">
                         <div id="day-view-nyc"></div>
                     </div>
-                    <div class="col day-view">
+                    <div class="col-4 day-view">
                         <div id="day-view-sf"></div>
                     </div>
                 </div>

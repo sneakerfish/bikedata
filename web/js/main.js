@@ -39,6 +39,7 @@ let promises = [
     }),
     d3.csv("data/minute_summary.csv", row => {
         row.time = parseTimeDayview(row.hour+":"+row.minute);
+        row.hour = +row.hour;
         row.minute = +row.hour * 60 + +row.minute;
         row.riders = +row.riders;
         row.date = parseDateDayview(row.date);
@@ -80,9 +81,9 @@ function createVis(data) {
     windMap = new WindMap(windIds, fromToData, date);
     updateWindmap()
 
-    dayViewBoston = new DayViewRadial('day-view-boston', dayViewData['Boston']);
-    dayViewNyc = new DayViewRadial('day-view-nyc', dayViewData['NYC']);
-    dayViewSf = new DayViewRadial('day-view-sf', dayViewData['SF']);
+    dayViewBoston = new DayViewRadial('day-view-boston', dayViewData['Boston'], "Boston");
+    dayViewNyc = new DayViewRadial('day-view-nyc', dayViewData['NYC'], "NYC");
+    dayViewSf = new DayViewRadial('day-view-sf', dayViewData['SF'], "SF");
 }
 
 function groupByTripDate(tripData) {
@@ -119,8 +120,13 @@ function prepDayData(data) {
 
 function updateVisualization() {
     timeSeriesVis.wrangleData();
-    dayView.wrangleData();
     barVis.wrangleData();
+}
+
+function updateDayDates() {
+    dayViewBoston.wrangleData();
+    dayViewNyc.wrangleData();
+    dayViewSf.wrangleData();
 }
 
 function updateWindmap() {

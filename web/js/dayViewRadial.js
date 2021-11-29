@@ -3,9 +3,10 @@
 //for inner xTicks https://bl.ocks.org/tlfrd/fd6991b2d1947a3cb9e0bd20053899d6
 
 class DayViewRadial {
-    constructor(parentElement, data) {
+    constructor(parentElement, data, city) {
         this.parentElement = parentElement;
         this.data = data;
+        this.city = city;
         this.initVis();
     }
 
@@ -13,16 +14,19 @@ class DayViewRadial {
         let vis = this;
 
         let selection = d3.select("#day-view-selection");
-        let first = true;
+        let count = 0;
         for (let row in vis.data) {
-            selection.append("option").attr("selected", first ? "selected" : null).attr("value", row).text(row);
-            first = false;
+            selection.append("option").attr("selected", count++ < 2 ? "selected" : null).attr("value", row).text(row);
         }
+
+        vis.linePlots = [];
+        vis.colors = ["red", "blue", "green", "yellow"]
+        vis.colorUsages = Array(vis.colors.length).fill(0, 0);
 
         vis.margin = {top: 0, right: 0, bottom: 0, left: 0};
         vis.width = document.getElementById(vis.parentElement).parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).parentElement.getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
-        console.log(vis.width + " " + vis.height)
+        // console.log(vis.width + " " + vis.height)
 
         vis.outerRadius = Math.round(Math.min(vis.width, vis.height) / 2);
         vis.innerRadius = vis.outerRadius / 4;
@@ -36,59 +40,17 @@ class DayViewRadial {
 
 
         // Scales and axes
-        vis.x = d3.scaleTime()
+        vis.x = d3.scaleLinear()
             .range([-Math.PI, Math.PI])
-            .domain(d3.extent(vis.data.map(d => d.Time)));
 
-        const maxRiders = d3.max(vis.data.map(d => d.Riders));
         vis.y = d3.scaleLinear()
             .range([vis.innerRadius, vis.outerRadius])
-            .domain([0, maxRiders])
-
-        // vis.xAxis = d3.axisBottom()
-        //     .scale(vis.x);
-        //
-        // vis.yAxis = d3.axisLeft()
-        //     .scale(vis.y);
-        //
-        // vis.svg.append("g")
-        //     .attr("class", "x-axis axis")
-        //     .attr("transform", "translate(0," + vis.height + ")");
-        //
-        // vis.svg.append("g")
-        //     .attr("class", "y-axis axis");
-
-
-        // Append a path for the area function, so that it is later behind the brush overlay
-        // vis.timePath = vis.svg.append("path")
-        //     .attr("class", "area area-time");
 
         vis.line = d3.lineRadial()
-            .angle(d => vis.x(d.Time))
-            .radius(d => vis.y(d.Riders))
+            .angle(d => vis.x(d.minute))
+            .radius(d => vis.y(d.riders))
             .curve(d3.curveCardinalClosed);
 
-        // Define the D3 path generator
-        // vis.area = d3.area()
-        //     .curve(d3.curveStep)
-        //     .x(function (d) {
-        //         return vis.x(d.Time);
-        //     })
-        //     .y0(vis.height)
-        //     .y1(function (d) {
-        //         return vis.y(d.Riders);
-        //     });
-
-        // axis labels
-        // vis.svg.append("text")
-        //     .attr("x", vis.width / 2)
-        //     .attr("y", vis.height + 40)
-        //     .text("Time");
-        // vis.svg.append("text")
-        //     .attr("x", 0)
-        //     .attr("y", -10)
-        //     .style("text-anchor", "end")
-        //     .text("Riders");
         vis.center = vis.svg.append("g")
             .attr("transform", "translate("+vis.width/2+","+vis.height / 2+")");
 
@@ -100,27 +62,6 @@ class DayViewRadial {
             .attr("cx", 0)
             .attr("cy", 0)
             .attr("r", vis.innerRadius);
-
-        //outer circles for axis
-        const interval = Math.round(maxRiders / 500) * 100;
-        for (let i = 0; i <= maxRiders; i += interval) {
-            vis.center.append("circle")
-                .attr("fill", "none")
-                .attr("cx", 0)
-                .attr("cy", 0)
-                .attr("opacity", 0.4)
-                .attr("stroke-width", 1)
-                .attr("stroke", "grey")
-                .attr("r", vis.y(i));
-
-            if (i > 0) {
-                vis.center.append("text")
-                    .attr("x", 0)
-                    .attr("y",  5 - vis.y(i))
-                    .attr("text-anchor", "middle")
-                    .text(i);
-            }
-        }
 
         //inner ticks for time axis
         vis.xTick = vis.center
@@ -169,9 +110,9 @@ class DayViewRadial {
         vis.xLabel = vis.center
             .append("text")
             .attr("x", 0)
-            .attr("y", -vis.outerRadius)
+            .attr("y", -vis.outerRadius - 20)
             .attr("text-anchor", "middle")
-            .text("Riders")
+            .text("Active " + vis.city + " Riders")
 
         this.wrangleData();
     }
@@ -179,25 +120,107 @@ class DayViewRadial {
     wrangleData() {
         let vis = this;
 
+        vis.displayData = [];
+
+        let select = document.getElementById("day-view-selection");
+        for (let i = 0; i < select.length; i++) {
+            let opt = select[i];
+            if (opt.selected) {
+                vis.displayData.push(vis.data[opt.value]);
+            }
+        }
+
         vis.updateVis();
     }
 
     updateVis() {
         let vis = this;
 
-        // vis.timePath
-        //     .datum(vis.data)
-        //     .attr("d", vis.area)
-        //     .attr("fill", "lightblue")
+        vis.x.domain([0, 1440]);
 
-        vis.linePlot = vis.center.append("path")
-            .datum(vis.data)
+        let maxRiders = 0;
+        for (let day of vis.displayData) {
+            let max = d3.max(day.map(d => d.riders));
+            if (max > maxRiders) {
+                maxRiders = max;
+            }
+        }
+        vis.y.domain([0, maxRiders])
+
+        //outer circles for axis
+        const interval = Math.ceil(maxRiders / 250) * 50;
+        let intervals = []
+        for (let i = 0; i <= maxRiders; i += interval) {
+            intervals.push(i);
+        }
+
+        let grayCircs = vis.center
+            .selectAll(".gray-circs")
+            .data(intervals, d => d);
+        grayCircs.exit().remove();
+        grayCircs.enter()
+            .append("circle")
+            .attr("class", "gray-circs")
             .attr("fill", "none")
-            .attr("stroke", "purple")
+            .attr("cx", 0)
+            .attr("cy", 0)
+            .attr("opacity", 0.4)
+            .attr("stroke-width", 1)
+            .attr("stroke", "grey")
+            .merge(grayCircs)
+            .attr("r", d => vis.y(d));
+
+        let grayText = vis.center
+            .selectAll(".circ-text")
+            .data(intervals.filter((d, i) => i > 0), d => d);
+        grayText.exit().remove();
+        grayText.enter()
+            .append("text")
+            .attr("class", "circ-text")
+            .attr("x", 0)
+            .attr("text-anchor", "middle")
+            .merge(grayText)
+            .attr("y", d => 5 - vis.y(d))
+            .text(d => d);
+
+        let lines = vis.center
+            .selectAll(".day-line")
+            .data(vis.displayData, d => {
+                console.log(d[0].date);
+                return d[0].date;
+            });
+        console.log(lines.exit()._groups);
+        lines.exit().remove();
+        lines.enter().append("path")
+            .attr("class", "day-line")
+            .datum(d => d)
+            .attr("fill", "none")
+            .attr("stroke", d => vis.uniqueColor(d[0].date))
             .attr("stroke-width", 2)
             .attr("d", vis.line);
+    }
 
-        // vis.svg.select(".x-axis").call(vis.xAxis);
-        // vis.svg.select(".y-axis").call(vis.yAxis);
+    freeColor(color) {
+        let i = this.colors.findIndex(color);
+        if (color < 0) {
+            return;
+        }
+        this.colorUsages[i]--;
+        if (this.colorUsages[i] < 0) {
+            this.colorUsages[i] = 0;
+        }
+    }
+
+    uniqueColor() {
+        let lowest = 0;
+        while (true) {
+            for (let i = 0; i < this.colors.length; i++) {
+                if (this.colorUsages[i] === lowest) {
+                    this.colorUsages[i]++;
+                    return this.colors[i];
+                }
+            }
+            lowest++;
+        }
     }
 }
