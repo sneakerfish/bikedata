@@ -13,7 +13,7 @@ class Scroller {
         d3.select("article").selectAll(".step")
             .style("height", stepH + "px");
 
-        let figureHeight = window.innerHeight * 0.75;
+        let figureHeight = window.innerHeight * 0.85;
         let figureMarginTop = (window.innerHeight - figureHeight) / 2;
 
         d3.select("#scrolly").select("figure")
