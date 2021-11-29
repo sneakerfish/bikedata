@@ -11,8 +11,8 @@ class TimeSeriesVis {
         this.cities = new Set(cities)
         this.eventData = eventData;
         this.eventMap = new Map()
-        this.initFinished = true;
         this.maxHeight = maxHeight;
+
         this.initVis();
     }
 
@@ -33,15 +33,6 @@ class TimeSeriesVis {
 		    .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
 	        .append("g")
 		    .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
-
-        vis.svg.append("path")
-	        .attr("class", "boston-line")
-
-        vis.svg.append("path")
-            .attr("class", "nyc-line")
-
-        vis.svg.append("path")
-            .attr("class", "sf-line")
 
         vis.x = d3.scaleTime()
 	        .range([0, vis.width])
@@ -82,6 +73,15 @@ class TimeSeriesVis {
             }
             vis.eventMap.get(e.city).set(vis.formatDate(e.event_date), e.description);
         })
+
+        vis.svg.append("path")
+            .attr("class", "boston-line")
+
+        vis.svg.append("path")
+            .attr("class", "nyc-line")
+
+        vis.svg.append("path")
+            .attr("class", "sf-line")
 
         this.wrangleData();
     }
@@ -142,31 +142,12 @@ class TimeSeriesVis {
         vis[cityPathName] = vis.svg.selectAll("." + cityLineClass)
             .datum(cityData)
 
-        if (vis.initFinished) {
-            vis[cityPathName].enter()
-                .append("path")
-                .attr("class", cityLineClass)
-                .merge(vis[cityPathName])
-                .attr("d", vis[cityLineName])
-        } else {
-            vis[cityPathName].enter()
-                .append("path")
-                .attr("class", cityLineClass)
-                .merge(vis[cityPathName])
-                .attr("d", vis[cityLineName])
-                .attr("stroke-dasharray", function (d) {
-                    return this.getTotalLength()
-                })
-                .attr("stroke-dashoffset", function (d) {
-                    return this.getTotalLength()
-                });
+        vis[cityPathName].enter()
+            .append("path")
+            .attr("class", cityLineClass)
+            .merge(vis[cityPathName])
+            .attr("d", vis[cityLineName])
 
-            vis.svg.selectAll("." + cityLineClass)
-                .transition()
-                .duration(1000)
-                .ease(d3.easeLinear)
-                .attr("stroke-dashoffset", 0);
-        }
         vis[cityPathName].exit().remove();
 
         // add hover overs
@@ -174,7 +155,6 @@ class TimeSeriesVis {
 
         vis[cityPointClass] = vis.svg.selectAll("." + cityPointClass)
             .data(cityData);
-
 
         vis[cityPointClass].enter()
             .append("circle")
@@ -186,6 +166,12 @@ class TimeSeriesVis {
                 }
                 return 1;
             })
+            // .attr("stroke", d => {
+            //     if (vis.eventMap.has(d.city) && vis.eventMap.get(d.city).has(vis.formatDate(d.trip_date))) {
+            //         return ;
+            //     }
+            //     return ;
+            // })
             .attr("cx", d => vis.x(d.trip_date))
             .attr("cy", d => vis.y(d[vis.selectedDataType]))
             .on("mouseover", function(event, d) {
@@ -260,7 +246,6 @@ class TimeSeriesVis {
                 .tickFormat("")
             );
 
-
         vis.svg.select(".x-axis")
             .transition()
             .call(vis.xAxis);
@@ -269,25 +254,8 @@ class TimeSeriesVis {
             .transition()
             .call(vis.yAxis);
 
-        if (!vis.initFinished) {
-            vis.updateCityVis('boston')
-
-            sleep(1000).then(() => {
-                vis.updateCityVis('sf')
-            });
-
-            sleep(2000).then(() => {
-                vis.updateCityVis('nyc')
-                vis.initFinished = true;
-            });
-        } else {
-            vis.updateCityVis('boston')
-            vis.updateCityVis('sf')
-            vis.updateCityVis('nyc')
-        }
+        vis.updateCityVis('boston');
+        vis.updateCityVis('sf');
+        vis.updateCityVis('nyc');
     }
-}
-
-function sleep (time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
 }
