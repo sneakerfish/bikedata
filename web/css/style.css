@@ -89,6 +89,18 @@ div.tooltip {
     fill: #FB4D42;
 }
 
+.sf-node {
+    fill: #b3995d;
+}
+
+.nyc-node {
+    fill: #041E42;
+}
+
+.boston-node {
+    fill: #FB4D42;
+}
+
 .grid line {
     stroke: lightgrey;
     stroke-opacity: 0.7;
@@ -185,4 +197,35 @@ section h1 {
 #poptext.tiptext {
     font-size: 14px;
     font-weight: bold;
+}
+
+.nodeText {
+    font-size: 11px;
+    text-anchor: start;
+    fill: black;
+}
+
+.sfInputLabel {
+    background-color: #b3995d;
+    color: white;
+}
+
+.bostonInputLabel {
+    background-color: #FB4D42;
+    color: white;
+}
+
+.nycInputLabel {
+    background-color: #041E42;
+    color: white;
+}
+
+.edge {
+    stroke-width: 2;
+    stroke: #808080;
+    opacity: 0.3;
+}
+
+.cashLabel {
+    color: green;
 }

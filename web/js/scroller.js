@@ -13,7 +13,7 @@ class Scroller {
         d3.select("article").selectAll(".step")
             .style("height", stepH + "px");
 
-        let figureHeight = window.innerHeight * 0.75;
+        let figureHeight = window.innerHeight * 0.85;
         let figureMarginTop = (window.innerHeight - figureHeight) / 2;
 
         d3.select("#scrolly").select("figure")
@@ -43,7 +43,7 @@ class Scroller {
             .style("display", "none");
 
         // update graphic based on step
-        let vizes = ["summary", "aggregate", "trends", "wind", "radial"];
+        let vizes = ["summary", "aggregate", "trends", "forceNetwork", "wind", "radial"];
         d3.select("figure").select("#" + vizes[response.index])
             .transition()
             .duration(500)

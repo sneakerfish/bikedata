@@ -67,7 +67,8 @@ class TimeSeriesTimeline {
 		// Initialize brush component
 		let brush = d3.brushX()
 			.extent([[0, 0], [vis.width, vis.height]])
-			.on("brush", timeSeriesBrushed);
+			.on("brush", timeSeriesBrushed)
+			.on("end", timeSeriesBrushed);
 
         // Append brush component here
 		vis.svg.append("g")
