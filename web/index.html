@@ -16,12 +16,12 @@
 <body>
 <div class="container-fluid">
 <section id="intro" class="mt-1">
-    <h1>A Tale of Three Cities: Examining Bike-share Growth in the Bay, Boston, and New York City Metropolitan areas from 2017 to the Present</h1>
+    <h1>A Tale of Three Cities: Examining Bike-share Ridership in the Bay, Boston, and NYC Metropolitan Areas</h1>
 </section>
 <section id="scrolly">
     <article>
         <div id="step1" class="step">
-            <h1>Introduction: Bike Share Systems by the Numbers</h1>
+            <h2>Comparing Bike-shares</h2>
 
             <p style="text-align: left">There has been many studies and analysis on individual bike-share systems but not many visualizations that compare these systems side-by-side in a visual way. Our team's goal is to present to you
                 our findings and a tool that compares three of the biggest bike-share systems in the United States.
@@ -114,82 +114,85 @@
     <!-- for showing figures during scrolling -->
     <figure id="figure">
         <!--step 1-->
-        <div id="summary" class="visualization">
+        <div id="summary" class="visualization container" >
             <!--https://en.wikipedia.org/wiki/Bay_Wheels#/media/File:Bay_Wheels_logo.png-->
             <!--https://upload.wikimedia.org/wikipedia/commons/e/e1/Bluebikes_Logo.svg-->
             <!--https://upload.wikimedia.org/wikipedia/commons/a/ad/Citi_Bike_logo.svg-->
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Bay Area</th>
-                    <th scope="col">Boston Metro</th>
-                    <th scope="col">New York City Metro</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">System Name</th>
-                    <td><img src="images/bay_wheels_logo.png" style="width: 200px"/></td>
-                    <td><img src="images/bluebikes_logo.svg" style="width: 200px"/></td>
-                    <td><img src="images/citi_bike_logo.svg" style="width: 200px"/></td>
-                </tr>
-                <tr>
-                    <th scope="row">Established</th>
-                    <td>August 29, 2013</td>
-                    <td>July 28, 2011</td>
-                    <td>May 27, 2013</td>
-                </tr>
-                <tr>
-                    <th scope="row">Total Stations</th>
-                    <td>262+</td>
-                    <td>393</td>
-                    <td>1000+</td>
-                </tr>
-                <tr>
-                    <th scope="row">Coverage Area</th>
-                    <td>San Francisco, San Jose, Oakland</td>
-                    <td>Boston, Brookline, Cambridge, Everett, Somerville</td>
-                    <td>Manhattan, Brooklyn, Queens, The Bronx, Jersey City</td>
-                </tr>
-                <tr>
-                    <th scope="row">Cost</th>
-                    <td>
-                        <ul>
-                            <li>Annual $159, 45 minutes per ride, 20 cents per minute thereafter</li>
-                            <li>Monthly $13, 45 minutes per ride, 20 cents per minute thereafter</li>
-                            <li>Single Trip $3 for 30 minutes, 30 cents per minute thereafter</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <ul>
-                            <li>Annual $109 paid at sign up, 45 minutes per ride, $2.50 per 30 minutes thereafter</li>
-                            <li>Annual $11 paid monthly (total $132), 45 minutes per ride, $2.50 per 30 minutes
-                                thereafter
-                            </li>
-                            <li>Monthly $25, 45 minutes per ride, $2.50 per 30 minutes thereafter</li>
-                            <li>Single Trip 30 minutes $2.95 to start, $2.50 per 30 minutes thereafter</li>
-                            <li>24hr pass $10 for unlimited 2 hour rides, 2.50 per additional 30 minutes</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <ul>
-                            <li>Annual $179 billed up front, 45 minutes per ride, 12 cents per minute thereafter</li>
-                            <li>Single Ride $3.50, 30 minutes per ride, 18 cents per minute thereafter</li>
-                            <li>Day Pass $15 per day, 30 minutes per ride, $4 per 15 minutes thereafter</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Website</th>
-                    <td><a href="https://www.lyft.com/bikes/bay-wheels"
-                           target="_blank">www.lyft.com/bikes/bay-wheels</a></td>
-                    <td><a href="https://www.bluebikes.com/" target="_blank">www.bluebikes.com</a></td>
-                    <td><a href="https://www.citibikenyc.com/" target="_blank">www.citibikenyc.com</a></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="row">
+                <h1 class="col">Getting Started: Bike-share systems by the numbers</h1>
+            </div>
+            <div class="row">
+                <img src="./images/BlueBikes-Carousel.jpg" class="img-fluid col" alt="Docked bike-share bikes">
+            </div>
+            <div class="row">
+                <table class="table">
+                    <thead>
+                    <tr style="font-size: x-large">
+                        <th scope="col"></th>
+                        <th scope="col">Bay Area</th>
+                        <th scope="col">Boston Metro</th>
+                        <th scope="col">New York City Metro</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">System Name</th>
+                        <td><img src="images/bay_wheels_logo.png" style="width: 200px"/></td>
+                        <td><img src="images/bluebikes_logo.svg" style="width: 200px"/></td>
+                        <td><img src="images/citi_bike_logo.svg" style="width: 200px"/></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Established</th>
+                        <td>August 29, 2013</td>
+                        <td>July 28, 2011</td>
+                        <td>May 27, 2013</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Stations</th>
+                        <td>262+</td>
+                        <td>393</td>
+                        <td>1000+</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Coverage Area</th>
+                        <td>San Francisco, San Jose, Oakland</td>
+                        <td>Boston, Brookline, Cambridge, Everett, Somerville</td>
+                        <td>Manhattan, Brooklyn, Queens, The Bronx, Jersey City</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Cost</th>
+                        <td class="cashLabel">$$$</td>
+                        <td class="cashLabel">$$</td>
+                        <td class="cashLabel">$$$</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="padding-left: 5em">Annual</th>
+                        <td>$159</td>
+                        <td>$109</td>
+                        <td>$179</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="padding-left: 5em">Monthly</th>
+                        <td>$25</td>
+                        <td>$25</td>
+                        <td>Does not offer</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="padding-left: 5em">Single Ride</th>
+                        <td>$3.00</td>
+                        <td>$2.95</td>
+                        <td>$3.50</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Website</th>
+                        <td><a href="https://www.lyft.com/bikes/bay-wheels"
+                               target="_blank">www.lyft.com/bikes/bay-wheels</a></td>
+                        <td><a href="https://www.bluebikes.com/" target="_blank">www.bluebikes.com</a></td>
+                        <td><a href="https://www.citibikenyc.com/" target="_blank">www.citibikenyc.com</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!--step 2-->
@@ -239,7 +242,9 @@
 
         <!--step 4-->
         <div id="forceNetwork" class="visualization">
-            <h2>Force Network</h2>
+            <div class="row">
+                <h2 class="col">Force Network</h2>
+            </div>
             <div class="row">
                 <div class="col">
                     <div class="form-check form-check-inline">
