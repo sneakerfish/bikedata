@@ -93,13 +93,21 @@
         </div>
 
         <div id="step6" class="step">
+            <h2>What percentage of rides start and end at the same station?</h2>
+            <p style="text-align: left">
+                Rides that start and end at the same spot seem to be for pleasure or exercise.
+                Does the percentage of round trips change depending on month?
+            </p>
+        </div>
+
+        <div id="step7" class="step">
             <h2>How many people are riding during a typical day (Boston Day View 21st March 2021)?</h2>
             <p style="text-align: left">
                 Examining this radar polar coordinate plot that shows ridership across time, we see that the number of riders increases during business hours and decreases in the late evening.
             </p>
         </div>
 
-        <div id="step7" class="step">
+        <div id="step8" class="step">
             <h2>Concluding Statements</h2>
             <p style="text-align: left">
                 We can see that bike-share ridership has steadily grown since 2017. We also expect that as companies begin to recall their workers back to the office that ridership will continue to grow and this
@@ -282,11 +290,16 @@
         </div>
 
         <!--step 6-->
+        <div id="line" class="visualization">
+            <div id="lineGraph"></div>
+        </div>
+
+        <!--step 7-->
         <div id="radial" class="visualization">
             <div id="day-view"></div>
         </div>
 
-        <!--step 7-->
+        <!--step 8-->
         <div id="conclusion" class="visualization">
             <h2>Concluding Thoughts</h2>
         </div>
@@ -320,6 +333,7 @@
 <script src="js/dayView.js"></script>
 <script src="js/dayViewRadial.js"></script>
 <script src="js/stackedAreaVis.js"></script>
+<script src="js/lineGraphVis.js"></script>
 <script src="js/scroller.js"></script>
 <script src="js/main.js"></script>
 </body>
