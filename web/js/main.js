@@ -38,11 +38,9 @@ let promises = [
         return row;
     }),
     d3.csv("data/minute_summary.csv", row => {
-        row.time = parseTimeDayview(row.hour+":"+row.minute);
         row.hour = +row.hour;
         row.minute = +row.hour * 60 + +row.minute;
         row.riders = +row.riders;
-        row.date = parseDateDayview(row.date);
         return row;
     }),
     d3.csv("data/all_trips_by_date.csv", row => {
@@ -107,13 +105,11 @@ function prepDayData(data) {
         "NYC": [],
         "SF": []
     };
-    let dateFormat = d3.timeFormat("%Y-%m-%d");
     for (let row of data) {
-        let date = dateFormat(row.date);
-        if (map[row.City][date] === undefined) {
-            map[row.City][date] = [];
+        if (map[row.City][row.date] === undefined) {
+            map[row.City][row.date] = [];
         }
-        map[row.City][date].push(row);
+        map[row.City][row.date].push(row);
     }
     return map;
 }
