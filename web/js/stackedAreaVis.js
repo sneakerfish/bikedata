@@ -1,11 +1,11 @@
 
 /*
- * StackedBarVis - Object constructor function
+ * StackedAreaVis - Object constructor function
  * @param parentElement 	-- the HTML element in which to draw the visualization
  * @param data						-- the actual data: perDayData
  */
 
-class StackedBarVis {
+class StackedAreaVis {
 
     constructor(parentElement, data, category_field, title) {
         this.parentElement = parentElement;
@@ -138,8 +138,6 @@ class StackedBarVis {
             .y1(function (d) {
                 return vis.y(d[1]);
             })
-        // vis.stackedData = vis.stack(layer_keys);
-        // console.log(vis.stackedData);
 
         vis.updateVis();
     }
