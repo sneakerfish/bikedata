@@ -213,3 +213,7 @@ section h1 {
     stroke: #808080;
     opacity: 0.3;
 }
+
+.cashLabel {
+    color: green;
+}
