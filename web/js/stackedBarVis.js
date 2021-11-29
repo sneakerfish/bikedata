@@ -149,8 +149,11 @@ class StackedBarVis {
         let lst = vis.data.filter((d) => {
             return d.city == city && d.year == year && d.month == month;
         });
-        console.log(lst[0]);
-        return lst[0].station_count;
+        if (lst[0]) {
+            return lst[0].station_count;
+        } else {
+            return 0;
+        }
     }
 
     displayStation(key) {
