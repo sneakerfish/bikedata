@@ -7,13 +7,13 @@
 
 class StackedBarVis {
 
-    constructor(parentElement, data, category_field) {
+    constructor(parentElement, data, category_field, title) {
         this.parentElement = parentElement;
         this.data = data.sort((a, b) => {
             return (a.event_date - b.event_date)
         });
-        console.log(this.data);
 
+        this.title = title;
         this.category_field = category_field;
         this.categories = ["nyc", "boston", "sf"];
 
@@ -97,10 +97,14 @@ class StackedBarVis {
             .attr("class", "tiptext")
             .attr("id", "chart-datetext")
             .attr("x", vis.x(d3.min(vis.data, (d) => d.event_date)) + 10)
-            .attr("y", vis.y(2500));
+            .attr("y", vis.y(2430));
 
 
-
+        // Axis title
+        vis.svg.append("text")
+            .attr("x", -50)
+            .attr("y", -8)
+            .text(vis.title);
 
         vis.wrangleData();
     }
@@ -149,6 +153,16 @@ class StackedBarVis {
         return lst[0].station_count;
     }
 
+    displayStation(key) {
+        if (key == "boston") {
+            return "Boston Metro";
+        } else if (key == "sf") {
+            return "Bay Area";
+        } else if (key == "nyc") {
+            return "New York City Metro";
+        }
+    }
+
     updateVis() {
         let vis = this;
 
@@ -195,7 +209,7 @@ class StackedBarVis {
                     .text(formatDate(vis.data[i].event_date))
                     .attr("transform", "translate(" + shiftLeft + ", 0)");
                 d3.select("#chart-tooltext")
-                    .text(d.key + ": " + vis.stationCount(d.key, dateval.getFullYear(), dateval.getMonth()) + " stations")
+                    .text(vis.displayStation(d.key) + ": " + vis.stationCount(d.key, dateval.getFullYear(), dateval.getMonth()) + " stations")
                     .attr("transform", "translate(" + shiftLeft + ", 0)");
             });
 

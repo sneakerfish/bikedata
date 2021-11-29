@@ -96,7 +96,8 @@ function createVis(data) {
     updateWindmap()
 
     dayView = new DayViewRadial('day-view', dayViewData);
-    stackedBar = new StackedBarVis('stackedBarChart', monthlySummaryData, 'city');
+    stackedBar = new StackedBarVis('stackedBarChart', monthlySummaryData, 'city',
+        'Stations by city');
 }
 
 function groupByTripDate(tripData) {
