@@ -1,12 +1,13 @@
 class ForceNetworkVis {
 
-    constructor(parentElement, data, city) {
+    constructor(parentElement, data, city, maxHeight) {
         this.parentElement = parentElement;
         this.data = data;
         this.filteredData = data;
         this.city = city;
         this.stationNames = [];
         this.stationLinks = [];
+        this.maxHeight = maxHeight;
         this.initVis();
     }
 
@@ -14,13 +15,13 @@ class ForceNetworkVis {
         let vis = this;
 
         vis.margin = {top: 20, right: 30, bottom: 20, left: 100};
-        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
+        vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+        let computedHeight = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().height;
+        computedHeight = vis.maxHeight > computedHeight ? computedHeight : vis.maxHeight;
+        vis.height = computedHeight - vis.margin.top - vis.margin.bottom;
 
-        // vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        // vis.height = 600 //vis.maxHeight;
-
-        console.log(vis.width, vis.height)
+        // vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+        // vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         vis.svg = d3.select("#" + vis.parentElement)
             .append("svg")
@@ -47,7 +48,7 @@ class ForceNetworkVis {
         vis.city = document.querySelector('input[name="cityNetworkRadioOptions"]:checked').value;
         vis.topN = parseInt(document.getElementById('topStations').value);
 
-        document.getElementById('topStationsLabel').innerHTML='Top ' + vis.topN + " Most Frequented Trip Routs";
+        document.getElementById('topStationsLabel').innerHTML='Top ' + vis.topN + " Most Frequented Trip Routes";
 
         vis.filteredData = vis.data.filter(d => d.city == vis.city)
             .sort((a,b) => b.trip_count - a.trip_count)
@@ -99,11 +100,16 @@ class ForceNetworkVis {
 
         nodeEnter
             .append("circle")
-            .attr("class", vis.city +"-point")
-            .attr("r", 5);
+            .attr("class", vis.city +"-node")
+            .attr("r", d => {
+                return 5;
+            })
+            // .call(d3.drag() // call specific function when circle is dragged
+            //     .on("start", dragstarted)
+            //     .on("drag", dragged)
+            //     .on("end", dragended));
 
         node = nodeEnter.merge(node)
-
 
         var texts = vis.textGroup.selectAll(".nodeLabels")
             .data(vis.stationNames, d => d.name);
@@ -139,8 +145,8 @@ class ForceNetworkVis {
         function tickActions() {
             node
                 .attr("transform", function(d) {
-                    // d.x = Math.max(5, Math.min(vis.width - 5, d.x))
-                    // d.y = Math.max(5, Math.min(vis.height - 5, d.y))
+                    d.x = Math.max(5, Math.min(vis.width - 5, d.x))
+                    d.y = Math.max(5, Math.min(vis.height - 5, d.y))
                     return "translate(" + d.x + "," + d.y + ")";
                 })
 
@@ -154,5 +160,20 @@ class ForceNetworkVis {
                 return "translate(" + d.x + "," + d.y + ")";
             });
         }
+
+        // function dragstarted(event, d) {
+        //     if (!event.active) simulation.alphaTarget(.03).restart();
+        //     d.fx = d.x;
+        //     d.fy = d.y;
+        // }
+        // function dragged(event, d) {
+        //     d.fx = event.x;
+        //     d.fy = event.y;
+        // }
+        // function dragended(event, d) {
+        //     if (!event.active) simulation.alphaTarget(.03);
+        //     d.fx = null;
+        //     d.fy = null;
+        // }
     }
 }

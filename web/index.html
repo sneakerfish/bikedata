@@ -211,10 +211,7 @@
                         <option value="trip_count_norm">Trip Count Normalized</option>
                         <option value="trip_count_7d_ma">Trip Count 7-Day Moving Average</option>
                         <option value="trip_count_7d_ma_norm">Trip Count 7-Day Moving Average Normalized</option>
-                        <option value="trip_count_14d_ma">Trip Count 14-Day Moving Average</option>
-                        <option value="trip_count_14d_ma_norm">Trip Count 14-Day Moving Average Normalized</option>
                         <option value="median_trip_duration_minutes">Median Trip Duration (minutes)</option>
-                        <option value="median_trip_duration_minutes_norm">Median Trip Duration Normalized</option>
                     </select>
                     <label style="font-weight: bold">Bike Share System: </label>
                     <div class="form-check form-check-inline">
@@ -242,33 +239,27 @@
 
         <!--step 4-->
         <div id="forceNetwork" class="visualization">
-            <div class="row">
-                <h2 class="col">Force Network</h2>
+
+            <h2 class="col">Force Network</h2>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="cityNetworkRadioOptions" id="sfNetworkRadio" value="sf" checked onclick="updateVisualization()">
+                <label class="form-check-label sfInputLabel" for="sfNetworkRadio">Bay Area</label>
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="cityNetworkRadioOptions" id="sfNetworkRadio" value="sf" checked onclick="updateVisualization()">
-                        <label class="form-check-label sfInputLabel" for="sfNetworkRadio">Bay Area</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="cityNetworkRadioOptions" id="bostonNetworkRadio" value="boston" onclick="updateVisualization()">
-                        <label class="form-check-label bostonInputLabel" for="bostonNetworkRadio">Boston Metro</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="cityNetworkRadioOptions" id="nycNetworkRadio" value="nyc" onclick="updateVisualization()">
-                        <label class="form-check-label nycInputLabel" for="nycNetworkRadio">NYC Metro</label>
-                    </div>
-                    <div class="form-inline">
-                        <label for="topStations" id="topStationsLabel">Top Most Frequented Stations</label>
-                        <input type="range" class="form-range" min="1" max="100" id="topStations" value="20" onchange="updateVisualization()" />
-                    </div>
-                </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="cityNetworkRadioOptions" id="bostonNetworkRadio" value="boston" onclick="updateVisualization()">
+                <label class="form-check-label bostonInputLabel" for="bostonNetworkRadio">Boston Metro</label>
             </div>
-            <div class="row">
-                <!-- Parent container for the visualization -->
-                <div id="forceStationNetworkArea" class="col" style="height:600px"></div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="cityNetworkRadioOptions" id="nycNetworkRadio" value="nyc" onclick="updateVisualization()">
+                <label class="form-check-label nycInputLabel" for="nycNetworkRadio">NYC Metro</label>
             </div>
+            <div class="form-inline">
+                <label for="topStations" id="topStationsLabel">Top Most Frequented Stations</label>
+                <input type="range" class="form-range" min="1" max="100" id="topStations" value="20" onchange="updateVisualization()" />
+            </div>
+            <!-- Parent container for the visualization -->
+            <div id="forceStationNetworkArea" class="col" style="height:600px"></div>
         </div>
 
         <!--step 5-->

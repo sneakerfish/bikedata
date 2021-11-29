@@ -89,6 +89,18 @@ div.tooltip {
     fill: #FB4D42;
 }
 
+.sf-node {
+    fill: #b3995d;
+}
+
+.nyc-node {
+    fill: #041E42;
+}
+
+.boston-node {
+    fill: #FB4D42;
+}
+
 .grid line {
     stroke: lightgrey;
     stroke-opacity: 0.7;

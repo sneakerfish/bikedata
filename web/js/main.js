@@ -89,7 +89,7 @@ function createVis(data) {
     timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData, 380)
     timeline = new TimeSeriesTimeline("timeSeriesBrush", groupByTripDate(tripData))
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
-    forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc')
+    forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc', 800)
 
     let date = new Date("2021-07-01T00:00:00-04:00") // keep -04:00
     windMap = new WindMap(windIds, fromToData, date);
@@ -115,7 +115,7 @@ function groupByTripDate(tripData) {
 }
 
 function updateVisualization() {
-    timeSeriesVis.wrangleData();
+    timeSeriesBrushed();
     dayView.wrangleData();
     barVis.wrangleData();
     forceNetworkVis.wrangleData();
@@ -136,10 +136,13 @@ function updateWindmap() {
 
 function timeSeriesBrushed() {
     let selectionRange = d3.brushSelection(d3.select(".brush").node());
-    let selectionDomain = selectionRange.map(timeline.x.invert);
-
-    timeSeriesVis.wrangleData(selectionDomain[0], selectionDomain[1]);
-    barVis.onSelectionChange(selectionDomain[0], selectionDomain[1])
+    if (selectionRange != null) {
+        let selectionDomain = selectionRange.map(timeline.x.invert);
+        timeSeriesVis.wrangleData(selectionDomain[0], selectionDomain[1]);
+        barVis.onSelectionChange(selectionDomain[0], selectionDomain[1])
+    } else {
+        timeSeriesVis.wrangleData();
+    }
 }
 
 let scroller = new Scroller("step");
