@@ -94,10 +94,9 @@ function createVis(data) {
     let tripStationData = data[5];
     let roundTripData = data[6];
 
-    let cities = ['sf', 'boston', 'nyc']
+    tripCounttimeSeriesVis = new TimeSeriesVis('tripCountTimeSeriesPlot', 'tripCountTimeSeriesBrush', tripData, eventData, "tripCount", 'trip_count_7d_ma_norm');
+    timeDurationtimeSeriesVis = new TimeSeriesVis('tripDurationTimeSeriesPlot', 'tripDurationTimeSeriesBrush', tripData, eventData, "tripDuration", 'median_trip_duration_minutes');
 
-    timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData, 380)
-    timeline = new TimeSeriesTimeline("timeSeriesBrush", groupByTripDate(tripData))
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
     forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc', 800)
 
@@ -111,23 +110,9 @@ function createVis(data) {
     lineVis = new lineGraphVis('lineGraph', roundTripData);
 }
 
-function groupByTripDate(tripData) {
-    var result = [];
-    tripData.reduce(function(res, value) {
-        if (!res[value.trip_date]) {
-            res[value.trip_date] = { trip_date: value.trip_date, trip_count: 0 };
-            result.push(res[value.trip_date])
-        }
-        res[value.trip_date].trip_count += value.trip_count;
-        return res;
-    }, {});
-
-    result.sort((a,b) => b.trip_date - a.trip_date)
-    return result;
-}
-
 function updateVisualization() {
-    timeSeriesBrushed();
+    tripCounttimeSeriesVis.wrangleData();
+    timeDurationtimeSeriesVis.wrangleData()
     dayView.wrangleData();
     barVis.wrangleData();
     forceNetworkVis.wrangleData();
@@ -143,17 +128,6 @@ function updateWindmap() {
             .then(result => windMap.wrangleData(result.data.stations, currentCity))
     } else {
         windMap.filterTime()
-    }
-}
-
-function timeSeriesBrushed() {
-    let selectionRange = d3.brushSelection(d3.select(".brush").node());
-    if (selectionRange != null) {
-        let selectionDomain = selectionRange.map(timeline.x.invert);
-        timeSeriesVis.wrangleData(selectionDomain[0], selectionDomain[1]);
-        barVis.onSelectionChange(selectionDomain[0], selectionDomain[1])
-    } else {
-        timeSeriesVis.wrangleData();
     }
 }
 

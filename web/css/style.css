@@ -229,3 +229,7 @@ section h1 {
 .cashLabel {
     color: green;
 }
+
+.brushAreaPath {
+    fill: #ccc;
+}
