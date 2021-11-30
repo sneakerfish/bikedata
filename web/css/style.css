@@ -229,3 +229,16 @@ section h1 {
 .cashLabel {
     color: green;
 }
+
+div.small-tooltip {
+    position: absolute;
+    text-align: left;
+    width: 60   px;
+    height: 30px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: #F3E779;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}

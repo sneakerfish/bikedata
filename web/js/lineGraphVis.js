@@ -24,9 +24,10 @@ class lineGraphVis {
             .range([0, vis.width])
             .domain([1, 12]);
 
+        let yMax = d3.max(vis.data, (d) => d.round_trip_ratio * 100.0);
         vis.y = d3.scaleLinear()
             .range([vis.height, 0])
-            .domain([0, 10]);
+            .domain([0, yMax]);
 
         // color palette
         vis.color = d3.scaleOrdinal()
@@ -58,6 +59,15 @@ class lineGraphVis {
             .attr("class", "y-axis axis")
             .call(vis.yAxis);
 
+        // Add Tooltip placeholder
+        vis.tooltip = d3.select("body").append("div")
+            .attr("class", "small-tooltip")
+            .attr("id", "linechart-tooltip")
+            .style("opacity", 0);
+        vis.tooltip.append("text")
+            .attr("x", 10)
+            .attr("y", 20)
+            .attr("id", "linechart-tooltext");
 
         vis.wrangleData();
     }
@@ -91,6 +101,21 @@ class lineGraphVis {
                     (d[1].sort((a, b) => (a.start_year*12 + a.start_month) -
                         (b.start_year*12 + b.start_month)));
             })
+            .on("mouseover", (e, d) => {
+                vis.tooltip.transition()
+                    .style("opacity", 1);
+                console.log("Mouseover", d);
+                let toolTipText = d[0];
 
+                vis.tooltip.html(toolTipText)
+                    .style("left", (e.pageX) + "px")
+                    .style("top", (e.pageY - 50) + "px");
+            })
+            .on("mouseout", (e, d) => {
+                console.log("Mouseout");
+                vis.tooltip.transition()
+                    .duration(4000)
+                    .style("opacity", 0);
+            });
     }
 }
