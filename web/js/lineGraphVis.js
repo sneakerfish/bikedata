@@ -3,8 +3,11 @@ class lineGraphVis {
 
     constructor(parentElement, data) {
         this.parentElement = parentElement;
-        this.data = data;
+        this.data = data.filter((d) => {
+            return d.start_year >= 2017;
+        });
         this.cities = ["nyc", "boston", "sf"];
+        this.title = "Percentage of trips that start and end at the same station"
         console.log("constructor: ", data);
 
         this.initVis();
@@ -12,7 +15,7 @@ class lineGraphVis {
 
     initVis() {
         let vis = this;
-        vis.margin = { top: 30, right: 0, bottom: 20, left: 100 };
+        vis.margin = { top: 30, right: 50, bottom: 50, left: 100 };
 
         vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().width
             - vis.margin.left - vis.margin.right;
@@ -35,6 +38,7 @@ class lineGraphVis {
             .range([ "#041E42", "#FB4D42", "#b3995d"]);
 
         vis.xAxis = d3.axisBottom()
+            .tickFormat(x => vis.monthName(x))
             .scale(vis.x);
 
         vis.yAxis = d3.axisLeft()
@@ -69,6 +73,12 @@ class lineGraphVis {
             .attr("y", 20)
             .attr("id", "linechart-tooltext");
 
+        // Axis title
+        vis.svg.append("text")
+            .attr("x", -50)
+            .attr("y", -8)
+            .text(vis.title);
+
         vis.wrangleData();
     }
 
@@ -82,6 +92,24 @@ class lineGraphVis {
         vis.updateVis();
     }
 
+    monthName(m) {
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        console.log("Monthname: ", m);
+        return monthNames[m-1];
+    }
+
+    fade(opacity, d) {
+        let vis = this;
+        console.log("Fading: ", opacity, d);
+
+        vis.svg.selectAll(".line")
+            .filter(function(e) { return e !== d; })
+            .transition()
+            .style("opacity", opacity);
+    }
+
     updateVis() {
         let vis = this;
         console.log("data: ", vis.data);
@@ -92,6 +120,7 @@ class lineGraphVis {
             .enter()
             .append("path")
             .attr("fill", "none")
+            .attr("class", "line")
             .attr("stroke", function(d){ return vis.color(d[1][0].city) })
             .attr("stroke-width", 1.5)
             .attr("d", function(d){
@@ -102,17 +131,16 @@ class lineGraphVis {
                         (b.start_year*12 + b.start_month)));
             })
             .on("mouseover", (e, d) => {
+                vis.fade(0.2, d);
                 vis.tooltip.transition()
                     .style("opacity", 1);
-                console.log("Mouseover", d);
                 let toolTipText = d[0];
-
                 vis.tooltip.html(toolTipText)
                     .style("left", (e.pageX) + "px")
                     .style("top", (e.pageY - 50) + "px");
             })
             .on("mouseout", (e, d) => {
-                console.log("Mouseout");
+                vis.fade(1, d);
                 vis.tooltip.transition()
                     .duration(4000)
                     .style("opacity", 0);
