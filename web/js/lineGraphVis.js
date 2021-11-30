@@ -85,11 +85,11 @@ class lineGraphVis {
             .attr("stroke", function(d){ return vis.color(d[1][0].city) })
             .attr("stroke-width", 1.5)
             .attr("d", function(d){
-                console.log("D: ", d);
                 return d3.line()
                     .x(function(d) { return vis.x(d.start_month); })
                     .y(function(d) { return vis.y(d.round_trip_ratio * 100.0); })
-                    (d[1])
+                    (d[1].sort((a, b) => (a.start_year*12 + a.start_month) -
+                        (b.start_year*12 + b.start_month)));
             })
 
     }
