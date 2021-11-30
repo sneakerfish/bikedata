@@ -230,6 +230,10 @@ section h1 {
     color: green;
 }
 
+.brushAreaPath {
+    fill: #ccc;
+}
+
 div.small-tooltip {
     position: absolute;
     text-align: left;
