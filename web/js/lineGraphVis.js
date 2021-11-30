@@ -85,7 +85,7 @@ class lineGraphVis {
         let vis = this;
 
         vis.lineData = d3.group(vis.data,
-            d => d.city + " " + d.start_year);
+            d => vis.displayStation(d.city) + " " + d.start_year);
 
         vis.updateVis();
     }
@@ -95,6 +95,16 @@ class lineGraphVis {
             "July", "August", "September", "October", "November", "December"
         ];
         return monthNames[m-1];
+    }
+
+    displayStation(key) {
+        if (key == "boston") {
+            return "Boston Metro";
+        } else if (key == "sf") {
+            return "Bay Area";
+        } else if (key == "nyc") {
+            return "New York City Metro";
+        }
     }
 
     fade(opacity, d) {
