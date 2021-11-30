@@ -64,6 +64,15 @@ let promises = [
         row.trip_count = +row.trip_count;
         row.distance = +row.distance;
         return row;
+    }),
+    d3.csv('data/round_trips_by_month.csv', row => {
+        row.round_trip_count = +row.round_trip_count;
+        row.trip_count = +row.trip_count;
+        row.start_year = +row.start_year;
+        row.start_month = +row.start_month;
+        row.event_date = parseDate(row.year + "-" + row.month + "-01");
+        row.round_trip_ratio = row.round_trip_count / row.trip_count;
+        return row;
     })
 ];
 
@@ -83,6 +92,7 @@ function createVis(data) {
     let eventData = data[3];
     let monthlySummaryData = data[4];
     let tripStationData = data[5];
+    let roundTripData = data[6];
 
     let cities = ['sf', 'boston', 'nyc']
 
@@ -98,6 +108,7 @@ function createVis(data) {
     dayView = new DayViewRadial('day-view', dayViewData);
     stackedBar = new StackedAreaVis('stackedAreaChart', monthlySummaryData, 'city',
         'Stations by city');
+    lineVis = new lineGraphVis('lineGraph', roundTripData);
 }
 
 function groupByTripDate(tripData) {

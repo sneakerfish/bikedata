@@ -31,6 +31,6 @@ df2.createOrReplaceTempView("bikedata")
 df3 = spark.sql("select sum(case when (start_station_id = end_station_id) then 1 else 0 end) as round_trip_count, count(*) as trip_count, month(trip_start) as start_month, city from bikedata group by city, month(trip_start)")
 
 df3.createOrReplaceTempView("bikesummary")
-# df3.show(20, False)
+df3.show(20, False)
 
-df3.coalesce(1).write.format('com.databricks.spark.csv').save('round_trips_by_month_by_hour.csv', header='true')
+df3.coalesce(1).write.format('com.databricks.spark.csv').save('round_trips_by_month_by_month.csv', header='true')
