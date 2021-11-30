@@ -8,7 +8,6 @@ class lineGraphVis {
         });
         this.cities = ["nyc", "boston", "sf"];
         this.title = "Percentage of trips that start and end at the same station"
-        console.log("constructor: ", data);
 
         this.initVis();
     }
@@ -87,7 +86,6 @@ class lineGraphVis {
 
         vis.lineData = d3.group(vis.data,
             d => d.city + " " + d.start_year);
-        console.log(vis.lineData["boston"]);
 
         vis.updateVis();
     }
@@ -96,13 +94,11 @@ class lineGraphVis {
         const monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
-        console.log("Monthname: ", m);
         return monthNames[m-1];
     }
 
     fade(opacity, d) {
         let vis = this;
-        console.log("Fading: ", opacity, d);
 
         vis.svg.selectAll(".line")
             .filter(function(e) { return e !== d; })
@@ -112,7 +108,6 @@ class lineGraphVis {
 
     updateVis() {
         let vis = this;
-        console.log("data: ", vis.data);
 
         // Draw the line
         vis.svg.selectAll(".line")
