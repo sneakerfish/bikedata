@@ -1,18 +1,46 @@
 const TIME_SERIES_VIS_DEBUG = false;
 
+const city_label_mapping = {
+    'sf': 'Bay Area',
+    'boston': 'Boston Metro',
+    'nyc': 'NYC Metro'
+}
+
+const label_city_mapping = {
+    'Bay Area' : 'sf',
+    'Boston Metro': 'boston',
+    'NYC Metro': 'nyc'
+}
+
+const data_number_formatting_mapping = {
+    'trip_count_norm': '.4f',
+    'trip_count_7d_ma': ',',
+    'trip_count_7d_ma_norm': '.4f',
+    'trip_count' : ',',
+    'median_trip_duration_minutes': '.2f',
+}
+
+const tickValues = [new Date(2017, 0, 1),
+    new Date(2018, 0, 1),
+    new Date(2019, 0, 1),
+    new Date(2020, 0, 1),
+    new Date(2021, 0, 1)]
+
+
 class TimeSeriesPlotVis {
 
     constructor(parentElement, data, cities, eventData, maxHeight, idPrefix) {
         this.parentElement = parentElement;
         // assumes data is sorted
         this.data = data;
-        this.filteredData = data;
         this.formatDate = d3.timeFormat("%Y-%m-%d");
         this.cities = new Set(cities)
         this.eventData = eventData;
+        this.filteredEventData = eventData;
         this.eventMap = new Map()
         this.maxHeight = maxHeight;
         this.idPrefix = idPrefix;
+        this.citiesMap = new Map();
 
         this.initVis();
     }
@@ -20,8 +48,8 @@ class TimeSeriesPlotVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 30, bottom: 20, left: 100};
-        vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+        vis.margin = {top: 100, right: 100, bottom: 50, left: 100};
+        vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = vis.maxHeight;
 
         if (TIME_SERIES_VIS_DEBUG) {
@@ -84,6 +112,99 @@ class TimeSeriesPlotVis {
         vis.svg.append("path")
             .attr("class", "sf-line")
 
+        // hover tip
+        let tooltipGroup = vis.svg.append('g')
+            .attr('class', 'tooltip_group')
+            .style('display', 'none')
+
+        tooltipGroup.append('line')
+            .attr('class', 'hover_line')
+            .attr('x1', 0)
+            .attr('x2', 0)
+            .attr('y1', -75)
+            .attr('y2', vis.height);
+
+        tooltipGroup.append('text')
+            .attr('class', 'hover_date_text')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('transform', 'translate(10, -75)');
+
+        tooltipGroup.append('text')
+            .attr('class', 'hover_data_text hover0')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('transform', 'translate(10, -55)');
+
+        tooltipGroup.append('text')
+            .attr('class', 'hover_data_text hover1')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('transform', 'translate(10, -35)');
+
+        tooltipGroup.append('text')
+            .attr('class', 'hover_data_text hover2')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('transform', 'translate(10, -15)');
+
+        vis.svg.append('rect')
+            .attr('fill', 'transparent')
+            .attr('width', vis.width)
+            .attr('height', vis.height)
+            .on('mouseover', () => tooltipGroup.style('display', null))
+            .on('mouseout', () => tooltipGroup.style('display', 'none'))
+            .on('mousemove', mousemove)
+
+        function mousemove(event){
+            const formatNum = d3.format(data_number_formatting_mapping[vis.selectedDataType]);
+
+            let x = d3.pointer(event)[0];
+            let xDate = vis.x.invert(d3.pointer(event)[0]);
+
+            tooltipGroup.attr('transform', 'translate(' + x + ', 0)');
+
+            let cities = Array.from(vis.cities)
+            cities = cities.map(c => city_label_mapping[c])
+            cities.sort();
+
+            let i = 0;
+
+            cities.forEach(c => {
+                let record = vis.citiesMap.get(label_city_mapping[c]).get(vis.formatDate(xDate));
+                if (record != undefined) {
+                    let dataText = c + ": " + formatNum(record[vis.selectedDataType]);
+                    tooltipGroup.select('.hover' + i)
+                        .text(dataText)
+
+                    i++;
+                }
+            })
+
+            // clear out remaining hovers
+            while (i < 3) {
+                tooltipGroup.select('.hover' + i)
+                    .text("")
+                i++;
+            }
+
+            if (xDate != "Invalid Date") {
+                tooltipGroup.select('.hover_date_text')
+                    .text(xDate.toDateString())
+            } else {
+                tooltipGroup.select('.hover_date_text')
+                    .text("")
+            }
+        }
+
+        vis.dataMap = new Map();
+        vis.data.forEach(row => {
+            if (!vis.dataMap.has(row.city)) {
+                vis.dataMap.set(row.city, [])
+            }
+            vis.dataMap.get(row.city).push(row);
+        })
+
         this.wrangleData();
     }
 
@@ -97,9 +218,20 @@ class TimeSeriesPlotVis {
         }
 
         if (startDate == undefined && endDate == undefined) {
-            vis.filteredData = vis.data.filter(d => vis.cities.has(d.city))
+            vis.filteredDataMap = new Map();
+            vis.cities.forEach(city => {
+                vis.filteredDataMap.set(city, vis.dataMap.get(city))
+            });
+
+            vis.filteredEventData = vis.eventData.filter(d => vis.cities.has(d.city));
         } else {
-            vis.filteredData = vis.data.filter(d => vis.cities.has(d.city) && d.trip_date >= startDate && d.trip_date <= endDate)
+            vis.filteredDataMap = new Map();
+            vis.cities.forEach(city => {
+                let cityData = vis.dataMap.get(city).filter(d => d.trip_date >= startDate && d.trip_date <= endDate);
+                vis.filteredDataMap.set(city, cityData)
+            });
+
+            vis.filteredEventData = vis.eventData.filter(d => vis.cities.has(d.city) && d.event_date >= startDate && d.event_date <= endDate)
         }
 
         vis.updateVis();
@@ -108,7 +240,9 @@ class TimeSeriesPlotVis {
     updateCityVis(city) {
         let vis = this;
 
-        let cityData = vis.filteredData.filter(d => d.city == city)
+        let cityData = vis.filteredDataMap.get(city);
+
+        let cityEventData = vis.filteredEventData.filter(d => d.city == city)
 
         if (TIME_SERIES_VIS_DEBUG) {
             console.log('city:', city, 'data', cityData);
@@ -135,44 +269,41 @@ class TimeSeriesPlotVis {
 
         vis[cityPathName].exit().remove();
 
+        let cityDataMap = new Map();
+        cityData.forEach(d => {
+            cityDataMap.set(vis.formatDate(d.trip_date), d);
+        })
+
+        this.citiesMap.set(city, cityDataMap);
+
         // add hover overs
-        let cityPointClass = city + "-point";
+        let cityPointClass = city + "-point-event";
 
         vis[cityPointClass] = vis.svg.selectAll("." + cityPointClass)
-            .data(cityData);
+            .data(cityEventData);
 
         vis[cityPointClass].enter()
             .append("circle")
             .attr("class", cityPointClass)
             .merge(vis[cityPointClass])
-            .attr("r", d => {
-                if (vis.eventMap.has(d.city) && vis.eventMap.get(d.city).has(vis.formatDate(d.trip_date))) {
-                    return 8;
+            .attr("r", 10)
+            .attr("cx", d => vis.x(d.event_date))
+            .attr("cy", d => {
+                let record = cityDataMap.get(vis.formatDate(d.event_date));
+
+                if (record == undefined) {
+                    return 0;
                 }
-                return 1;
+
+                return vis.y(record[vis.selectedDataType])
             })
-            // .attr("stroke", d => {
-            //     if (vis.eventMap.has(d.city) && vis.eventMap.get(d.city).has(vis.formatDate(d.trip_date))) {
-            //         return ;
-            //     }
-            //     return ;
-            // })
-            .attr("cx", d => vis.x(d.trip_date))
-            .attr("cy", d => vis.y(d[vis.selectedDataType]))
             .on("mouseover", function(event, d) {
                 vis.div.transition()
                     .style("opacity", 1);
 
-                let toolTipText =
-                    d.trip_date.toDateString()
+                let toolTipText = d.event_date.toDateString()
                     + "<br/>"
-                    + "Trips Taken: " + d.trip_count
-                    + "<br/>"
-                    + "Median Trip Duration: " + d.median_trip_duration_minutes.toFixed(2) + " min";
-
-                if (vis.eventMap.has(d.city) && vis.eventMap.get(d.city).has(vis.formatDate(d.trip_date))) {
-                    toolTipText += "<br/><br/>" + vis.eventMap.get(d.city).get(vis.formatDate(d.trip_date))
-                }
+                    + d.description;
 
                 vis.div.html(toolTipText)
                     .style("left", (event.pageX) + "px")
@@ -183,39 +314,44 @@ class TimeSeriesPlotVis {
                     .duration(4000)
                     .style("opacity", 0);
             });
+
         vis[cityPointClass].exit().remove();
     }
 
     updateVis() {
         let vis = this;
 
-        if (TIME_SERIES_VIS_DEBUG) {
-            console.log('Filtered data', vis.filteredData)
-        }
+        let trip_metrics = [];
 
-        let trip_metric = vis.filteredData.map(d => d[vis.selectedDataType])
-        let trip_metric_max = d3.max(trip_metric);
+        vis.cities.forEach(city => {
+            let trip_metric = vis.filteredDataMap.get(city).map(d => d[vis.selectedDataType]);
+            trip_metrics = trip_metrics.concat(trip_metric);
+        });
+
+        let trip_metric_max = d3.max(trip_metrics);
 
         vis.y.domain([0, trip_metric_max])
 
-        if (vis.filteredData.length == 0) {
+        if (vis.filteredDataMap.size == 0) {
             vis.x.domain([])
         } else {
-            let startDate = vis.filteredData[0].trip_date;
-            let endDate = vis.filteredData[vis.filteredData.length - 1].trip_date;
+            let startDates = [];
+            let endDates = [];
+
+            vis.cities.forEach(city => {
+                let filteredData = vis.filteredDataMap.get(city);
+                startDates.push(filteredData[0].trip_date);
+                endDates.push(filteredData[filteredData.length - 1].trip_date);
+            });
+
+            let startDate = d3.min(startDates);
+            let endDate = d3.max(endDates);
 
             if (TIME_SERIES_VIS_DEBUG) {
                 console.log('Start Date', startDate, 'End Date', endDate);
             }
 
             vis.x.domain([startDate, endDate])
-
-            //TODO: remove hard coding, compute on the fly and why the does month start at zero but day starts at 1?
-            let tickValues = [new Date(2017, 0, 1),
-                new Date(2018, 0, 1),
-                new Date(2019, 0, 1),
-                new Date(2020, 0, 1),
-                new Date(2021, 0, 1)]
 
             vis.xGridLines
                 .call(d3.axisBottom(vis.x)
@@ -233,7 +369,14 @@ class TimeSeriesPlotVis {
 
         vis.svg.select(".x-axis")
             .transition()
-            .call(vis.xAxis);
+            .call(vis.xAxis)
+            .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function (d) {
+                return "rotate(-30)";
+            });
 
         vis.svg.select(".y-axis")
             .transition()

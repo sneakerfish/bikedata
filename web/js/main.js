@@ -94,7 +94,7 @@ function createVis(data) {
     let tripStationData = data[5];
     let roundTripData = data[6];
 
-    tripCounttimeSeriesVis = new TimeSeriesVis('tripCountTimeSeriesPlot', 'tripCountTimeSeriesBrush', tripData, eventData, "tripCount", 'trip_count_7d_ma_norm');
+    tripCountTimeSeriesVis = new TimeSeriesVis('tripCountTimeSeriesPlot', 'tripCountTimeSeriesBrush', tripData, eventData, "tripCount", 'trip_count_7d_ma_norm');
     timeDurationtimeSeriesVis = new TimeSeriesVis('tripDurationTimeSeriesPlot', 'tripDurationTimeSeriesBrush', tripData, eventData, "tripDuration", 'median_trip_duration_minutes');
 
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
@@ -111,7 +111,7 @@ function createVis(data) {
 }
 
 function updateVisualization() {
-    tripCounttimeSeriesVis.wrangleData();
+    tripCountTimeSeriesVis.wrangleData();
     timeDurationtimeSeriesVis.wrangleData()
     dayView.wrangleData();
     barVis.wrangleData();

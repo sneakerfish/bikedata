@@ -29,12 +29,12 @@ class TimeSeriesTimeline {
 		// store keyword this which refers to the object it belongs to in variable vis
 		let vis = this;
 
-		vis.margin = {top: 0, right: 40, bottom: 30, left: 100};
+		vis.margin = {top: 0, right: 100, bottom: 30, left: 100};
 
 		// vis.width = document.getElementById(vis._parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
 		// vis.height = document.getElementById(vis._parentElement).getBoundingClientRect().height  - vis.margin.top - vis.margin.bottom;
 
-		vis.width = document.getElementById(vis._parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+		vis.width = document.getElementById(vis._parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
 		vis.height = 150 - vis.margin.top - vis.margin.bottom;
 
 		// SVG drawing area
@@ -78,7 +78,6 @@ class TimeSeriesTimeline {
 			.attr("y", -6)
 			.attr("height", vis.height + 7);
 
-
 		this.isInit = true;
 	}
 
@@ -93,6 +92,7 @@ class TimeSeriesTimeline {
 	updateVis() {
 		let vis = this;
 
+		// we want to keep the x-axis constant
 		if (!vis.isInit) {
 			vis.x.domain(d3.extent(vis._displayData, d => d.trip_date));
 			vis.y.domain([0, d3.max(vis._displayData, d => d.trip_count)]);
