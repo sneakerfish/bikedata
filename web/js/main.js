@@ -64,6 +64,15 @@ let promises = [
         row.trip_count = +row.trip_count;
         row.distance = +row.distance;
         return row;
+    }),
+    d3.csv('data/round_trips_by_month.csv', row => {
+        row.round_trip_count = +row.round_trip_count;
+        row.trip_count = +row.trip_count;
+        row.start_year = +row.start_year;
+        row.start_month = +row.start_month;
+        row.event_date = parseDate(row.year + "-" + row.month + "-01");
+        row.round_trip_ratio = row.round_trip_count / row.trip_count;
+        return row;
     })
 ];
 
@@ -83,17 +92,21 @@ function createVis(data) {
     let eventData = data[3];
     let monthlySummaryData = data[4];
     let tripStationData = data[5];
+    let roundTripData = data[6];
 
-    let cities = ['sf', 'boston', 'nyc']
+    tripCountTimeSeriesVis = new TimeSeriesVis('tripCountTimeSeriesPlot', 'tripCountTimeSeriesBrush', tripData, eventData, "tripCount", 'trip_count_7d_ma_norm');
+    timeDurationtimeSeriesVis = new TimeSeriesVis('tripDurationTimeSeriesPlot', 'tripDurationTimeSeriesBrush', tripData, eventData, "tripDuration", 'median_trip_duration_minutes');
 
-    timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData, 380)
-    timeline = new TimeSeriesTimeline("timeSeriesBrush", groupByTripDate(tripData))
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
-    forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc')
+    forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc', 800)
 
     let date = new Date("2021-07-01T00:00:00-04:00") // keep -04:00
     windMap = new WindMap(windIds, fromToData, date);
     updateWindmap()
+
+    stackedBar = new StackedAreaVis('stackedAreaChart', monthlySummaryData, 'city',
+        'Stations by city');
+    lineVis = new lineGraphVis('lineGraph', roundTripData);
 
     dayViewBoston = new DayViewRadial('day-view-boston', dayViewData['Boston'], "Boston");
     dayViewNyc = new DayViewRadial('day-view-nyc', dayViewData['NYC'], "NYC");
@@ -133,6 +146,8 @@ function prepDayData(data) {
 }
 
 function updateVisualization() {
+    tripCountTimeSeriesVis.wrangleData();
+    timeDurationtimeSeriesVis.wrangleData()
     timeSeriesVis.wrangleData();
     barVis.wrangleData();
     forceNetworkVis.wrangleData();
@@ -155,14 +170,6 @@ function updateWindmap() {
     } else {
         windMap.filterTime()
     }
-}
-
-function timeSeriesBrushed() {
-    let selectionRange = d3.brushSelection(d3.select(".brush").node());
-    let selectionDomain = selectionRange.map(timeline.x.invert);
-
-    timeSeriesVis.wrangleData(selectionDomain[0], selectionDomain[1]);
-    barVis.onSelectionChange(selectionDomain[0], selectionDomain[1])
 }
 
 let scroller = new Scroller("step");

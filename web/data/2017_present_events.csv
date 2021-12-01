@@ -2,11 +2,10 @@ event_date,city,description
 2020-03-01,nyc,First positive case of COVID-19 detected in NY
 2020-03-20,nyc,New York Governor Cuomo signs the 'New York State on PAUSE' Executive Order - shutting down non-essential businesses state-wide
 2020-05-28,nyc,Beginning of George Floyd protests in NYC
-2020-06-02,nyc,New York City Mayor De Blasio signs emergency executive order for a city-wide curfew from June 3, 2020 to June 8, 2020
+2020-06-02,nyc,"New York City Mayor De Blasio signs emergency executive order for a city-wide curfew from June 3, 2020 to June 8, 2020"
 2020-12-15,nyc,New York begins COVID19 vaccinations
 2021-09-13,nyc,New York City Mayor De Blasio orders all city government workers back into the office 5-days a week
-2021-11-10,nyc,Partnership for New York City finds that Manhattan office workers are at least in the office once a week
-2018-11-08,sf,The Camp Fire (Paradise,CA) begins, air pollution prompting school closures in the Bay Area
+2018-11-08,sf,"The Camp Fire (Paradise,CA) begins, air pollution prompting school closures in the Bay Area"
 2020-03-19,sf,California Governor Newsom signs mandatory STAY AT HOME order
 2020-09-09,sf,San Francisco's skies turn orange due to California wild fire smoke
 2020-12-14,sf,California begins COVID19 vaccinations
@@ -18,4 +17,3 @@ event_date,city,description
 2020-12-15,boston,Massachusetts begins COVID19 vaccinations
 2021-08-06,boston,July 4th Provincetown COVID19 study outbreak published indicating vaccines are effective
 2021-09-01,boston,Harvard Fall in-person (for most schools) semester starts
-2021-10-11,boston,First Boston Marathon since the beginning of the Pandemic is run
