@@ -3,11 +3,13 @@ class lineGraphVis {
 
     constructor(parentElement, data) {
         this.parentElement = parentElement;
-        this.data = data.filter((d) => {
-            return d.start_year >= 2017;
-        });
         this.cities = ["nyc", "boston", "sf"];
+        this.years = [2017, 2018, 2019, 2020, 2021];
         this.title = "Percentage of trips that start and end at the same station"
+
+        this.data = data.filter((d) => {
+            return d.start_year >= this.years[0];
+        });
 
         this.initVis();
     }
@@ -81,13 +83,39 @@ class lineGraphVis {
         vis.wrangleData();
     }
 
+    getSelectedCities() {
+        let vis = this;
+        return vis.cities.filter((c) => {
+            return document.getElementById("line-" + c + "CheckBox").checked;
+        });
+    }
+
+    getSelectedYears() {
+        let vis = this;
+        return vis.years.filter((c) => {
+            return document.getElementById("line-" + c.toString()).checked;
+        });
+    }
+
     wrangleData() {
         let vis = this;
+        let selected_cities = vis.getSelectedCities();
+        let selected_years = vis.getSelectedYears();
+        console.log(selected_years);
 
-        vis.lineData = d3.group(vis.data,
+        vis.filteredData = vis.data.filter(d =>
+            (selected_years.includes(d.start_year) &&
+                selected_cities.includes(d.city))
+        )
+
+        vis.lineData = d3.group(vis.filteredData,
             d => vis.displayStation(d.city) + " " + d.start_year);
 
         vis.updateVis();
+    }
+
+    key(d) {
+        return d[0];
     }
 
     monthName(m) {
@@ -120,9 +148,9 @@ class lineGraphVis {
         let vis = this;
 
         // Draw the line
-        vis.svg.selectAll(".line")
-            .data(vis.lineData)
-            .enter()
+        let lines = vis.svg.selectAll(".line")
+                .data(vis.lineData, vis.key);
+        lines.enter()
             .append("path")
             .attr("fill", "none")
             .attr("class", "line")
@@ -150,5 +178,6 @@ class lineGraphVis {
                     .duration(4000)
                     .style("opacity", 0);
             });
+        lines.exit().remove();
     }
 }
