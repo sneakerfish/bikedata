@@ -29,13 +29,12 @@ class DayViewRadial {
         tryFillSelectionDates(vis.data);
 
         vis.linePlots = [];
-        vis.colors = ["red", "blue", "green", "yellow"]
+        vis.colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00']
         vis.colorUsages = Array(vis.colors.length).fill(0, 0);
 
         vis.margin = {top: 0, right: 10, bottom: 0, left: 10};
         vis.width = document.getElementById("figure").getBoundingClientRect().width / 3 - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById("figure").getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
-        // console.log(vis.width + " " + vis.height)
 
         vis.outerRadius = Math.round(Math.min(vis.width, vis.height) / 2);
         vis.innerRadius = vis.outerRadius / 4;
@@ -140,14 +139,12 @@ class DayViewRadial {
                 vis.displayData.push(vis.data[opt.value]);
             }
         }
-        console.log(vis.displayData.length);
         vis.updateVis();
     }
 
     updateVis() {
         let vis = this;
 
-        console.log(vis.city)
         let maxRiders = 0;
         for (let day of vis.displayData) {
             let max = d3.max(day.map(d => d.riders));
@@ -198,10 +195,11 @@ class DayViewRadial {
         let lines = vis.center
             .selectAll("#"+vis.parentElement+" .day-line")
             .data(vis.displayData, d => {
-                console.log(d[0].date);
                 return d[0].date;
             });
-        console.log(lines.exit()._groups);
+        for (let node of lines.exit()) {
+            vis.freeColor(node.attributes.stroke.nodeValue);
+        }
         lines.exit().remove();
         lines.enter().append("path")
             .attr("class", "day-line")
@@ -213,7 +211,7 @@ class DayViewRadial {
     }
 
     freeColor(color) {
-        let i = this.colors.findIndex(color);
+        let i = this.colors.findIndex(c => c === color);
         if (color < 0) {
             return;
         }
