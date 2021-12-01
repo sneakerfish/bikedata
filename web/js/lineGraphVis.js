@@ -127,7 +127,7 @@ class lineGraphVis {
             .attr("fill", "none")
             .attr("class", "line")
             .attr("stroke", function(d){ return vis.color(d[1][0].city) })
-            .attr("stroke-width", 1.5)
+            .attr("stroke-width", 4)
             .attr("d", function(d){
                 return d3.line()
                     .x(function(d) { return vis.x(d.start_month); })
