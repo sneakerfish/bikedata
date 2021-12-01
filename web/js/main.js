@@ -1,5 +1,4 @@
 let parseDate = d3.timeParse("%Y-%m-%d");
-let parseDateTime = d3.timeParse("%m/%d/%Y %H:%M"); // 3/21/21 19:42
 let parseUTC = d3.utcParse("%Y-%m-%dT%H:%M:%S.%L%Z");
 
 // HTML element ID's for windmap.
@@ -36,9 +35,10 @@ let promises = [
         row.trip_count_14d_ma = +row.trip_count_14d_ma
         return row;
     }),
-    d3.csv("data/2021-03-21 dayview.csv", row => {
-        row.Time = parseDateTime(row.Time)
-        row.Riders = +row.Riders
+    d3.csv("data/minute_summary.csv", row => {
+        row.hour = +row.hour;
+        row.minute = +row.hour * 60 + +row.minute;
+        row.riders = +row.riders;
         return row;
     }),
     d3.csv("data/all_trips_by_date.csv", row => {
@@ -87,7 +87,7 @@ Promise.all(promises)
 function createVis(data) {
 
     let tripData = data[0];
-    let dayViewData = data[1];
+    let dayViewData = prepDayData(data[1]);
     let fromToData = data[2];
     let eventData = data[3];
     let monthlySummaryData = data[4];
@@ -104,18 +104,59 @@ function createVis(data) {
     windMap = new WindMap(windIds, fromToData, date);
     updateWindmap()
 
-    dayView = new DayViewRadial('day-view', dayViewData);
     stackedBar = new StackedAreaVis('stackedAreaChart', monthlySummaryData, 'city',
         'Stations by city');
     lineVis = new lineGraphVis('lineGraph', roundTripData);
+
+    dayViewBoston = new DayViewRadial('day-view-boston', dayViewData['Boston'], "Boston");
+    dayViewNyc = new DayViewRadial('day-view-nyc', dayViewData['NYC'], "NYC");
+    dayViewSf = new DayViewRadial('day-view-sf', dayViewData['SF'], "SF");
+
+    stackedBar = new StackedBarVis('stackedBarChart', monthlySummaryData, 'city');
+}
+
+function groupByTripDate(tripData) {
+    var result = [];
+    tripData.reduce(function(res, value) {
+        if (!res[value.trip_date]) {
+            res[value.trip_date] = { trip_date: value.trip_date, trip_count: 0 };
+            result.push(res[value.trip_date])
+        }
+        res[value.trip_date].trip_count += value.trip_count;
+        return res;
+    }, {});
+
+    result.sort((a,b) => b.trip_date - a.trip_date)
+    return result;
+}
+
+function prepDayData(data) {
+    let map = {
+        "Boston": [],
+        "NYC": [],
+        "SF": []
+    };
+    for (let row of data) {
+        if (map[row.City][row.date] === undefined) {
+            map[row.City][row.date] = [];
+        }
+        map[row.City][row.date].push(row);
+    }
+    return map;
 }
 
 function updateVisualization() {
     tripCountTimeSeriesVis.wrangleData();
     timeDurationtimeSeriesVis.wrangleData()
-    dayView.wrangleData();
+    timeSeriesVis.wrangleData();
     barVis.wrangleData();
     forceNetworkVis.wrangleData();
+}
+
+function updateDayDates() {
+    dayViewBoston.wrangleData();
+    dayViewNyc.wrangleData();
+    dayViewSf.wrangleData();
 }
 
 function updateWindmap() {
