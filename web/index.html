@@ -46,32 +46,27 @@
         </div>
 
         <div id="step3" class="step">
+            <h2>General Trends</h2>
+            <p style="text-align: left">Many of the steep declines in the number of trips appear to be happen over holidays or on a weekend. Leading us to conclude that many people use bike-share systems primarily for their work-commute rather than pleasure</p>
+
             <h2>Bay Area</h2>
             <p style="text-align: left">
-                Unchecking Boston Metro and New York City Metro and viewing only the Bay Area data, we see that the Bay Area's ridership stayed relatively constant since 2017.
-                The system started to grow in terms of number of trips in 2020 but stopped due to COVID19 pandemic. Ridership still hasn't recovered. We suspect it's due to major tech companies
-                such as Apple, Facebook, and Google continuing to support work-from-home policies until at least January 2022.
-                Please hover over the large circles to view interesting events
+                The Bay Area's ridership stayed relatively even until the beginning of 2020 where ridership boomed.
+                However, this growth plummeted due to COVID19 pandemic and has since remained steady.
+                It can be inferred that this might be due to major employers such as Apple, Facebook, and Google are continuing to support work-from-home policies until at least January 2022.
             </p>
 
             <h2>Boston Metro</h2>
             <p style="text-align: left">
-                Uncheck Bay Area and New York City Metro and viewing only the Boston Metro data, we see that Blue Bikes experienced continued steady growth since 2017 with a drop during the start
-                of the COVID19 pandemic. Unlike San Francisco, Boston's ridership in terms of trip appears to have recovered above pre-COVID19 levels.
-
-                Please hover over the large circles to view interesting events.
+                Boston's ridership experienced continued steady growth since 2017 with a drop during the start
+                of the COVID19 pandemic. Unlike the Bay Area, Boston's ridership in terms of trip appears to have recovered above pre-COVID19 levels.
             </p>
 
-            <h2>New York City Metro</h2>
+            <h2>NYC Metro</h2>
             <p style="text-align: left">
-                Uncheck Bay Area and Boston Metro and viewing only the New York City Metro data, we observe that New York City follows a similar pattern to Boston in terms of ridership growth.
-
-                Please hover over the large circles to view interesting events.
+                Ridership in the NYC Metro follows a similar pattern to Boston in terms of ridership growth. This may have also been encouraged by
+                major Wall St employers encouraging workers to come back to the office and the NYC's local government workers being mandated to go back to the office full-time.
             </p>
-
-            <h2>General Trends</h2>
-            <p style="text-align: left">Many of the steep declines in the number of trips appear to be happen over holidays or on a weekend. We suspect that many people use bike-share systems primarily as a mode of transportation
-                for work rather than pleasure</p>
         </div>
         <div id="step4" class="step">
             <h2>General Trends</h2>
@@ -216,68 +211,98 @@
         </div>
 
         <!--step 3-->
-        <div id="tripCountTrends" class="visualization">
-            <form class="form-inline row">
-                <div class="form-group col col-md-auto" style="background-color:#f2f2f2">
-                    <label for="tripCount-timeSeriesDataType" style="font-weight: bold">Chart Data: </label>
-                    <select class="form-control-lg" id="tripCount-timeSeriesDataType" onchange="updateVisualization()">
-                        <option value="trip_count">Trip Count</option>
-                        <option value="trip_count_norm">Trip Count Normalized</option>
-                        <option value="trip_count_7d_ma">Trip Count 7-Day Moving Average</option>
-                        <option value="trip_count_7d_ma_norm">Trip Count 7-Day Moving Average Normalized</option>
-                    </select>
-                    <label style="font-weight: bold">Bike Share System: </label>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="tripCount-sfCheckBox" value="sf"
-                               onclick="updateVisualization()">
-                        <label class="form-check-label sfInputLabel" for="tripCount-sfCheckBox">Bay
-                            Area</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="tripCount-bostonCheckBox" value="boston"
-                               onclick="updateVisualization()">
-                        <label class="form-check-label bostonInputLabel" for="tripCount-bostonCheckBox">Boston Metro</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="tripCount-nycCheckBox" value="nyc"
-                               onclick="updateVisualization()">
-                        <label class="form-check-label nycInputLabel" for="tripCount-nycCheckBox">New York City Metro</label>
-                    </div>
+        <div id="tripCountTrends" class="visualization container-fluid">
+            <div class="row">
+                <div class="col">
+                    <h1 style="padding:0px">How does ridership compare across cities over time?</h1>
                 </div>
-            </form>
-            <div id="tripCountTimeSeriesPlot" class="col"></div>
-            <div class="align-self-center col" id="tripCountTimeSeriesBrush"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <form class="form-inline">
+                        <div class="form-group" style="background-color:#f2f2f2">
+                            <label for="tripCount-timeSeriesDataType" style="font-weight: bold">Chart Data: </label>
+                            <select class="form-control-lg" id="tripCount-timeSeriesDataType" onchange="updateVisualization()">
+                                <option value="trip_count">Trip Count</option>
+                                <option value="trip_count_norm">Trip Count Normalized</option>
+                                <option value="trip_count_7d_ma">Trip Count 7-Day Moving Average</option>
+                                <option value="trip_count_7d_ma_norm">Trip Count 7-Day Moving Average Normalized</option>
+                            </select>
+                            <label style="font-weight: bold; margin-left: 10px;">Bike Share System: </label>
+                            <div class="sfInputLabel d-inline cityCheckBoxDiv">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="tripCount-sfCheckBox" value="sf" onclick="updateVisualization()"/>
+                                    <label class="form-check-label" for="tripCount-sfCheckBox">Bay Area</label>
+                                </div>
+                            </div>
+                            <div class="bostonInputLabel d-inline cityCheckBoxDiv">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="tripCount-bostonCheckBox" value="boston" onclick="updateVisualization()"/>
+                                    <label class="form-check-label" for="tripCount-bostonCheckBox">Boston Metro</label>
+                                </div>
+                            </div>
+                            <div class="nycInputLabel d-inline cityCheckBoxDiv" >
+                                <div class="form-check form-check-inline"">
+                                    <input class="form-check-input" type="checkbox" id="tripCount-nycCheckBox" value="nyc" onclick="updateVisualization()"/>
+                                    <label class="form-check-label" for="tripCount-nycCheckBox">New York City Metro</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div id="tripCountTimeSeriesPlot" class="col"></div>
+            </div>
+            <div class="row">
+                <div class="align-self-center col" id="tripCountTimeSeriesBrush"></div>
+            </div>
         </div>
 
         <!--step 4-->
-        <div id="tripDurationTrends" class="visualization">
-            <form class="form-inline row">
-                <div class="form-group col col-md-auto" style="background-color:#f2f2f2">
-                    <label for="tripDuration-timeSeriesDataType" style="font-weight: bold">Chart Data: </label>
-                    <select class="form-control-lg" id="tripDuration-timeSeriesDataType" onchange="updateVisualization()">
-                        <option value="median_trip_duration_minutes">Median Trip Duration (minutes)</option>
-                    </select>
-                    <label style="font-weight: bold">Bike Share System: </label>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="tripDuration-sfCheckBox" value="sf"
-                               onclick="updateVisualization()">
-                        <label class="form-check-label sfInputLabel" for="tripDuration-sfCheckBox">Bay
-                            Area</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="tripDuration-bostonCheckBox" value="boston"
-                               onclick="updateVisualization()">
-                        <label class="form-check-label bostonInputLabel" for="tripDuration-bostonCheckBox">Boston Metro</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="tripDuration-nycCheckBox" value="nyc"
-                               onclick="updateVisualization()">
-                        <label class="form-check-label nycInputLabel" for="tripDuration-nycCheckBox">New York City Metro</label>
-                    </div>
+        <div id="tripDurationTrends" class="visualization container-fluid">
+            <div class="row">
+                <div class="col">
+                    <h1 style="padding:0px">Which city's residents pedal the longest?</h1>
                 </div>
-            </form>
-            <div id="tripDurationTimeSeriesPlot" class="col"></div>
-            <div class="align-self-center col" id="tripDurationTimeSeriesBrush"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <form class="form-inline row">
+                        <div class="form-group col" style="background-color:#f2f2f2">
+                            <label for="tripDuration-timeSeriesDataType" style="font-weight: bold">Chart Data: </label>
+                            <select class="form-control-lg" id="tripDuration-timeSeriesDataType" onchange="updateVisualization()">
+                                <option value="median_trip_duration_minutes">Median Trip Duration (minutes)</option>
+                            </select>
+                            <label style="font-weight: bold; margin-left: 10px;">Bike Share System: </label>
+                            <div class="sfInputLabel d-inline cityCheckBoxDiv">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="tripDuration-sfCheckBox" value="sf"  onclick="updateVisualization()">
+                                    <label class="form-check-label" for="tripDuration-sfCheckBox">Bay Area</label>
+                                </div>
+                            </div>
+                            <div class="bostonInputLabel d-inline cityCheckBoxDiv">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="tripDuration-bostonCheckBox" value="boston"  onclick="updateVisualization()">
+                                    <label class="form-check-label" for="tripDuration-bostonCheckBox">Boston Metro</label>
+                                </div>
+                            </div>
+                            <div class="nycInputLabel d-inline cityCheckBoxDiv">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="tripDuration-nycCheckBox" value="nyc"  onclick="updateVisualization()">
+                                    <label class="form-check-label" for="tripDuration-nycCheckBox">New York City Metro</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div id="tripDurationTimeSeriesPlot" class="col"></div>
+            </div>
+            <div class="row">
+                <div class="align-self-center col" id="tripDurationTimeSeriesBrush"></div>
+            </div>
         </div>
 
         <!--step 5-->

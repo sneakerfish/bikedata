@@ -68,7 +68,7 @@ div.tooltip {
     position: absolute;
     text-align: left;
     width: 300px;
-    height: 100px;
+    height: 70px;
     padding: 2px;
     font: 12px sans-serif;
     background: #F3E779;
@@ -81,12 +81,30 @@ div.tooltip {
     fill: #b3995d;
 }
 
+.sf-point-event {
+    fill: lightgrey;
+    stroke: #b3995d;
+    stroke-width: 4px;
+}
+
 .nyc-point {
     fill: #041E42;
 }
 
+.nyc-point-event {
+    fill: lightgrey;
+    stroke: #041E42;
+    stroke-width: 4px;
+}
+
 .boston-point {
     fill: #FB4D42;
+}
+
+.boston-point-event {
+    fill: lightgrey;
+    stroke: #FB4D42;
+    stroke-width: 4px;
 }
 
 .sf-node {
@@ -230,6 +248,10 @@ section h1 {
     color: green;
 }
 
+.brushAreaPath {
+    fill: #ccc;
+}
+
 div.small-tooltip {
     position: absolute;
     text-align: left;
@@ -241,4 +263,34 @@ div.small-tooltip {
     border: 0px;
     border-radius: 8px;
     pointer-events: none;
+}
+
+.cityCheckBoxDiv {
+    padding-left: 5px;
+    padding-top:3px;
+    padding-bottom: 3px;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+.hover_line {
+    stroke: green;
+    stroke-width: 4;
+    stroke-dasharray: 0.5em;
+}
+
+.tooltip_group {
+}
+
+.hover_date_text {
+    font: 12px sans-serif;
+    text-anchor: start;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.hover_data_text {
+    font: 12px sans-serif;
+    text-anchor: start;
+    font-weight: bold;
 }
