@@ -67,7 +67,7 @@ class DayViewRadial {
         let angles = [0, 45, 90, 135, 180, 225, 270, 315];
         //inner ticks for time axis
         vis.xTick = vis.center
-            .selectAll(".xTick")
+            .selectAll("#"+vis.parentElement+" .xTick")
             .data(angles)
             .enter().append("g")
             .attr("class", "xTick")
@@ -83,7 +83,7 @@ class DayViewRadial {
 
         //inner tick labels for time x axis
         vis.xLabel = vis.center
-            .selectAll(".xLabelText")
+            .selectAll("#"+vis.parentElement+" .xLabelText")
             .data(angles)
             .enter().append("g")
             .attr("class", "xLabelText")
