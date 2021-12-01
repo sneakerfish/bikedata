@@ -2,6 +2,19 @@
 //for general radial line https://stackoverflow.com/a/58807542
 //for inner xTicks https://bl.ocks.org/tlfrd/fd6991b2d1947a3cb9e0bd20053899d6
 
+function tryFillSelectionDates(data) {
+    let selection = d3.select("#day-view-selection");
+    if (!selection.text().trim().length) {
+        let count = 0;
+        for (let row in data) {
+            selection.append("option")
+                .attr("selected", count++ < 2 ? "selected" : null)
+                .attr("value", row)
+                .text(row);
+        }
+    }
+}
+
 class DayViewRadial {
     constructor(parentElement, data, city) {
         this.parentElement = parentElement;
@@ -13,11 +26,7 @@ class DayViewRadial {
     initVis() {
         let vis = this;
 
-        let selection = d3.select("#day-view-selection");
-        let count = 0;
-        for (let row in vis.data) {
-            selection.append("option").attr("selected", count++ < 2 ? "selected" : null).attr("value", row).text(row);
-        }
+        tryFillSelectionDates(vis.data);
 
         vis.linePlots = [];
         vis.colors = ["red", "blue", "green", "yellow"]
@@ -131,7 +140,7 @@ class DayViewRadial {
                 vis.displayData.push(vis.data[opt.value]);
             }
         }
-
+        console.log(vis.displayData.length);
         vis.updateVis();
     }
 
@@ -151,8 +160,10 @@ class DayViewRadial {
         //outer circles for axis
         const interval = Math.ceil(maxRiders / 250) * 50;
         let intervals = []
-        for (let i = 0; i <= maxRiders; i += interval) {
-            intervals.push(i);
+        if (interval > 0) {
+            for (let i = 0; i <= maxRiders; i += interval) {
+                intervals.push(i);
+            }
         }
 
         let grayCircs = vis.center
