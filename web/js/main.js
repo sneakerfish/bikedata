@@ -94,6 +94,18 @@ function createVis(data) {
     let tripStationData = data[5];
     let roundTripData = data[6];
 
+    // Create event handler
+    let eventHandler = {
+        bind: (eventName, handler) => {
+            document.body.addEventListener(eventName, handler);
+        },
+        trigger: (eventName, extraParameters) => {
+            document.body.dispatchEvent(new CustomEvent(eventName, {
+                detail: extraParameters
+            }));
+        }
+    }
+
     tripCountTimeSeriesVis = new TimeSeriesVis('tripCountTimeSeriesPlot', 'tripCountTimeSeriesBrush', tripData, eventData, "tripCount", 'trip_count_7d_ma_norm');
     timeDurationtimeSeriesVis = new TimeSeriesVis('tripDurationTimeSeriesPlot', 'tripDurationTimeSeriesBrush', tripData, eventData, "tripDuration", 'median_trip_duration_minutes');
 
@@ -111,8 +123,6 @@ function createVis(data) {
     dayViewBoston = new DayViewRadial('day-view-boston', dayViewData['Boston'], "Boston");
     dayViewNyc = new DayViewRadial('day-view-nyc', dayViewData['NYC'], "NYC");
     dayViewSf = new DayViewRadial('day-view-sf', dayViewData['SF'], "SF");
-
-    stackedBar = new StackedBarVis('stackedBarChart', monthlySummaryData, 'city');
 }
 
 function groupByTripDate(tripData) {
@@ -143,14 +153,24 @@ function prepDayData(data) {
         map[row.City][row.date].push(row);
     }
     return map;
+
+    dayView = new DayViewRadial('day-view', dayViewData);
+    lineVis = new lineGraphVis('lineGraph', roundTripData);
+    stackedBar = new StackedAreaVis('stackedAreaChart', monthlySummaryData, 'city',
+        'Stations by city');
+
+    // Bind the event handler for the resize event
+    eventHandler.bind("resize", function(event) {
+        stackedBar.resize();
+    })
 }
 
 function updateVisualization() {
     tripCountTimeSeriesVis.wrangleData();
     timeDurationtimeSeriesVis.wrangleData()
-    timeSeriesVis.wrangleData();
     barVis.wrangleData();
     forceNetworkVis.wrangleData();
+    lineVis.wrangleData();
 }
 
 function updateDayDates() {
