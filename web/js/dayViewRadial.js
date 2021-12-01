@@ -42,6 +42,7 @@ class DayViewRadial {
         // Scales and axes
         vis.x = d3.scaleLinear()
             .range([-Math.PI, Math.PI])
+            .domain([0, 1440]);
 
         vis.y = d3.scaleLinear()
             .range([vis.innerRadius, vis.outerRadius])
@@ -63,15 +64,16 @@ class DayViewRadial {
             .attr("cy", 0)
             .attr("r", vis.innerRadius);
 
+        let angles = [0, 45, 90, 135, 180, 225, 270, 315];
         //inner ticks for time axis
         vis.xTick = vis.center
             .selectAll(".xTick")
-            .data(vis.x.ticks(8))
+            .data(angles)
             .enter().append("g")
             .attr("class", "xTick")
             .attr("text-anchor", "middle")
             .attr("transform", function(d) {
-                return "rotate(" + ((vis.x(d)) * 180 / Math.PI - 90) + ")translate(" + vis.innerRadius + ",0)";
+                return "rotate(" + d + ")translate(" + vis.innerRadius + ",0)";
             });
 
         vis.xTick.append("line")
@@ -82,21 +84,21 @@ class DayViewRadial {
         //inner tick labels for time x axis
         vis.xLabel = vis.center
             .selectAll(".xLabelText")
-            .data(vis.x.ticks(8))
+            .data(angles)
             .enter().append("g")
             .attr("class", "xLabelText")
             .attr("text-anchor", "middle");
 
-        let hourFormat = d3.timeFormat("%H");
+        let hourLabels = ["12:00", "15:00", "18:00", "21:00", "00:00", "3:00", "6:00", "9:00"];
         vis.xLabel
             .append("text")
-            .attr("transform", function (d) {
-                var angle = vis.x(d);
-                let x = (0.88 * vis.innerRadius) * -Math.sin(angle + Math.PI);
-                let y = 3 + (0.88 * vis.innerRadius) * Math.cos(angle + Math.PI);
+            .attr("transform", d => {
+                var angle = Math.PI * d / 180;
+                let x = (0.77 * vis.innerRadius) * -Math.sin(angle + Math.PI);
+                let y = 3 + (0.77 * vis.innerRadius) * Math.cos(angle + Math.PI);
                 return "translate(" + x + "," + y + ")"
             })
-            .text(d => hourFormat(d))
+            .text((d, i) => hourLabels[i])
             .style("font-size", 10)
             .attr("opacity", 0.6)
 
@@ -136,8 +138,7 @@ class DayViewRadial {
     updateVis() {
         let vis = this;
 
-        vis.x.domain([0, 1440]);
-
+        console.log(vis.city)
         let maxRiders = 0;
         for (let day of vis.displayData) {
             let max = d3.max(day.map(d => d.riders));
@@ -155,7 +156,7 @@ class DayViewRadial {
         }
 
         let grayCircs = vis.center
-            .selectAll(".gray-circs")
+            .selectAll("#"+vis.parentElement+" .gray-circs")
             .data(intervals, d => d);
         grayCircs.exit().remove();
         grayCircs.enter()
@@ -171,7 +172,7 @@ class DayViewRadial {
             .attr("r", d => vis.y(d));
 
         let grayText = vis.center
-            .selectAll(".circ-text")
+            .selectAll("#"+vis.parentElement+" .circ-text")
             .data(intervals.filter((d, i) => i > 0), d => d);
         grayText.exit().remove();
         grayText.enter()
@@ -184,7 +185,7 @@ class DayViewRadial {
             .text(d => d);
 
         let lines = vis.center
-            .selectAll(".day-line")
+            .selectAll("#"+vis.parentElement+" .day-line")
             .data(vis.displayData, d => {
                 console.log(d[0].date);
                 return d[0].date;
