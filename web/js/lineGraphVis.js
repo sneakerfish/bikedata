@@ -101,7 +101,6 @@ class lineGraphVis {
         let vis = this;
         let selected_cities = vis.getSelectedCities();
         let selected_years = vis.getSelectedYears();
-        console.log(selected_years);
 
         vis.filteredData = vis.data.filter(d =>
             (selected_years.includes(d.start_year) &&

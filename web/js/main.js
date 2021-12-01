@@ -168,7 +168,6 @@ function prepDayData(data) {
 function updateVisualization() {
     tripCountTimeSeriesVis.wrangleData();
     timeDurationtimeSeriesVis.wrangleData()
-    timeSeriesVis.wrangleData();
     barVis.wrangleData();
     forceNetworkVis.wrangleData();
     lineVis.wrangleData();
