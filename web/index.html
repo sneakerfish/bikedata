@@ -20,7 +20,7 @@
 </section>
 <section id="scrolly">
     <article>
-        <div class="step">
+        <div id="step1" class="step">
             <h1>Introduction: Bike Share Systems by the Numbers</h1>
 
             <p style="text-align: left">There has been many studies and analysis on individual bike-share systems but not many visualizations that compare these systems side-by-side in a visual way. Our team's goal is to present to you
@@ -35,7 +35,7 @@
             <p style="text-align: left">New York City's system is significantly more extensive in terms of number of stations when compared to the other programs but supports a much larger population.</p>
         </div>
 
-        <div class="step">
+        <div id="step2" class="step">
             <h2>Bike-share System Trends Across Time</h2>
 
             <p style="text-align: left">
@@ -46,7 +46,7 @@
             </p>
         </div>
 
-        <div class="step">
+        <div id="step3" class="step">
             <h2>Bay Area</h2>
             <p style="text-align: left">
                 Unchecking Boston Metro and New York City Metro and viewing only the Bay Area data, we see that the Bay Area's ridership stayed relatively constant since 2017.
@@ -81,8 +81,10 @@
                 More interesting events, better tooltip support, and smoother story telling are forthcoming.
             </p>
         </div>
-
-        <div class="step">
+        <div id="step4" class="step">
+            <h2>Network</h2>
+        </div>
+        <div id="step5" class="step">
             <h2>Where are cyclists going on a typical day at a particular time?</h2>
             <p style="text-align: left">
                 Using the slider and region area buttons, we can examine movement across cities on a typical day.
@@ -90,14 +92,14 @@
             </p>
         </div>
 
-        <div class="step">
+        <div id="step6" class="step">
             <h2>How many people are riding during a typical day (Boston Day View 21st March 2021)?</h2>
             <p style="text-align: left">
                 Examining this radar polar coordinate plot that shows ridership across time, we see that the number of riders increases during business hours and decreases in the late evening.
             </p>
         </div>
 
-        <div class="step">
+        <div id="step7" class="step">
             <h2>Concluding Statements</h2>
             <p style="text-align: left">
                 We can see that bike-share ridership has steadily grown since 2017. We also expect that as companies begin to recall their workers back to the office that ridership will continue to grow and this
@@ -111,6 +113,7 @@
     </article>
     <!-- for showing figures during scrolling -->
     <figure id="figure">
+        <!--step 1-->
         <div id="summary" class="visualization">
             <!--https://en.wikipedia.org/wiki/Bay_Wheels#/media/File:Bay_Wheels_logo.png-->
             <!--https://upload.wikimedia.org/wikipedia/commons/e/e1/Bluebikes_Logo.svg-->
@@ -189,10 +192,13 @@
             </table>
         </div>
 
+        <!--step 2-->
         <div id="aggregate" class="visualization">
-            <div id="aggregateBarChart"></div>
+            <div id="aggregateBarChart" class="partview"></div>
+            <div id="stackedBarChart" class="partview"></div>
         </div>
 
+        <!--step 3-->
         <div id="trends" class="visualization">
             <form class="form-inline row">
                 <div class="form-group col col-md-auto" style="background-color:#f2f2f2">
@@ -211,31 +217,56 @@
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="sfCheckBox" value="sf"
                                onclick="updateVisualization()" checked>
-                        <label class="form-check-label" for="sfCheckBox" style="background-color: #b3995d;color: white">Bay
+                        <label class="form-check-label sfInputLabel" for="sfCheckBox">Bay
                             Area</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="bostonCheckBox" value="boston"
                                onclick="updateVisualization()" checked>
-                        <label class="form-check-label" for="bostonCheckBox"
-                               style="background-color: #FB4D42;color: white">Boston Metro</label>
+                        <label class="form-check-label bostonInputLabel" for="bostonCheckBox">Boston Metro</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="nycCheckBox" value="nyc"
                                onclick="updateVisualization()" checked>
-                        <label class="form-check-label" for="nycCheckBox"
-                               style="background-color: #041E42;color: white">New York City Metro</label>
+                        <label class="form-check-label nycInputLabel" for="nycCheckBox"
+                               >New York City Metro</label>
                     </div>
                 </div>
             </form>
-
-            <!-- Parent container for the visualization -->
             <div id="chart-area" class="col"></div>
-            <!-- brush -->
-
             <div class="align-self-center col" id="timeSeriesBrush"></div>
         </div>
 
+        <!--step 4-->
+        <div id="forceNetwork" class="visualization">
+            <h2>Force Network</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="cityNetworkRadioOptions" id="sfNetworkRadio" value="sf" checked onclick="updateVisualization()">
+                        <label class="form-check-label sfInputLabel" for="sfNetworkRadio">Bay Area</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="cityNetworkRadioOptions" id="bostonNetworkRadio" value="boston" onclick="updateVisualization()">
+                        <label class="form-check-label bostonInputLabel" for="bostonNetworkRadio">Boston Metro</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="cityNetworkRadioOptions" id="nycNetworkRadio" value="nyc" onclick="updateVisualization()">
+                        <label class="form-check-label nycInputLabel" for="nycNetworkRadio">NYC Metro</label>
+                    </div>
+                    <div class="form-inline">
+                        <label for="topStations" id="topStationsLabel">Top Most Frequented Stations</label>
+                        <input type="range" class="form-range" min="1" max="100" id="topStations" value="20" onchange="updateVisualization()" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Parent container for the visualization -->
+                <div id="forceStationNetworkArea" class="col" style="height:600px"></div>
+            </div>
+        </div>
+
+        <!--step 5-->
         <div id="wind" class="visualization">
             <h2>Overall movement of cyclists at <span id="showWindTime"></span> </h2></br>
             City: <span class="inline-input"> <input type="radio" checked id="boston" name="singleCity" value="boston" onclick="updateWindmap()">
@@ -254,6 +285,7 @@
             <div id="wind-map"></div>
         </div>
 
+        <!--step 6-->
         <div id="radial" class="visualization">
             <div class="container-fluid">
                 <form>
@@ -277,6 +309,11 @@
             </div>
         </div>
 
+        <!--step 7-->
+        <div id="conclusion" class="visualization">
+            <h2>Concluding Thoughts</h2>
+        </div>
+
     </figure>
 
 </section>
@@ -298,12 +335,14 @@
 <script src="https://unpkg.com/scrollama"></script>
 
 <!-- Your implementation -->
+<script src="js/forceNetworkVis.js"></script>
 <script src="js/barVis.js"></script>
 <script src="js/windMap.js"></script>
 <script src="js/timeSeriesVis.js"></script>
 <script src="js/timeSeriesTimeline.js"></script>
 <script src="js/dayView.js"></script>
 <script src="js/dayViewRadial.js"></script>
+<script src="js/stackedBarVis.js"></script>
 <script src="js/scroller.js"></script>
 <script src="js/main.js"></script>
 </body>

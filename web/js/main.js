@@ -1,6 +1,4 @@
 let parseDate = d3.timeParse("%Y-%m-%d");
-let parseTimeDayview = d3.timeParse("%H:%M");
-let parseDateDayview = d3.timeParse("%m/%d/%Y");
 let parseUTC = d3.utcParse("%Y-%m-%dT%H:%M:%S.%L%Z");
 
 // HTML element ID's for windmap.
@@ -51,6 +49,21 @@ let promises = [
     d3.csv("data/2017_present_events.csv", row => {
         row.event_date = parseDate(row.event_date)
         return row;
+    }),
+    d3.csv("data/summary_by_city_by_month.csv", row => {
+        row.station_count = +row.station_count;
+        row.event_date = parseDate(row.year + "-" + row.month + "-01");
+        row.trip_count = +row.trip_count;
+        row.average_duration = +row.average_duration;
+        row.year = +row.year;
+        row.month = +row.month;
+        return row;
+    }),
+    d3.csv('data/2017_present_trips.csv', row => {
+        delete row[""]
+        row.trip_count = +row.trip_count;
+        row.distance = +row.distance;
+        return row;
     })
 ];
 
@@ -67,13 +80,16 @@ function createVis(data) {
     let tripData = data[0];
     let dayViewData = prepDayData(data[1]);
     let fromToData = data[2];
-    let eventData = data[3]
+    let eventData = data[3];
+    let monthlySummaryData = data[4];
+    let tripStationData = data[5];
 
     let cities = ['sf', 'boston', 'nyc']
 
     timeSeriesVis = new TimeSeriesVis('chart-area', tripData, cities, eventData, 380)
     timeline = new TimeSeriesTimeline("timeSeriesBrush", groupByTripDate(tripData))
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
+    forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc')
 
     let date = new Date("2021-07-01T00:00:00-04:00") // keep -04:00
     windMap = new WindMap(windIds, fromToData, date);
@@ -82,6 +98,8 @@ function createVis(data) {
     dayViewBoston = new DayViewRadial('day-view-boston', dayViewData['Boston'], "Boston");
     dayViewNyc = new DayViewRadial('day-view-nyc', dayViewData['NYC'], "NYC");
     dayViewSf = new DayViewRadial('day-view-sf', dayViewData['SF'], "SF");
+
+    stackedBar = new StackedBarVis('stackedBarChart', monthlySummaryData, 'city');
 }
 
 function groupByTripDate(tripData) {
@@ -117,6 +135,7 @@ function prepDayData(data) {
 function updateVisualization() {
     timeSeriesVis.wrangleData();
     barVis.wrangleData();
+    forceNetworkVis.wrangleData();
 }
 
 function updateDayDates() {
