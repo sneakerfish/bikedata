@@ -240,7 +240,7 @@ class TimeSeriesPlotVis {
     updateCityVis(city) {
         let vis = this;
 
-        let cityData = vis.filteredDataMap.get(city);
+        let cityData = vis.filteredDataMap.has(city) ? vis.filteredDataMap.get(city) : [];
 
         let cityEventData = vis.filteredEventData.filter(d => d.city == city)
 
@@ -311,7 +311,7 @@ class TimeSeriesPlotVis {
             })
             .on("mouseout", function(event, d) {
                 vis.div.transition()
-                    .duration(4000)
+                    .duration(1000)
                     .style("opacity", 0);
             });
 
@@ -339,26 +339,29 @@ class TimeSeriesPlotVis {
             let endDates = [];
 
             vis.cities.forEach(city => {
-                let filteredData = vis.filteredDataMap.get(city);
-                startDates.push(filteredData[0].trip_date);
-                endDates.push(filteredData[filteredData.length - 1].trip_date);
+                if (vis.filteredDataMap.has(city)) {
+                    let filteredData = vis.filteredDataMap.get(city);
+                    if (filteredData.length > 0) {
+                        startDates.push(filteredData[0].trip_date);
+                        endDates.push(filteredData[filteredData.length - 1].trip_date);
+                    }
+                }
             });
 
             let startDate = d3.min(startDates);
             let endDate = d3.max(endDates);
 
-            if (TIME_SERIES_VIS_DEBUG) {
-                console.log('Start Date', startDate, 'End Date', endDate);
+            if (startDate == undefined && endDate == undefined) {
+                vis.x.domain([])
+            } else {
+                vis.x.domain([startDate, endDate])
+                vis.xGridLines
+                    .call(d3.axisBottom(vis.x)
+                        .tickValues(tickValues)
+                        .tickSize(-vis.height)
+                        .tickFormat("")
+                    );
             }
-
-            vis.x.domain([startDate, endDate])
-
-            vis.xGridLines
-                .call(d3.axisBottom(vis.x)
-                    .tickValues(tickValues)
-                    .tickSize(-vis.height)
-                    .tickFormat("")
-                );
         }
 
         vis.yGridLines
