@@ -15,8 +15,8 @@ class ForceNetworkVis {
         let vis = this;
 
         vis.margin = {top: 20, right: 30, bottom: 20, left: 100};
-        vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        let computedHeight = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().height;
+        vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+        let computedHeight = document.getElementById(vis.parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().height;
         computedHeight = vis.maxHeight > computedHeight ? computedHeight : vis.maxHeight;
         vis.height = computedHeight - vis.margin.top - vis.margin.bottom;
 
