@@ -29,7 +29,7 @@ class DayViewRadial {
         tryFillSelectionDates(vis.data);
 
         vis.linePlots = [];
-        vis.colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00']
+        vis.colors = ["#1f77b4","#ff7f0e","#2ca02c","#d62728","#9467bd","#8c564b","#e377c2","#7f7f7f","#bcbd22","#17becf"];
         vis.colorUsages = Array(vis.colors.length).fill(0, 0);
 
         vis.margin = {top: 0, right: 10, bottom: 0, left: 10};
@@ -97,13 +97,14 @@ class DayViewRadial {
             .attr("class", "xLabelText")
             .attr("text-anchor", "middle");
 
-        let hourLabels = ["12:00", "15:00", "18:00", "21:00", "00:00", "3:00", "6:00", "9:00"];
+        let hourLabels = ["00:00", "3:00", "6:00", "9:00", "12:00", "15:00", "18:00", "21:00"];
         vis.xLabel
             .append("text")
+            .attr("text-anchor", "middle")
             .attr("transform", d => {
                 var angle = Math.PI * d / 180;
-                let x = (0.77 * vis.innerRadius) * -Math.sin(angle + Math.PI);
-                let y = 3 + (0.77 * vis.innerRadius) * Math.cos(angle + Math.PI);
+                let x = (0.7 * vis.innerRadius) * -Math.sin(angle + Math.PI);
+                let y = 3 + (0.7 * vis.innerRadius) * Math.cos(angle + Math.PI);
                 return "translate(" + x + "," + y + ")"
             })
             .text((d, i) => hourLabels[i])
@@ -113,7 +114,7 @@ class DayViewRadial {
         vis.xLabel = vis.center
             .append("text")
             .attr("x", 0)
-            .attr("y", 0)
+            .attr("y", 3)
             .attr("text-anchor", "middle")
             .text("Time")
 
