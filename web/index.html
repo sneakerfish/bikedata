@@ -81,6 +81,29 @@
                 In the Boston and NYC Metros which have four distinct seasons, it is clear that cyclist take longer rides as the weather gets warmer.
                 In contrast, the Bay Area which has more consistent temperatures does not experience the same seasonality in ridership.
             </p>
+            <p style="text-align: left">
+            <h2>Weekly pattern</h2>
+            Use the brush tool below the chart to zoom in during a month. Are people riding longer periods during the weekend or the weekdays?
+            </p>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-right1"
+                    aria-expanded="false" aria-controls="collapse-right1" onclick="getElementById('collapse-wrong1').classList.remove('show')">
+                Weekends
+            </button>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-wrong1"
+                    aria-expanded="false" aria-controls="collapse-wrong1" onclick="getElementById('collapse-right1').classList.remove('show')">
+                Weekdays
+            </button>
+            <div class="collapse" id="collapse-right1">
+                <div class="card card-body">
+                    Correct! People ride for longer during the weekend on average.
+                </div>
+            </div>
+            <div class="collapse" id="collapse-wrong1">
+                <div class="card card-body">
+                    Check again. The majority of the time people are riding for longer durations during the weekend on average.
+                    Make sure you use the brush tool to zoom in and you can hover over the chart to see the day of the week.
+                </div>
+            </div>
         </div>
         <div id="step5" class="step">
 
