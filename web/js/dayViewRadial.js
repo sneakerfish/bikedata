@@ -79,7 +79,6 @@ class DayViewRadial {
             .data(angles)
             .enter().append("g")
             .attr("class", "xTick")
-            .attr("text-anchor", "middle")
             .attr("transform", function(d) {
                 return "rotate(" + d + ")translate(" + vis.innerRadius + ",0)";
             });
@@ -87,6 +86,26 @@ class DayViewRadial {
         vis.xTick.append("line")
             .attr("x2", -5)
             .attr("stroke", "black");
+
+        //outer ticks for time axis
+        let angles2 = [];
+        for (let i = 0; i < 360; i += 360 / 24) {
+            angles2.push(i);
+        }
+        vis.xGrayTick = vis.center
+            .selectAll("#"+vis.parentElement+" .xGrayTick")
+            .data(angles2)
+            .enter().append("g")
+            .attr("class", "xGrayTick")
+            .attr("transform", function(d) {
+                return "rotate(" + d + ")translate(" + vis.innerRadius + ",0)";
+            });
+
+        vis.xGrayTick.append("line")
+            .attr("x2", vis.outerRadius - vis.innerRadius)
+            .attr("opacity", 0.2)
+            .attr("stroke-width", 1)
+            .attr("stroke", "grey")
 
 
         //inner tick labels for time x axis
@@ -174,7 +193,7 @@ class DayViewRadial {
             .attr("fill", "none")
             .attr("cx", 0)
             .attr("cy", 0)
-            .attr("opacity", 0.4)
+            .attr("opacity", 0.2)
             .attr("stroke-width", 1)
             .attr("stroke", "grey")
             .merge(grayCircs)
