@@ -178,12 +178,10 @@ function timeSeriesEventHandling(step, sfCheckBox, bostonCheckBox, nycCheckBox) 
     var targetNode = document.getElementById(step);
 
     var observer = new MutationObserver(function(){
-        console.log()
         if(targetNode.className == "step is-active"){
             document.getElementById('tripCount-nycCheckBox').checked = nycCheckBox;
             document.getElementById('tripCount-bostonCheckBox').checked = bostonCheckBox;
             document.getElementById('tripCount-sfCheckBox').checked = sfCheckBox;
-            console.log('hi!');
             tripCountTimeSeriesVis.wrangleData();
         }
     });
