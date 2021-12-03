@@ -147,10 +147,10 @@ function prepDayData(data) {
         "SF": []
     };
     for (let row of data) {
-        if (map[row.City][row.date] === undefined) {
-            map[row.City][row.date] = [];
+        if (map[row.city][row.date] === undefined) {
+            map[row.city][row.date] = [];
         }
-        map[row.City][row.date].push(row);
+        map[row.city][row.date].push(row);
     }
     return map;
 
