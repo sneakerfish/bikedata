@@ -153,16 +153,6 @@ function prepDayData(data) {
         map[row.city][row.date].push(row);
     }
     return map;
-
-    dayView = new DayViewRadial('day-view', dayViewData);
-    lineVis = new lineGraphVis('lineGraph', roundTripData);
-    stackedBar = new StackedAreaVis('stackedAreaChart', monthlySummaryData, 'city',
-        'Stations by city');
-
-    // Bind the event handler for the resize event
-    eventHandler.bind("resize", function(event) {
-        stackedBar.resize();
-    })
 }
 
 function updateVisualization() {
