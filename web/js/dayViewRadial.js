@@ -49,7 +49,7 @@ class DayViewRadial {
 
         // Scales and axes
         vis.x = d3.scaleLinear()
-            .range([-Math.PI, Math.PI])
+            .range([0, 2 * Math.PI])
             .domain([0, 1440]);
 
         vis.y = d3.scaleLinear()
