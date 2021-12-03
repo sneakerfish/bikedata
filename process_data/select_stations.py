@@ -6,9 +6,7 @@ from pyspark.sql.types import StructType, StructField, StringType, DoubleType, I
 from pyspark.sql.functions import expr, col, column, lit, to_date, coalesce, to_timestamp
 from graphframes import GraphFrame
 
-def to_timestamp_(col, formats=("MM/dd/yyyy hh:mm:ss", "yyyy-MM-dd hh:mm:ss")):
-    # Spark 2.2 or later syntax, for < 2.2 use unix_timestamp and cast
-    return coalesce(*[to_timestamp(col, f) for f in formats])
+from my_timestamp import to_timestamp_
 
 spark = SparkSession.builder.appName("Sample bike data").getOrCreate()
 spark.sql("set spark.sql.legacy.timeParserPolicy=LEGACY")

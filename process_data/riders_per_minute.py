@@ -54,6 +54,8 @@ class RidersPerMinuteDay:
     def count(self, start_time, end_time):
         day_start = datetime.datetime.date(start_time)
         day_end = datetime.datetime.date(end_time)
+        if (day_end - day_start).days > 1:
+            day_end = day_start + datetime.timedelta(days=1)  # One day max
         if not (day_start in self.days):
             self.days[day_start] = RidersPerMinute(day_start)
         if not (day_end in self.days):
@@ -63,7 +65,6 @@ class RidersPerMinuteDay:
         self.days[day_start].count(start_time, end_time)
 
     def days_counted(self):
-        print("keys: ", self.days.keys)
         return list(self.days.keys())
 
     def get_minute(self, day, hour, minute):
@@ -73,6 +74,30 @@ class RidersPerMinuteDay:
             return 0
 
 
+class RidersPerMinuteDayCity:
+    def __init__(self):
+        self.cities = {}
+
+    def count(self, city, start_time, end_time):
+        if not (city in self.cities):
+            self.cities[city] = RidersPerMinuteDay()
+        self.cities[city].count(start_time, end_time)
+
+    def cities_counted(self):
+        return list(self.cities.keys())
+
+    def days_counted(self, city):
+        if city in self.cities_counted():
+            return self.cities[city].days_counted()
+        else:
+            return 0
+
+    def get_minute(self, city, day, hour, minute):
+        if city in self.cities:
+            return self.cities[city].get_minute(day, hour, minute)
+        else:
+            return 0
+
 
 if __name__ == "__main__":
     input_filename = sys.argv[1]
@@ -80,20 +105,22 @@ if __name__ == "__main__":
         print("File {} doesn't exist.".format(input_filename))
         exit(1)
 
-    rpmd = RidersPerMinuteDay()
+    rpmd = RidersPerMinuteDayCity()
     with open(input_filename) as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in csvreader:
+            city = row["city"]
             start_time = datetime.datetime.fromisoformat(row["trip_start"])
             end_time = datetime.datetime.fromisoformat(row["trip_end"])
-            rpmd.count(start_time, end_time)
+            rpmd.count(city, start_time, end_time)
 
-    for dt in rpmd.days_counted():
-        filename_prefix = os.path.splitext(input_filename)[0]
-        output_filename = "{}_{}{:02}{:02}.csv".format(filename_prefix, dt.year, dt.month, dt.day)
-        with open(output_filename, "w") as csvfile:
-            csvwriter = csv.writer(csvfile)
-            csvwriter.writerow(["date", "hour", "minute", "riders"])
-            for hr in range(24):
-                for mn in range(60):
-                    csvwriter.writerow([dt, hr, mn, rpmd.get_minute(dt,     hr, mn)])
+    filename_prefix = os.path.splitext(input_filename)[0]
+    output_filename = "{}_output.csv".format(filename_prefix)
+    with open(output_filename, "w") as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(["city", "date", "hour", "minute", "riders"])
+        for city in rpmd.cities_counted():
+            for dt in rpmd.days_counted(city):
+                for hr in range(24):
+                    for mn in range(60):
+                        csvwriter.writerow([city, dt, hr, mn, rpmd.get_minute(city, dt, hr, mn)])

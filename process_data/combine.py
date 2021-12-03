@@ -73,7 +73,7 @@ for city in ['boston', 'nyc', 'sf']:
 
   dfunion = dfunion.union(df)
 
-for city in ['nyc', 'sf']:
+for city in ['boston', 'nyc', 'sf']:
   df = spark.read.option("header", True).csv("rawdata/" + city + "/alternate/*.csv", alternate_schema)
   df = df.withColumn('city', lit(city))\
     .drop(col("rideable_type"))\
