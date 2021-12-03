@@ -107,6 +107,8 @@ function createVis(data) {
     }
 
     tripCountTimeSeriesVis = new TimeSeriesVis('tripCountTimeSeriesPlot', 'tripCountTimeSeriesBrush', tripData, eventData, "tripCount", 'trip_count_7d_ma_norm');
+    timeSeriesEventStepper();
+
     timeDurationtimeSeriesVis = new TimeSeriesVis('tripDurationTimeSeriesPlot', 'tripDurationTimeSeriesBrush', tripData, eventData, "tripDuration", 'median_trip_duration_minutes');
 
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
@@ -164,6 +166,31 @@ function prepDayData(data) {
         stackedBar.resize();
     })
 }
+
+function timeSeriesEventStepper() {
+    timeSeriesEventHandling("step3a", true, true, true)
+    timeSeriesEventHandling("step3b", true, false, false)
+    timeSeriesEventHandling("step3c", false, true, false);
+    timeSeriesEventHandling("step3d", false, false, true);
+}
+
+function timeSeriesEventHandling(step, sfCheckBox, bostonCheckBox, nycCheckBox) {
+    var targetNode = document.getElementById(step);
+
+    var observer = new MutationObserver(function(){
+        console.log()
+        if(targetNode.className == "step is-active"){
+            document.getElementById('tripCount-nycCheckBox').checked = nycCheckBox;
+            document.getElementById('tripCount-bostonCheckBox').checked = bostonCheckBox;
+            document.getElementById('tripCount-sfCheckBox').checked = sfCheckBox;
+            console.log('hi!');
+            tripCountTimeSeriesVis.wrangleData();
+        }
+    });
+    observer.observe(targetNode, { attributes: true, childList: true });
+
+}
+
 
 function updateVisualization() {
     tripCountTimeSeriesVis.wrangleData();

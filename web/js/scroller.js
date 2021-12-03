@@ -43,7 +43,11 @@ class Scroller {
             .style("display", "none");
 
         // update graphic based on step
-        let vizes = ["summary", "aggregate", "tripCountTrends", "tripDurationTrends", "forceNetwork", "wind", "line", "radial", "conclusion"];
+        let vizes = [
+            "summary", "summary",
+            "aggregate",
+            "tripCountTrends", "tripCountTrends", "tripCountTrends", "tripCountTrends",
+            "tripDurationTrends", "forceNetwork", "wind", "line", "radial", "conclusion"];
         d3.select("figure").select("#" + vizes[response.index])
             .transition()
             .duration(500)
