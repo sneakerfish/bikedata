@@ -32,9 +32,9 @@ class DayViewRadial {
         vis.colors = ["#1f77b4","#ff7f0e","#2ca02c","#d62728","#9467bd","#8c564b","#e377c2","#7f7f7f","#bcbd22","#17becf"];
         vis.colorUsages = Array(vis.colors.length).fill(0, 0);
 
-        vis.margin = {top: 0, right: 10, bottom: 0, left: 10};
+        vis.margin = {top: 0, right: 10, bottom: 0, left: 0};
         vis.width = document.getElementById("figure").getBoundingClientRect().width / 3 - vis.margin.left - vis.margin.right;
-        vis.height = document.getElementById("figure").getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
+        vis.height = document.getElementById("figure").getBoundingClientRect().height * 0.7 - vis.margin.top - vis.margin.bottom;
 
         vis.outerRadius = Math.round(Math.min(vis.width, vis.height) / 2);
         vis.innerRadius = vis.outerRadius / 4;

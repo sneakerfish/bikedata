@@ -476,14 +476,18 @@
 
         <!--step 8-->
         <div id="radial" class="visualization">
-            <div class="container-fluid">
-                <form>
-                    <label>Toggle dates to show the number of active riders at any moment in time on those days.</label>
-                    <select id="day-view-selection" class="form-select" multiple aria-label="Boston" onchange="updateDayDates()">
-                    </select>
-                </form>
+            <div class="container-fluid" style="height: 30%;">
+                <div class="row">
+                    <form>
+                        <label>Toggle dates to show the number of active riders at any moment in time on those
+                            days.</label>
+                        <select id="day-view-selection" size="15" class="form-select" multiple aria-label="Boston"
+                                onchange="updateDayDates()">
+                        </select>
+                    </form>
+                </div>
             </div>
-            <div class="container-fluid">
+            <div class="container-fluid" style="height: 70%;">
                 <div class="row">
                     <div class="col-4 day-view">
                         <div id="day-view-boston"></div>
