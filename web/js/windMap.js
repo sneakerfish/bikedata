@@ -8,7 +8,7 @@ class WindMap {
 		this.parentElement = windIds.chart;
 		this.tripData = fromToData
 		this.date = date
-		this.debug = false
+		this.debug = true
 		this.displayData = []
 
 		this.formatTime = d3.timeFormat("%I:%M %p") // 09:01 AM
@@ -21,9 +21,10 @@ class WindMap {
 
 		this.colors = {
 			inactive: "lightgrey",  // no activity.
-			active: "steelblue",    // net zero activity.
-			in: "lawngreen",        // more people coming in.
-			out: "orangered",       // more people going out.
+			netzero: "#b3995d",    // net zero activity.
+			in: "green",        // more people coming in.
+			out: "#FB4D42",       // more people going out.
+			retour: "#041E42"
 		}
 
 		// Get default city.
@@ -36,7 +37,7 @@ class WindMap {
 		let vis = this;
 
 		// Set scale for radius, representing amount of people.
-		vis.r = d3.scaleLinear()
+		vis.r = d3.scaleSqrt()
 			.range([50, 300])
 
 		// Set scale for line-weight.
@@ -129,14 +130,6 @@ class WindMap {
 			if (!vis.stationIds.includes(d.start_station_id)) { continue }
 			if (!vis.stationIds.includes(d.end_station_id)) { continue }
 
-			// Check if the trip starts and ends on the same day.
-			const sameDay = d.trip_start.toDateString() === d.trip_end.toDateString()
-			if (!sameDay) {	continue }
-
-			// don't include round trips.
-			const sameStation = d.start_station_id === d.end_station_id
-			if (sameStation) { continue }
-
 			vis.filteredTrips.push(d)
 		}
 
@@ -152,6 +145,7 @@ class WindMap {
 		// Get and set time.
 		const minutes = document.getElementById(vis.ids.getTime).value
 		vis.time = new Date(vis.date.getTime() + 60000 * minutes)
+
 		vis.debug && console.log("time", vis.time)
 
 		vis.stationInfo = {}
@@ -165,10 +159,14 @@ class WindMap {
 				retour: 0,
 				status: "inactive",
 				color: vis.colors.inactive,
-				travelers: { in: {}, out: {} }, // in: { station_id: 5 }
 				direction: "none",
-				min: 0,
-				max:0
+				travelers: {
+					in: {},             // in: { station_id: 5 }
+					out: {},
+					length: 0,          // number of people either coming, going or both if netzero.
+					min: 0,             // number of people on least connected route.
+					max: 0              // number of people on most connected route.
+				},
 			}
 		})
 
@@ -198,25 +196,24 @@ class WindMap {
 		Object.values(vis.stationInfo).forEach((d) => {
 			d['change'] = -d.out.length + d.in.length
 
-			// Set status and color of the station.
-			// Station can have net zero activity.
+			// netzero is same amount of people coming as going.
 			if (d.in.length + d.out.length !== 0 && d.change === 0) {
-				d.status = "active"
-				d.color = vis.colors.active
+				d.status = "netzero"
+				d.color = vis.colors.netzero
 			} else if (d.change > 0) {
 				d.direction = "in"
 				d.color = vis.colors.in
 			} else if (d.change < 0) {
 				d.direction = "out"
 				d.color = vis.colors.out
+			} else if (d.change === 0 && d.retour > 0) {
+				d.status = "retour"
+				d.color = vis.colors.retour
 			}
 
-			// Set min and max
-			d.min = d3.min([d.in.length, d.out.length])
-			d.max = d3.max([d.in.length, d.out.length])
+			const dir = d.direction
 
 			// Set amount of travelers on route from or to this station.
-			const dir = d.direction
 			if (dir !== "none") {
 				d[dir].forEach((link) => {
 					if (!d.travelers[dir][link]){
@@ -225,12 +222,33 @@ class WindMap {
 						d.travelers[dir][link]++
 					}
 				})
+
+				// these links will be drawn by lines.
+				d.travelers.links = []
+				Object.entries(d.travelers[dir]).forEach(([key, value]) => {
+					d.travelers.links.push({
+						station_id: key,
+						amount: value
+						}
+					)
+				})
+
+				// amount of people linked to this station.
+				d.travelers.length = d[dir].length
+
+				// set min / max for the line-weight.
+				const people = Object.values(d.travelers[dir])
+				d.travelers.min = d3.min(people)
+				d.travelers.max = d3.max(people)
+
+			} else {
+				// if netzero take total amount.
+				d.travelers.length = d.in.length + d.out.length
 			}
 
 			vis.displayData.push(d)
 		})
 
-		vis.debug && console.log("stationInfoArray: ", vis.stationInfoArray)
 		vis.debug && console.log("displayData: ", vis.displayData)
 
 		vis.updateVis();
@@ -244,14 +262,14 @@ class WindMap {
 		document.getElementById(vis.ids.setTime).innerText = vis.formatTime(vis.time)
 
 		// Setup radius domain.
-		const rMin = d3.min(vis.displayData, d => Math.abs(d.change))
-		const rMax = d3.max(vis.displayData, d => Math.abs(d.change))
+		const rMin = d3.min(vis.displayData, d => d.travelers.length)
+		const rMax = d3.max(vis.displayData, d => d.travelers.length)
 
 		vis.r.domain([rMin, rMax])
 
 		// Setup domain for line-weights.
-		const lMin = d3.min(vis.displayData, d => d.min)
-		const lMax = d3.max(vis.displayData, d=> d.max)
+		const lMin = d3.min(vis.displayData, d => d.travelers.min)
+		const lMax = d3.max(vis.displayData, d=> d.travelers.max)
 
 		vis.l.domain([lMin, lMax])
 
@@ -265,7 +283,7 @@ class WindMap {
 		})
 
 		function circle (d) {
-			const radius = vis.r(Math.abs(d.change))
+			const radius = vis.r(d.travelers.length)
 
 			return L.circle(d.loc, radius, {
 				color: d.color,
@@ -276,36 +294,34 @@ class WindMap {
 		}
 
 		function addLines(d) {
-			const { direction } = d
+			const { direction, color } = d
 
 			// Remove previous hover line.
 			vis.lineGroup.clearLayers();
 
+			// if this station has a direction,
 			if (direction !== "none"){
-				const travelers = d.travelers[direction]  // { station_id: 5, station_id: 2 }
-
-				vis.debug && console.log("travelers: ", travelers)
-
-				Object.entries(travelers).forEach(([station_id, amount]) => {
-					vis.lineGroup.addLayer(line(d.station_id, station_id, amount, direction))
+				d.travelers.links.forEach((link) => {
+					vis.lineGroup.addLayer(
+						line(d.station_id, link.station_id, link.amount, color)
+					)
 				})
 			}
 		}
 
-		function line(idA, idB, amount, direction) {
+		function line(idA, idB, amount, color) {
 			const from = vis.stationInfo[idA].loc
 			const to = vis.stationInfo[idB].loc
 			const lineWeight = vis.l(amount)
-			const dot = vis.l(2)
-			const gap = vis.l(8)
-			const color = "black"
-
-			vis.debug && console.log("lineweight: ", lineWeight)
+			const dot = 8
+			const gap = 2
+			const lineCap = "butt"
 
 			return L.polyline([from, to], {
 				color: color,
 				dashArray: [dot, gap],
-				weight: lineWeight
+				weight: lineWeight,
+				lineCap: lineCap
 			})
 		}
 
