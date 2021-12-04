@@ -60,9 +60,7 @@ class Scroller {
             .style("visibility", "visible")
             .style("opacity", 1)
             .style("display", "block");
-
-        console.log(vis.stepEnterCallbacks);
-
+        
         vis.stepEnterCallbacks.forEach(f => f(response));
     }
 
