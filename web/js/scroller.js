@@ -91,9 +91,7 @@ class Scroller {
                 offset: 0.3,
                 progress: true
             })
-            .onStepProgress(res => {
-                res => vis.handleStepEnter(res, vis.stepProgressCallbacks)
-            })
+            .onStepProgress(res =>  vis.handleStepEnter(res, vis.stepProgressCallbacks))
             .onStepEnter(res => vis.handleStepEnter(res, vis.stepEnterCallbacks))
 
     }
