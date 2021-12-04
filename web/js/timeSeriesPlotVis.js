@@ -160,7 +160,6 @@ class TimeSeriesPlotVis {
             tooltipGroup.attr('transform', 'translate(' + x + ', 0)');
             let shiftLeft = 0
             if (d3.pointer(event)[0] > vis.width - 140) {
-                console.log("Shifting.");
                 shiftLeft = -135;
             }
             tooltipGroup.select(".hover_date_text")
