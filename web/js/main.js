@@ -149,22 +149,12 @@ function prepDayData(data) {
         "SF": []
     };
     for (let row of data) {
-        if (map[row.City][row.date] === undefined) {
-            map[row.City][row.date] = [];
+        if (map[row.city][row.date] === undefined) {
+            map[row.city][row.date] = [];
         }
-        map[row.City][row.date].push(row);
+        map[row.city][row.date].push(row);
     }
     return map;
-
-    dayView = new DayViewRadial('day-view', dayViewData);
-    lineVis = new lineGraphVis('lineGraph', roundTripData);
-    stackedBar = new StackedAreaVis('stackedAreaChart', monthlySummaryData, 'city',
-        'Stations by city');
-
-    // Bind the event handler for the resize event
-    eventHandler.bind("resize", function(event) {
-        stackedBar.resize();
-    })
 }
 
 function timeSeriesEventStepper() {
