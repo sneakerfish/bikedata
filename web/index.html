@@ -37,7 +37,12 @@
                 <hr/>
                 <p style="text-align: left">While each city offers similar membership plans, <b>Boston's Blue Bikes is significantly more affordable</b> at almost 40% cheaper than New York City's annual plan.</p>
 
-                <p style="text-align: left"><b>New York City's system is significantly more extensive</b> with more than 2x the number of stations the next closest system</p>
+                <p style="text-align: left"><b>New York City's system is significantly more extensive</b> with more than 2x the number of stations than the next closest system</p>
+            </div>
+            <div id="step1bNext" class="stepNextBox" style="margin-top: 10px">
+                <h2>Next Steps</h2>
+                <hr/>
+                <p style="text-align: left">After learning key system information, it's time to explore cumulative trip metrics.</p>
             </div>
         </div>
 
@@ -122,7 +127,7 @@
             </div>
         </div>
         <div id="step5" class="step">
-            <div class="stepBox">
+            <div class="stepExploreBox">
                 <h2>Explore: Weekly patterns</h2>
                 <hr/>
                 <p style="text-align: left">
@@ -168,7 +173,7 @@
             </div>
         </div>
         <div id="step8" class="step">
-            <div class="stepBox">
+            <div class="stepExploreBox">
             <h2>What percentage of rides start and end at the same station?</h2>
             <hr/>
             <p style="text-align: left">
@@ -227,19 +232,22 @@
         </div>
     </article>
     <!-- for showing figures during scrolling -->
-    <figure id="figure">
+    <figure id="figure" >
         <!--step 1-->
-        <div id="summary" class="visualization container" >
+        <div id="summary" class="visualization container-fluid">
             <!--https://en.wikipedia.org/wiki/Bay_Wheels#/media/File:Bay_Wheels_logo.png-->
             <!--https://upload.wikimedia.org/wikipedia/commons/e/e1/Bluebikes_Logo.svg-->
             <!--https://upload.wikimedia.org/wikipedia/commons/a/ad/Citi_Bike_logo.svg-->
-            <div class="row" >
-                <h1 class="col" style="background-color: #4e88c7; color: white;padding: 10px;">Getting Started: Bike-share systems by the numbers</h1>
+
+            <div class="row" style="margin-top: 0px; padding-top: 0px">
+                <div class="col" style="margin-top: 0px; padding-top: 0px">
+                    <h1 style="background-color: #4e88c7; color: white; padding: 10px; margin-top: 0px">Bike-share systems by the numbers</h1>
+                </div>
             </div>
             <div class="row">
                 <img src="./images/BlueBikes-Carousel-crop1.jpg" class="img-fluid col" alt="Docked bike-share bikes">
             </div>
-            <div class="row">
+            <div class="row" style="padding: 10px">
                 <table class="table">
                     <thead>
                     <tr style="font-size: x-large">
@@ -253,7 +261,7 @@
                     <tr>
                         <th scope="row">System Name</th>
                         <td><img src="images/bay_wheels_logo.png" style="width: 200px"/></td>
-                        <td><img src="images/bluebikes_logo.svg" style="width: 200px"/></td>
+                        <td><img src="images/bluebikes_logo.svg" style="width: 200px; padding-top: 10px"/></td>
                         <td><img src="images/citi_bike_logo.svg" style="width: 200px"/></td>
                     </tr>
                     <tr>
@@ -318,9 +326,9 @@
 
         <!--step 3-->
         <div id="tripCountTrends" class="visualization container-fluid">
-            <div class="row">
-                <div class="col">
-                    <h1 style="padding:0px">How does ridership compare across cities over time?</h1>
+            <div class="row" style="margin-top: 0px; padding-top: 0px">
+                <div class="col" style="margin-top: 0px; padding-top: 0px">
+                    <h1 style="background-color: #4e88c7; color: white; padding: 10px; margin-top: 0px">How does ridership compare across cities over time?</h1>
                 </div>
             </div>
             <div class="row">
@@ -367,15 +375,15 @@
 
         <!--step 4-->
         <div id="tripDurationTrends" class="visualization container-fluid">
-            <div class="row">
-                <div class="col">
-                    <h1 style="padding:0px">Which city's residents pedal the longest?</h1>
+            <div class="row" style="margin-top: 0px; padding-top: 0px">
+                <div class="col" style="margin-top: 0px; padding-top: 0px">
+                    <h1 style="background-color: #4e88c7; color: white; padding: 10px; margin-top: 0px">Which city's residents pedal the longest?</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <form class="form-inline row">
-                        <div class="form-group col" style="background-color:#f2f2f2">
+                    <form class="form-inline">
+                        <div class="form-group" style="background-color:#f2f2f2">
                             <label for="tripDuration-timeSeriesDataType" style="font-weight: bold">Chart Data: </label>
                             <select class="form-control-lg" id="tripDuration-timeSeriesDataType" onchange="updateVisualization()">
                                 <option value="median_trip_duration_minutes">Median Trip Duration (minutes)</option>

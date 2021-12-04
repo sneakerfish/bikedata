@@ -108,6 +108,7 @@ function createVis(data) {
 
     tripCountTimeSeriesVis = new TimeSeriesVis('tripCountTimeSeriesPlot', 'tripCountTimeSeriesBrush', tripData, eventData, "tripCount", 'trip_count_7d_ma_norm');
     timeSeriesTripCountEventStepper();
+    timeSeriesTripCountEventProgressStepper();
 
     timeDurationtimeSeriesVis = new TimeSeriesVis('tripDurationTimeSeriesPlot', 'tripDurationTimeSeriesBrush', tripData, eventData, "tripDuration", 'median_trip_duration_minutes');
     timeSeriesTripDurationEventStepper();
@@ -154,7 +155,7 @@ function timeSeriesTripCountEventStepper() {
 }
 
 function registerTripCountTimeSeriesStepCallback(step, sfCheckBox, bostonCheckBox, nycCheckBox) {
-    scroller.registerCallback(function(res) {
+    scroller.registerStepEnterCallback(function(res) {
         if (res.index == step) {
             document.getElementById('tripCount-nycCheckBox').checked = nycCheckBox;
             document.getElementById('tripCount-bostonCheckBox').checked = bostonCheckBox;
@@ -164,11 +165,25 @@ function registerTripCountTimeSeriesStepCallback(step, sfCheckBox, bostonCheckBo
     })
 }
 
+function timeSeriesTripCountEventProgressStepper() {
+    scroller.registerStepProgressCallback(res => {
+        if (res.index == 1 && res.progress >= 0.10) {
+            d3.select('#step1bNext')
+                .transition()
+                .duration(500)
+                .style("visibility", "visible")
+                .style("opacity", 1)
+                .style("display", "block");
+            console.log(res)
+        }
+    });
+}
+
 /**
  * Register callbacks to the time series trip count steps
  */
 function timeSeriesTripDurationEventStepper() {
-    scroller.registerCallback(function(res) {
+    scroller.registerStepEnterCallback(function(res) {
         if (res.index == 7) {
             document.getElementById('tripDuration-bostonCheckBox').checked = false;
             document.getElementById('tripDuration-nycCheckBox').checked = false;
@@ -178,12 +193,12 @@ function timeSeriesTripDurationEventStepper() {
             setTimeout(() => {
                 document.getElementById('tripDuration-nycCheckBox').checked = true;
                 timeDurationtimeSeriesVis.wrangleData()
-            }, 4000);
+            }, 3000);
 
             setTimeout(() => {
                 document.getElementById('tripDuration-bostonCheckBox').checked = true;
                 timeDurationtimeSeriesVis.wrangleData()
-            }, 8000);
+            }, 6000);
         } else if (res.index == 8) {
             document.getElementById('tripDuration-bostonCheckBox').checked = true;
             document.getElementById('tripDuration-nycCheckBox').checked = true;

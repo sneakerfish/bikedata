@@ -2,6 +2,7 @@ class Scroller {
     constructor(initClass) {
         this.initClass = initClass;
         this.stepEnterCallbacks = [];
+        this.stepProgressCallbacks = [];
         this.initVis();
     }
 
@@ -87,12 +88,20 @@ class Scroller {
             .setup({
                 step: "." + vis.initClass,
                 debug: false,
-                offset: 0.3
+                offset: 0.3,
+                progress: true
             })
-            .onStepEnter(res => vis.handleStepEnter(res, vis.stepEnterCallbacks));
+            .onStepProgress(res =>  vis.handleStepEnter(res, vis.stepProgressCallbacks))
+            .onStepEnter(res => vis.handleStepEnter(res, vis.stepEnterCallbacks))
+
     }
 
-    registerCallback(stepCallback) {
+    registerStepEnterCallback(stepCallback) {
+        let vis = this;
+        vis.stepEnterCallbacks.push(stepCallback);
+    }
+
+    registerStepProgressCallback(stepCallback) {
         let vis = this;
         vis.stepEnterCallbacks.push(stepCallback);
     }

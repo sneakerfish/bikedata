@@ -345,3 +345,22 @@ div.small-tooltip {
     border-style: solid;
     padding: 20px;
 }
+
+.stepExploreBox {
+    background-color: white;
+    border-color: #4e88c7;
+    border-width: medium;
+    border-style: dashed;
+    padding: 20px;
+}
+
+.stepNextBox {
+    background-color: white;
+    border-color: #ffde2d;
+    border-width: medium;
+    border-style: solid;
+    padding: 20px;
+    visibility: hidden;
+    opacity: 0;
+    display: none;
+}
