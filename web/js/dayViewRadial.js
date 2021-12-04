@@ -32,9 +32,9 @@ class DayViewRadial {
         vis.colors = ["#1f77b4","#ff7f0e","#2ca02c","#d62728","#9467bd","#8c564b","#e377c2","#7f7f7f","#bcbd22","#17becf"];
         vis.colorUsages = Array(vis.colors.length).fill(0, 0);
 
-        vis.margin = {top: 0, right: 10, bottom: 0, left: 10};
+        vis.margin = {top: 0, right: 10, bottom: 0, left: 0};
         vis.width = document.getElementById("figure").getBoundingClientRect().width / 3 - vis.margin.left - vis.margin.right;
-        vis.height = document.getElementById("figure").getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
+        vis.height = document.getElementById("figure").getBoundingClientRect().height * 0.7 - vis.margin.top - vis.margin.bottom;
 
         vis.outerRadius = Math.round(Math.min(vis.width, vis.height) / 2);
         vis.innerRadius = vis.outerRadius / 4;
@@ -49,7 +49,7 @@ class DayViewRadial {
 
         // Scales and axes
         vis.x = d3.scaleLinear()
-            .range([-Math.PI, Math.PI])
+            .range([0, 2 * Math.PI])
             .domain([0, 1440]);
 
         vis.y = d3.scaleLinear()
@@ -79,7 +79,6 @@ class DayViewRadial {
             .data(angles)
             .enter().append("g")
             .attr("class", "xTick")
-            .attr("text-anchor", "middle")
             .attr("transform", function(d) {
                 return "rotate(" + d + ")translate(" + vis.innerRadius + ",0)";
             });
@@ -87,6 +86,26 @@ class DayViewRadial {
         vis.xTick.append("line")
             .attr("x2", -5)
             .attr("stroke", "black");
+
+        //outer ticks for time axis
+        let angles2 = [];
+        for (let i = 0; i < 360; i += 360 / 24) {
+            angles2.push(i);
+        }
+        vis.xGrayTick = vis.center
+            .selectAll("#"+vis.parentElement+" .xGrayTick")
+            .data(angles2)
+            .enter().append("g")
+            .attr("class", "xGrayTick")
+            .attr("transform", function(d) {
+                return "rotate(" + d + ")translate(" + vis.innerRadius + ",0)";
+            });
+
+        vis.xGrayTick.append("line")
+            .attr("x2", vis.outerRadius - vis.innerRadius)
+            .attr("opacity", 0.2)
+            .attr("stroke-width", 1)
+            .attr("stroke", "grey")
 
 
         //inner tick labels for time x axis
@@ -174,7 +193,7 @@ class DayViewRadial {
             .attr("fill", "none")
             .attr("cx", 0)
             .attr("cy", 0)
-            .attr("opacity", 0.4)
+            .attr("opacity", 0.2)
             .attr("stroke-width", 1)
             .attr("stroke", "grey")
             .merge(grayCircs)
