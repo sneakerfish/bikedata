@@ -26,7 +26,7 @@ df2.createOrReplaceTempView("bikedata")
 
 df3 = spark.sql("select city, start_station_id, end_station_id, trip_start, trip_end " +
                 "from bikedata " +
-                "where date(trip_start) >= '2021-06-30' and date(trip_start) <= '2021-08-01'")
+                "where date(trip_start) >= '2020-07-01' and date(trip_start) <= '2020-08-01'")
 
 df3.show(20, False)
 
