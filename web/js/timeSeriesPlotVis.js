@@ -14,9 +14,9 @@ const label_city_mapping = {
 
 const data_number_formatting_mapping = {
     'trip_count_norm': '.4f',
-    'trip_count_7d_ma': ',',
+    'trip_count_7d_ma': ',.0f',
     'trip_count_7d_ma_norm': '.4f',
-    'trip_count' : ',',
+    'trip_count' : ',.0f',
     'median_trip_duration_minutes': '.2f',
 }
 
@@ -33,7 +33,7 @@ class TimeSeriesPlotVis {
         this.parentElement = parentElement;
         // assumes data is sorted
         this.data = data;
-        this.formatDate = d3.timeFormat("%Y-%m-%d");
+        this.formatDate = d3.timeFormat("%b %Y");
         this.cities = new Set(cities)
         this.eventData = eventData;
         this.filteredEventData = eventData;
