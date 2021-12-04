@@ -1,7 +1,7 @@
 class Scroller {
     constructor(initClass) {
         this.initClass = initClass;
-
+        this.stepEnterCallbacks = [];
         this.initVis();
     }
 
@@ -47,13 +47,23 @@ class Scroller {
             "summary", "summary",
             "aggregate",
             "tripCountTrends", "tripCountTrends", "tripCountTrends", "tripCountTrends",
-            "tripDurationTrends", "forceNetwork", "wind", "line", "radial", "conclusion"];
+            "tripDurationTrends", "tripDurationTrends",
+            "wind",
+            "forceNetwork",
+            "line",
+            "radial",
+            "conclusion"];
+
         d3.select("figure").select("#" + vizes[response.index])
             .transition()
             .duration(500)
             .style("visibility", "visible")
             .style("opacity", 1)
             .style("display", "block");
+
+        console.log(vis.stepEnterCallbacks);
+
+        vis.stepEnterCallbacks.forEach(f => f(response));
     }
 
     setupStickyfill() {
@@ -81,7 +91,12 @@ class Scroller {
                 debug: false,
                 offset: 0.3
             })
-            .onStepEnter(vis.handleStepEnter);
+            .onStepEnter(res => vis.handleStepEnter(res, vis.stepEnterCallbacks));
+    }
+
+    registerCallback(stepCallback) {
+        let vis = this;
+        vis.stepEnterCallbacks.push(stepCallback);
     }
 
 }
