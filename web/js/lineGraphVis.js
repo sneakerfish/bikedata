@@ -67,8 +67,7 @@ class lineGraphVis {
         // Add Tooltip placeholder
         vis.tooltip = d3.select("body").append("div")
             .attr("class", "small-tooltip")
-            .attr("id", "linechart-tooltip")
-            .style("opacity", 0);
+            .attr("id", "linechart-tooltip");
         vis.tooltip.append("text")
             .attr("x", 10)
             .attr("y", 20)
@@ -90,7 +89,7 @@ class lineGraphVis {
         });
     }
 
-    getSelectedYears() {
+    getSelectedYear() {
         let vis = this;
         return vis.years.filter((c) => {
             return document.getElementById("line-" + c.toString()).checked;
@@ -100,11 +99,9 @@ class lineGraphVis {
     wrangleData() {
         let vis = this;
         let selected_cities = vis.getSelectedCities();
-        let selected_years = vis.getSelectedYears();
 
         vis.filteredData = vis.data.filter(d =>
-            (selected_years.includes(d.start_year) &&
-                selected_cities.includes(d.city))
+            selected_cities.includes(d.city)
         )
 
         vis.lineData = d3.group(vis.filteredData,
@@ -136,15 +133,17 @@ class lineGraphVis {
 
     fade(opacity, d) {
         let vis = this;
+        let selected_years = vis.getSelectedYear();
 
         vis.svg.selectAll(".line")
-            .filter(function(e) { return e !== d; })
+            .filter(function(e) { return e !== d  })
             .transition()
             .style("opacity", opacity);
     }
 
     updateVis() {
         let vis = this;
+        let selected_years = vis.getSelectedYear();
 
         // Draw the line
         let lines = vis.svg.selectAll(".line")
@@ -163,20 +162,25 @@ class lineGraphVis {
                         (b.start_year*12 + b.start_month)));
             })
             .on("mouseover", (e, d) => {
-                vis.fade(0.2, d);
-                vis.tooltip.transition()
-                    .style("opacity", 1);
                 let toolTipText = d[0];
                 vis.tooltip.html(toolTipText)
                     .style("left", (e.pageX) + "px")
                     .style("top", (e.pageY - 50) + "px");
             })
             .on("mouseout", (e, d) => {
-                vis.fade(1, d);
                 vis.tooltip.transition()
                     .duration(4000)
                     .style("opacity", 0);
+            })
+            .merge(lines)
+            .attr("opacity", function(d) {
+                if (d[1][0].start_year == selected_years[0]) {
+                    return 1;
+                } else {
+                    return 0.2;
+                }
             });
+
         lines.exit().remove();
     }
 }

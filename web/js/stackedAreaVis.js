@@ -36,7 +36,7 @@ class StackedAreaVis {
     initVis() {
         let vis = this;
 
-        vis.margin = { top: 30, right: 0, bottom: 20, left: 100 };
+        vis.margin = { top: 60, right: 0, bottom: 20, left: 100 };
 
         vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
@@ -81,30 +81,31 @@ class StackedAreaVis {
         vis.stack = d3.stack().keys(["boston", "sf", "nyc"]);
 
         let tooltip = vis.svg.append("g")
-            .attr("id", "chart-tooltip");
+            .attr("id", "chart-tooltip")
+            .style("display", "none");
         tooltip.append("line")
-            .attr("class", "tipline")
+            .attr("class", "hover_line")
             .attr("id", "chart-tipline")
             .attr("x1", vis.x(d3.min(vis.data, (d) => d.event_date)))
-            .attr("y1", vis.y(2500))
+            .attr("y1", -30)
             .attr("x2", vis.x(d3.min(vis.data, (d) => d.event_date)))
             .attr("y2", vis.y(0));
         tooltip.append("text")
             .attr("x", 10)
-            .attr("y", 20)
+            .attr("y", -20)
             .attr("id", "chart-tooltext")
             .attr("class", "tiptext");
         tooltip.append("text")
             .attr("class", "tiptext")
             .attr("id", "chart-datetext")
             .attr("x", vis.x(d3.min(vis.data, (d) => d.event_date)) + 10)
-            .attr("y", vis.y(2430));
+            .attr("y", -5);
 
 
         // Axis title
         vis.svg.append("text")
             .attr("x", -50)
-            .attr("y", -8)
+            .attr("y", -40)
             .text(vis.title);
 
         vis.wrangleData();
@@ -204,6 +205,9 @@ class StackedAreaVis {
                 let i = bisectDate(vis.data, xdate);
                 let shiftLeft = 0;
                 let dateval = new Date(xdate);
+                if (ptr[0] > vis.width - 170) {
+                    shiftLeft = -190;
+                }
                 d3.select("#chart-tooltip")
                     .attr("transform", "translate(" + (ptr[0]) + ", 0)");
                 d3.select("#chart-datetext")
