@@ -69,6 +69,7 @@ class TimeSeriesPlotVis {
         vis.xAxis = d3.axisBottom()
             .scale(vis.x)
             .tickFormat(vis.formatDate)
+            .ticks(7);
 
         vis.y = d3.scaleLinear()
             .range([vis.height, 0]);

@@ -149,7 +149,8 @@ div.partview {
 
 article {
     position: relative;
-    padding: 0 1rem;
+    margin-right: 1rem;
+    padding: 0;
     max-width: 30rem;
 }
 
@@ -176,8 +177,9 @@ figure > .visualization {
 section h1 {
     padding: 0 3rem;
 }
+
 .step {
-    margin: 0 auto 2rem auto;
+    margin: 0rem auto 2rem auto;
     color: #3b3b3b;
     background-color: rgba(0, 0, 0, 0.0);
 }
@@ -193,12 +195,12 @@ section h1 {
 
 .step p {
     text-align: center;
-    padding: 0 1rem;
+    padding: 0;
     font-size: 1.5rem;
 }
 
 .step h1, h2 {
-    padding: 0 1rem;
+    padding: 0;
     margin-top: 0 !important;
 }
 
@@ -303,7 +305,7 @@ div.small-tooltip {
     border-color: black;
     border-width: medium;
     border-style: solid;
-    padding: 20px;
+    padding: 20px 10px;
 }
 
 .stepStartBox {
@@ -311,7 +313,7 @@ div.small-tooltip {
     border-color: green;
     border-width: medium;
     border-style: solid;
-    padding: 20px;
+    padding: 20px 10px;
 }
 
 .stepBostonBox {
@@ -319,7 +321,7 @@ div.small-tooltip {
     border-color: #FB4D42;
     border-width: medium;
     border-style: solid;
-    padding: 20px;
+    padding: 20px 10px;
 }
 
 .stepNycBox {
@@ -327,7 +329,7 @@ div.small-tooltip {
     border-color: #041E42;
     border-width: medium;
     border-style: solid;
-    padding: 20px;
+    padding: 20px 10px;
 }
 
 .stepSfBox {
@@ -335,7 +337,7 @@ div.small-tooltip {
     border-color: #b3995d;
     border-width: medium;
     border-style: solid;
-    padding: 20px;
+    padding: 20px 10px;
 }
 
 .stepEndBox {
@@ -343,6 +345,7 @@ div.small-tooltip {
     border-color: #A51C30;
     border-width: medium;
     border-style: solid;
+<<<<<<< HEAD
     padding: 20px;
 }
 
@@ -363,4 +366,5 @@ div.small-tooltip {
     visibility: hidden;
     opacity: 0;
     display: none;
+    padding: 20px 10px;
 }

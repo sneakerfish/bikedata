@@ -55,7 +55,7 @@ class StackedAreaVis {
 
         vis.xAxis = d3.axisBottom()
             .scale(vis.x)
-            .tickFormat(d3.timeFormat("%m/%Y"));
+            .tickFormat(d3.timeFormat("%b-%Y"));
 
         vis.yAxis = d3.axisLeft()
             .scale(vis.y);
