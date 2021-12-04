@@ -107,9 +107,10 @@ function createVis(data) {
     }
 
     tripCountTimeSeriesVis = new TimeSeriesVis('tripCountTimeSeriesPlot', 'tripCountTimeSeriesBrush', tripData, eventData, "tripCount", 'trip_count_7d_ma_norm');
-    timeSeriesEventStepper();
+    timeSeriesTripCountEventStepper();
 
     timeDurationtimeSeriesVis = new TimeSeriesVis('tripDurationTimeSeriesPlot', 'tripDurationTimeSeriesBrush', tripData, eventData, "tripDuration", 'median_trip_duration_minutes');
+    timeSeriesTripDurationEventStepper();
 
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
     forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc', 800)
@@ -127,21 +128,6 @@ function createVis(data) {
     dayViewSf = new DayViewRadial('day-view-sf', dayViewData['SF'], "SF");
 }
 
-function groupByTripDate(tripData) {
-    var result = [];
-    tripData.reduce(function(res, value) {
-        if (!res[value.trip_date]) {
-            res[value.trip_date] = { trip_date: value.trip_date, trip_count: 0 };
-            result.push(res[value.trip_date])
-        }
-        res[value.trip_date].trip_count += value.trip_count;
-        return res;
-    }, {});
-
-    result.sort((a,b) => b.trip_date - a.trip_date)
-    return result;
-}
-
 function prepDayData(data) {
     let map = {
         "Boston": [],
@@ -157,29 +143,55 @@ function prepDayData(data) {
     return map;
 }
 
-function timeSeriesEventStepper() {
-    timeSeriesEventHandling("step3a", true, true, true)
-    timeSeriesEventHandling("step3b", true, false, false)
-    timeSeriesEventHandling("step3c", false, true, false);
-    timeSeriesEventHandling("step3d", false, false, true);
+/**
+ * Register callbacks to the time series trip count steps
+ */
+function timeSeriesTripCountEventStepper() {
+    registerTripCountTimeSeriesStepCallback(3, true, false, false)
+    registerTripCountTimeSeriesStepCallback(4, false, true, false);
+    registerTripCountTimeSeriesStepCallback(5, false, false, true);
+    registerTripCountTimeSeriesStepCallback(6, true, true, true)
 }
 
-function timeSeriesEventHandling(step, sfCheckBox, bostonCheckBox, nycCheckBox) {
-    var targetNode = document.getElementById(step);
-
-    var observer = new MutationObserver(function(){
-        if(targetNode.className == "step is-active"){
+function registerTripCountTimeSeriesStepCallback(step, sfCheckBox, bostonCheckBox, nycCheckBox) {
+    scroller.registerCallback(function(res) {
+        if (res.index == step) {
             document.getElementById('tripCount-nycCheckBox').checked = nycCheckBox;
             document.getElementById('tripCount-bostonCheckBox').checked = bostonCheckBox;
             document.getElementById('tripCount-sfCheckBox').checked = sfCheckBox;
             tripCountTimeSeriesVis.wrangleData();
         }
-    });
-    observer.observe(targetNode, { attributes: true, childList: true });
-
+    })
 }
 
+/**
+ * Register callbacks to the time series trip count steps
+ */
+function timeSeriesTripDurationEventStepper() {
+    scroller.registerCallback(function(res) {
+        if (res.index == 7) {
+            document.getElementById('tripDuration-bostonCheckBox').checked = false;
+            document.getElementById('tripDuration-nycCheckBox').checked = false;
+            document.getElementById('tripDuration-sfCheckBox').checked = true;
+            timeDurationtimeSeriesVis.wrangleData();
 
+            setTimeout(() => {
+                document.getElementById('tripDuration-nycCheckBox').checked = true;
+                timeDurationtimeSeriesVis.wrangleData()
+            }, 4000);
+
+            setTimeout(() => {
+                document.getElementById('tripDuration-bostonCheckBox').checked = true;
+                timeDurationtimeSeriesVis.wrangleData()
+            }, 8000);
+        } else if (res.index == 8) {
+            document.getElementById('tripDuration-bostonCheckBox').checked = true;
+            document.getElementById('tripDuration-nycCheckBox').checked = true;
+            document.getElementById('tripDuration-sfCheckBox').checked = true;
+            timeDurationtimeSeriesVis.wrangleData();
+        }
+    })
+}
 function updateVisualization() {
     tripCountTimeSeriesVis.wrangleData();
     timeDurationtimeSeriesVis.wrangleData()

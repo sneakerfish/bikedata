@@ -178,8 +178,8 @@ section h1 {
 }
 .step {
     margin: 0 auto 2rem auto;
-    background-color: #dddddd;
     color: #3b3b3b;
+    background-color: rgba(0, 0, 0, 0.0);
 }
 
 .step:last-child {
@@ -187,7 +187,7 @@ section h1 {
 }
 
 .step.is-active {
-    background-color: white;
+    /*background-color: rgba(0, 0, 0, 0.0);*/
     color: #3b3b3b;
 }
 
@@ -292,4 +292,56 @@ div.small-tooltip {
     font: 12px sans-serif;
     text-anchor: start;
     font-weight: bold;
+}
+
+.stepBackground {
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.stepBox {
+    background-color: white;
+    border-color: black;
+    border-width: medium;
+    border-style: solid;
+    padding: 20px;
+}
+
+.stepStartBox {
+    background-color: white;
+    border-color: green;
+    border-width: medium;
+    border-style: solid;
+    padding: 20px;
+}
+
+.stepBostonBox {
+    background-color: white;
+    border-color: #FB4D42;
+    border-width: medium;
+    border-style: solid;
+    padding: 20px;
+}
+
+.stepNycBox {
+    background-color: white;
+    border-color: #041E42;
+    border-width: medium;
+    border-style: solid;
+    padding: 20px;
+}
+
+.stepSfBox {
+    background-color: white;
+    border-color: #b3995d;
+    border-width: medium;
+    border-style: solid;
+    padding: 20px;
+}
+
+.stepEndBox {
+    background-color: white;
+    border-color: #A51C30;
+    border-width: medium;
+    border-style: solid;
+    padding: 20px;
 }
