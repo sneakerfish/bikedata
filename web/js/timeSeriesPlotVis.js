@@ -14,9 +14,9 @@ const label_city_mapping = {
 
 const data_number_formatting_mapping = {
     'trip_count_norm': '.4f',
-    'trip_count_7d_ma': ',',
+    'trip_count_7d_ma': ',.0f',
     'trip_count_7d_ma_norm': '.4f',
-    'trip_count' : ',',
+    'trip_count' : ',.0f',
     'median_trip_duration_minutes': '.2f',
 }
 
@@ -34,6 +34,7 @@ class TimeSeriesPlotVis {
         // assumes data is sorted
         this.data = data;
         this.formatDate = d3.timeFormat("%Y-%m-%d");
+        this.tickFormatDate = d3.timeFormat("%b %Y");
         this.cities = new Set(cities)
         this.eventData = eventData;
         this.filteredEventData = eventData;
@@ -48,9 +49,9 @@ class TimeSeriesPlotVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 100, right: 100, bottom: 50, left: 100};
+        vis.margin = {top: 100, right: 40, bottom: 50, left: 60};
         vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = vis.maxHeight;
+        vis.height = document.getElementById(vis.parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().height*0.70 - vis.margin.top - vis.margin.bottom;
 
         if (TIME_SERIES_VIS_DEBUG) {
             console.log("width:", vis.width, "height:", vis.height)
@@ -68,7 +69,8 @@ class TimeSeriesPlotVis {
 
         vis.xAxis = d3.axisBottom()
             .scale(vis.x)
-            .tickFormat(vis.formatDate)
+            .tickFormat(vis.tickFormatDate)
+            .ticks(7);
 
         vis.y = d3.scaleLinear()
             .range([vis.height, 0]);
@@ -126,27 +128,23 @@ class TimeSeriesPlotVis {
 
         tooltipGroup.append('text')
             .attr('class', 'hover_date_text')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('transform', 'translate(10, -75)');
+            .attr('x', 10)
+            .attr('y', -75);
 
         tooltipGroup.append('text')
             .attr('class', 'hover_data_text hover0')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('transform', 'translate(10, -55)');
+            .attr('x', 10)
+            .attr('y', -55);
 
         tooltipGroup.append('text')
             .attr('class', 'hover_data_text hover1')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('transform', 'translate(10, -35)');
+            .attr('x', 10)
+            .attr('y', -35);
 
         tooltipGroup.append('text')
             .attr('class', 'hover_data_text hover2')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('transform', 'translate(10, -15)');
+            .attr('x', 10)
+            .attr('y', -15);
 
         vis.svg.append('rect')
             .attr('fill', 'transparent')
@@ -158,11 +156,19 @@ class TimeSeriesPlotVis {
 
         function mousemove(event){
             const formatNum = d3.format(data_number_formatting_mapping[vis.selectedDataType]);
-
             let x = d3.pointer(event)[0];
             let xDate = vis.x.invert(d3.pointer(event)[0]);
-
             tooltipGroup.attr('transform', 'translate(' + x + ', 0)');
+            let shiftLeft = 0
+            if (d3.pointer(event)[0] > vis.width - 140) {
+                shiftLeft = -135;
+            }
+            tooltipGroup.select(".hover_date_text")
+                .attr('transform', 'translate(' + shiftLeft + ', 0)');
+            d3.range(3).forEach((d) => {
+                tooltipGroup.select(".hover_data_text.hover" + d)
+                    .attr('transform', 'translate(' + shiftLeft + ', 0)');
+            });
 
             let cities = Array.from(vis.cities)
             cities = cities.map(c => city_label_mapping[c])
@@ -261,13 +267,13 @@ class TimeSeriesPlotVis {
         vis[cityPathName] = vis.svg.selectAll("." + cityLineClass)
             .datum(cityData)
 
+        vis[cityPathName].exit().remove();
+
         vis[cityPathName].enter()
             .append("path")
             .attr("class", cityLineClass)
             .merge(vis[cityPathName])
             .attr("d", vis[cityLineName])
-
-        vis[cityPathName].exit().remove();
 
         let cityDataMap = new Map();
         cityData.forEach(d => {

@@ -110,7 +110,6 @@ function createVis(data) {
     timeSeriesTripCountEventStepper();
 
     timeDurationtimeSeriesVis = new TimeSeriesVis('tripDurationTimeSeriesPlot', 'tripDurationTimeSeriesBrush', tripData, eventData, "tripDuration", 'median_trip_duration_minutes');
-    timeSeriesTripDurationEventStepper();
 
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
     forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc', 800)
@@ -126,6 +125,8 @@ function createVis(data) {
     dayViewBoston = new DayViewRadial('day-view-boston', dayViewData['Boston'], "Boston");
     dayViewNyc = new DayViewRadial('day-view-nyc', dayViewData['NYC'], "NYC");
     dayViewSf = new DayViewRadial('day-view-sf', dayViewData['SF'], "SF");
+
+    registerNextSteps();
 }
 
 function prepDayData(data) {
@@ -154,7 +155,7 @@ function timeSeriesTripCountEventStepper() {
 }
 
 function registerTripCountTimeSeriesStepCallback(step, sfCheckBox, bostonCheckBox, nycCheckBox) {
-    scroller.registerCallback(function(res) {
+    scroller.registerStepEnterCallback(function(res) {
         if (res.index == step) {
             document.getElementById('tripCount-nycCheckBox').checked = nycCheckBox;
             document.getElementById('tripCount-bostonCheckBox').checked = bostonCheckBox;
@@ -164,40 +165,70 @@ function registerTripCountTimeSeriesStepCallback(step, sfCheckBox, bostonCheckBo
     })
 }
 
-/**
- * Register callbacks to the time series trip count steps
- */
-function timeSeriesTripDurationEventStepper() {
-    scroller.registerCallback(function(res) {
-        if (res.index == 7) {
-            document.getElementById('tripDuration-bostonCheckBox').checked = false;
-            document.getElementById('tripDuration-nycCheckBox').checked = false;
-            document.getElementById('tripDuration-sfCheckBox').checked = true;
-            timeDurationtimeSeriesVis.wrangleData();
-
-            setTimeout(() => {
-                document.getElementById('tripDuration-nycCheckBox').checked = true;
-                timeDurationtimeSeriesVis.wrangleData()
-            }, 4000);
-
-            setTimeout(() => {
-                document.getElementById('tripDuration-bostonCheckBox').checked = true;
-                timeDurationtimeSeriesVis.wrangleData()
-            }, 8000);
-        } else if (res.index == 8) {
-            document.getElementById('tripDuration-bostonCheckBox').checked = true;
-            document.getElementById('tripDuration-nycCheckBox').checked = true;
-            document.getElementById('tripDuration-sfCheckBox').checked = true;
-            timeDurationtimeSeriesVis.wrangleData();
-        }
-    })
+function registerNextSteps() {
+    registerNextStep(1, "step1bNext");
+    registerNextStep(8, 'step5Next');
+    registerNextStep(13, 'step10Next');
+    registerNextStep(14, 'step11Next');
 }
+
+/**
+ * Register next steps
+ *
+ * @param stepIndex     the index of the step where the next step resides, refer to the scoller.js
+ * @param stepNextId    the id of the next step box
+ */
+function registerNextStep(stepIndex, stepNextId) {
+    registerNextStepCallBack(stepIndex, stepNextId);
+    registerResetNextStep(stepIndex, stepNextId);
+}
+
+/**
+ * Hides nextStep box when the user leaves to an earlier or later step
+ * @param stepIndex  the step where the nextstepbox lives
+ * @param id    id of the nextStepBox
+ */
+function registerResetNextStep(stepIndex, stepNextId) {
+    scroller.registerStepEnterCallback(function(res) {
+        if (res.index == stepIndex && res.direction == 'down') {
+            d3.select("#" + stepNextId)
+                .attr("class", "stepNextBox enableStepNextBox");
+        } else if (res.index == stepIndex - 1 || res.index == stepIndex + 1) {
+            d3.select("#" + stepNextId)
+                .attr("class", "stepNextBox")
+                .style("visibility", "hidden")
+                .style("opacity", 0)
+                .style("display", "none");
+        }
+    });
+}
+
+function registerNextStepCallBack(stepIndex) {
+    scroller.registerStepProgressCallback(res => {
+        if (res.index == stepIndex && res.progress >= 0.10) {
+            d3.select('.enableStepNextBox')
+                .attr("class", "stepNextBox")
+                .transition()
+                .duration(500)
+                .style("visibility", "visible")
+                .style("opacity", 1)
+                .style("display", "block");
+        }
+    });
+}
+
 function updateVisualization() {
-    tripCountTimeSeriesVis.wrangleData();
-    timeDurationtimeSeriesVis.wrangleData()
     barVis.wrangleData();
     forceNetworkVis.wrangleData();
     lineVis.wrangleData();
+}
+
+function updateTripCountTimeSeriesVisualization() {
+    tripCountTimeSeriesVis.wrangleData();
+}
+
+function updateTimeDurationTimeSeriesVisualization() {
+    timeDurationtimeSeriesVis.wrangleData()
 }
 
 function updateDayDates() {

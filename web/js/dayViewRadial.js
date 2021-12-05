@@ -3,14 +3,17 @@
 //for inner xTicks https://bl.ocks.org/tlfrd/fd6991b2d1947a3cb9e0bd20053899d6
 
 function tryFillSelectionDates(data) {
+    let formatTime = d3.timeFormat("%B %d, %Y %A");
+    let parse = d3.timeParse("%m/%d/%Y"); // 8/1/2021
     let selection = d3.select("#day-view-selection");
+
     if (!selection.text().trim().length) {
         let count = 0;
         for (let row in data) {
             selection.append("option")
                 .attr("selected", count++ < 2 ? "selected" : null)
                 .attr("value", row)
-                .text(row);
+                .text(formatTime(parse(row)));
         }
     }
 }
@@ -224,9 +227,10 @@ class DayViewRadial {
         lines.enter().append("path")
             .attr("class", "day-line")
             .datum(d => d)
-            .attr("fill", "none")
             .attr("stroke", d => vis.uniqueColor(d[0].date))
+            .attr("fill", "none")
             .attr("stroke-width", 2)
+            .merge(lines)
             .attr("d", vis.line);
     }
 

@@ -149,7 +149,8 @@ div.partview {
 
 article {
     position: relative;
-    padding: 0 1rem;
+    margin-right: 1rem;
+    padding: 0;
     max-width: 30rem;
 }
 
@@ -176,8 +177,9 @@ figure > .visualization {
 section h1 {
     padding: 0 3rem;
 }
+
 .step {
-    margin: 0 auto 2rem auto;
+    margin: 0rem auto 2rem auto;
     color: #3b3b3b;
     background-color: rgba(0, 0, 0, 0.0);
 }
@@ -193,12 +195,12 @@ section h1 {
 
 .step p {
     text-align: center;
-    padding: 0 1rem;
+    padding: 0;
     font-size: 1.5rem;
 }
 
 .step h1, h2 {
-    padding: 0 1rem;
+    padding: 0;
     margin-top: 0 !important;
 }
 
@@ -300,48 +302,31 @@ div.small-tooltip {
 
 .stepBox {
     background-color: white;
-    border-color: black;
+    border-color: #4e88c7;
     border-width: medium;
     border-style: solid;
-    padding: 20px;
+    padding: 20px 10px;
 }
 
-.stepStartBox {
+.stepExploreBox {
     background-color: white;
-    border-color: green;
+    border-color: #4e88c7;
     border-width: medium;
-    border-style: solid;
-    padding: 20px;
+    border-style: dashed;
+    padding: 20px 10px;
 }
 
-.stepBostonBox {
+.stepNextBox {
     background-color: white;
-    border-color: #FB4D42;
+    border-color: #ffde2d;
     border-width: medium;
     border-style: solid;
-    padding: 20px;
+    visibility: hidden;
+    opacity: 0;
+    display: none;
+    padding: 20px 10px;
+    margin-top: 10px;
 }
 
-.stepNycBox {
-    background-color: white;
-    border-color: #041E42;
-    border-width: medium;
-    border-style: solid;
-    padding: 20px;
-}
-
-.stepSfBox {
-    background-color: white;
-    border-color: #b3995d;
-    border-width: medium;
-    border-style: solid;
-    padding: 20px;
-}
-
-.stepEndBox {
-    background-color: white;
-    border-color: #A51C30;
-    border-width: medium;
-    border-style: solid;
-    padding: 20px;
+.enableStepNextBox {
 }
