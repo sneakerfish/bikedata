@@ -10,9 +10,15 @@ function tryFillSelectionDates(data) {
     if (!selection.text().trim().length) {
         let count = 0;
         for (let row in data) {
-            selection.append("option")
-                .attr("selected", count++ < 2 ? "selected" : null)
+            selection.append("input")
+                .attr("type", "checkbox")
+                .attr("name", row)
+                .attr("id", row)
+                .attr("checked", count++ < 2 ? "checked" : null)
                 .attr("value", row)
+                .on("change", updateDayDates)
+            selection.append("label")
+                .attr("for", row)
                 .text(formatTime(parse(row)));
         }
     }
@@ -156,9 +162,11 @@ class DayViewRadial {
         vis.displayData = [];
 
         let select = document.getElementById("day-view-selection");
-        for (let i = 0; i < select.length; i++) {
+        console.log(select);
+        for (let i = 1; i < select.length; i += 2) {
             let opt = select[i];
-            if (opt.selected) {
+            console.log(opt);
+            if (opt.checked) {
                 vis.displayData.push(vis.data[opt.value]);
             }
         }
@@ -222,12 +230,19 @@ class DayViewRadial {
             });
         for (let node of lines.exit()) {
             vis.freeColor(node.attributes.stroke.nodeValue);
+            vis.updateDateKey(node.attributes.value.nodeValue, null);
+            console.log("del " + node.attributes.value.nodeValue);
         }
         lines.exit().remove();
         lines.enter().append("path")
             .attr("class", "day-line")
             .datum(d => d)
-            .attr("stroke", d => vis.uniqueColor(d[0].date))
+            .attr("stroke", d => {
+                let col = vis.uniqueColor(d[0].date);
+                vis.updateDateKey(d[0].date, col);
+                return col;
+            })
+            .attr("value", d => d[0].date)
             .attr("fill", "none")
             .attr("stroke-width", 2)
             .merge(lines)
@@ -255,6 +270,17 @@ class DayViewRadial {
                 }
             }
             lowest++;
+        }
+    }
+
+    updateDateKey(date, col) {
+        let select = document.getElementById("day-view-selection");
+        for (let i = 0; i < select.length; i++) {
+            let opt = select[i];
+            if (opt.value === date) {
+                opt.style.backgroundColor = col;
+                return;
+            }
         }
     }
 }
