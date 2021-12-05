@@ -227,9 +227,10 @@ class DayViewRadial {
         lines.enter().append("path")
             .attr("class", "day-line")
             .datum(d => d)
-            .attr("fill", "none")
             .attr("stroke", d => vis.uniqueColor(d[0].date))
+            .attr("fill", "none")
             .attr("stroke-width", 2)
+            .merge(lines)
             .attr("d", vis.line);
     }
 
