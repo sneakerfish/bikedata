@@ -48,7 +48,7 @@ class TimeSeriesPlotVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 100, right: 100, bottom: 50, left: 100};
+        vis.margin = {top: 100, right: 40, bottom: 50, left: 60};
         vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = vis.maxHeight;
 
@@ -69,6 +69,7 @@ class TimeSeriesPlotVis {
         vis.xAxis = d3.axisBottom()
             .scale(vis.x)
             .tickFormat(vis.formatDate)
+            .ticks(7);
 
         vis.y = d3.scaleLinear()
             .range([vis.height, 0]);
@@ -126,27 +127,23 @@ class TimeSeriesPlotVis {
 
         tooltipGroup.append('text')
             .attr('class', 'hover_date_text')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('transform', 'translate(10, -75)');
+            .attr('x', 10)
+            .attr('y', -75);
 
         tooltipGroup.append('text')
             .attr('class', 'hover_data_text hover0')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('transform', 'translate(10, -55)');
+            .attr('x', 10)
+            .attr('y', -55);
 
         tooltipGroup.append('text')
             .attr('class', 'hover_data_text hover1')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('transform', 'translate(10, -35)');
+            .attr('x', 10)
+            .attr('y', -35);
 
         tooltipGroup.append('text')
             .attr('class', 'hover_data_text hover2')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('transform', 'translate(10, -15)');
+            .attr('x', 10)
+            .attr('y', -15);
 
         vis.svg.append('rect')
             .attr('fill', 'transparent')
@@ -158,11 +155,19 @@ class TimeSeriesPlotVis {
 
         function mousemove(event){
             const formatNum = d3.format(data_number_formatting_mapping[vis.selectedDataType]);
-
             let x = d3.pointer(event)[0];
             let xDate = vis.x.invert(d3.pointer(event)[0]);
-
             tooltipGroup.attr('transform', 'translate(' + x + ', 0)');
+            let shiftLeft = 0
+            if (d3.pointer(event)[0] > vis.width - 140) {
+                shiftLeft = -135;
+            }
+            tooltipGroup.select(".hover_date_text")
+                .attr('transform', 'translate(' + shiftLeft + ', 0)');
+            d3.range(3).forEach((d) => {
+                tooltipGroup.select(".hover_data_text.hover" + d)
+                    .attr('transform', 'translate(' + shiftLeft + ', 0)');
+            });
 
             let cities = Array.from(vis.cities)
             cities = cities.map(c => city_label_mapping[c])
