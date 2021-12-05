@@ -110,7 +110,6 @@ function createVis(data) {
     timeSeriesTripCountEventStepper();
 
     timeDurationtimeSeriesVis = new TimeSeriesVis('tripDurationTimeSeriesPlot', 'tripDurationTimeSeriesBrush', tripData, eventData, "tripDuration", 'median_trip_duration_minutes');
-    timeSeriesTripDurationEventStepper();
 
     barVis = new BarVis('aggregateBarChart', tripData, metro_labels, 'Cumulative Trip Count')
     forceNetworkVis = new ForceNetworkVis('forceStationNetworkArea', tripStationData, 'nyc', 800)
@@ -218,34 +217,6 @@ function registerNextStepCallBack(stepIndex) {
     });
 }
 
-/**
- * Register callbacks to the time series trip count steps
- */
-function timeSeriesTripDurationEventStepper() {
-    scroller.registerStepEnterCallback(function(res) {
-        if (res.index == 7) {
-            document.getElementById('tripDuration-bostonCheckBox').checked = false;
-            document.getElementById('tripDuration-nycCheckBox').checked = false;
-            document.getElementById('tripDuration-sfCheckBox').checked = true;
-            timeDurationtimeSeriesVis.wrangleData();
-
-            setTimeout(() => {
-                document.getElementById('tripDuration-nycCheckBox').checked = true;
-                timeDurationtimeSeriesVis.wrangleData()
-            }, 3000);
-
-            setTimeout(() => {
-                document.getElementById('tripDuration-bostonCheckBox').checked = true;
-                timeDurationtimeSeriesVis.wrangleData()
-            }, 6000);
-        } else if (res.index == 8) {
-            document.getElementById('tripDuration-bostonCheckBox').checked = true;
-            document.getElementById('tripDuration-nycCheckBox').checked = true;
-            document.getElementById('tripDuration-sfCheckBox').checked = true;
-            timeDurationtimeSeriesVis.wrangleData();
-        }
-    })
-}
 function updateVisualization() {
     barVis.wrangleData();
     forceNetworkVis.wrangleData();
