@@ -16,12 +16,8 @@ class ForceNetworkVis {
 
         vis.margin = {top: 20, right: 30, bottom: 20, left: 100};
         vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        let computedHeight = document.getElementById(vis.parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().height;
-        computedHeight = vis.maxHeight > computedHeight ? computedHeight : vis.maxHeight;
+        let computedHeight = document.getElementById(vis.parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().height * 0.70;
         vis.height = computedHeight - vis.margin.top - vis.margin.bottom;
-
-        // vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        // vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         vis.svg = d3.select("#" + vis.parentElement)
             .append("svg")
@@ -30,13 +26,16 @@ class ForceNetworkVis {
             .append("g")
             .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
-        vis.links = vis.svg.append("g")
+        vis.g = vis.svg.append("g")
+            .attr("class", "everything");
+
+        vis.links = vis.g.append("g")
             .attr("class", "links");
 
-        vis.nodes = vis.svg.append("g")
+        vis.nodes = vis.g.append("g")
             .attr("class", "nodes");
 
-        vis.textGroup = vis.svg.append("g")
+        vis.textGroup = vis.g.append("g")
             .attr("class", "textGroup")
 
         vis.wrangleData();
@@ -47,6 +46,8 @@ class ForceNetworkVis {
 
         vis.city = document.querySelector('input[name="cityNetworkRadioOptions"]:checked').value;
         vis.topN = parseInt(document.getElementById('topStations').value);
+
+        console.log('topN', document.getElementById('topStations').value);
 
         document.getElementById('topStationsLabel').innerHTML='Top ' + vis.topN + " Most Frequented Trip Routes";
 
@@ -104,10 +105,6 @@ class ForceNetworkVis {
             .attr("r", d => {
                 return 5;
             })
-            // .call(d3.drag() // call specific function when circle is dragged
-            //     .on("start", dragstarted)
-            //     .on("drag", dragged)
-            //     .on("end", dragended));
 
         node = nodeEnter.merge(node)
 
@@ -127,7 +124,6 @@ class ForceNetworkVis {
 
         texts = textEnter.merge(texts)
 
-
         var simulation = d3.forceSimulation()
             .nodes(vis.stationNames);
 
@@ -137,9 +133,10 @@ class ForceNetworkVis {
             });
 
         simulation
-            .force("charge_force", d3.forceManyBody())
+            .force("charge_force", d3.forceManyBody().strength(-50))
             .force("center_force", d3.forceCenter(vis.width / 2, vis.height / 2))
             .force("links", link_force)
+            .force("collide", d3.forceCollide().radius(30))
             .on("tick", tickActions);
 
         function tickActions() {
@@ -161,19 +158,41 @@ class ForceNetworkVis {
             });
         }
 
-        // function dragstarted(event, d) {
-        //     if (!event.active) simulation.alphaTarget(.03).restart();
-        //     d.fx = d.x;
-        //     d.fy = d.y;
-        // }
-        // function dragged(event, d) {
-        //     d.fx = event.x;
-        //     d.fy = event.y;
-        // }
-        // function dragended(event, d) {
-        //     if (!event.active) simulation.alphaTarget(.03);
-        //     d.fx = null;
-        //     d.fy = null;
-        // }
+        //add drag capabilities
+        var drag_handler = d3.drag()
+            .on("start", drag_start)
+            .on("drag", drag_drag)
+            .on("end", drag_end);
+
+        drag_handler(node);
+
+        function drag_start(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        //make sure you can't drag the circle outside the box
+        function drag_drag(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function drag_end(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        //add zoom capabilities
+        var zoom_handler = d3.zoom()
+            .on("zoom", zoom_actions);
+
+        zoom_handler(vis.svg);
+
+        //Zoom functions
+        function zoom_actions(event){
+            vis.g.attr("transform", event.transform)
+        }
     }
 }

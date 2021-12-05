@@ -130,11 +130,8 @@
             <div class="stepExploreBox">
                 <h2>Explore: Weekly patterns</h2>
                 <hr/>
-                <p style="text-align: left">
-                    Use the <b>brush tool</b> below the chart to zoom in during a month.</p>
-                <p style="text-align: left; font-weight: bold; font-style: italic">
-                    Are people riding longer periods during the weekend or the weekdays?
-                </p>
+                <h3>Are people riding longer periods during the weekend or the weekdays?</h3>
+                <div class="questionHint">Use the <b>brush tool</b> below the chart to zoom in during a month.</div>
                 </p>
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-right1"
                         aria-expanded="false" aria-controls="collapse-right1" onclick="getElementById('collapse-wrong1').classList.remove('show')">
@@ -173,8 +170,30 @@
             </div>
         </div>
         <div id="step7" class="step">
-            <div class="stepBox">
-                TBA
+            <div class="stepExploreBox">
+                <h2>Explore the Data</h2>
+                <hr/>
+                <div>
+                    <ul>
+                        <li>Use the slider to explore the top-N routes for a given city.</li>
+                        <li>Click and drag a station node to adjust its placement on the graph for better viewing.</li>
+                    </ul>
+                </div>
+                <hr/>
+                <h3>Which Boston-area university campus has the most frequented bike-share routes?</h3>
+                <div class="questionHint">hint: Click the Boston Metro and adjust the slider from the left to right</div>
+                <div>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#forceNetworkCollapse"
+                            aria-expanded="false" aria-controls="forceNetworkCollapse">
+                        Reveal answers
+                    </button>
+                    <br>
+                    <div class="collapse" id="forceNetworkCollapse">
+                        <div class="card card-body">
+                            MIT
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="step8" class="step">
@@ -244,9 +263,9 @@
             <!--https://upload.wikimedia.org/wikipedia/commons/e/e1/Bluebikes_Logo.svg-->
             <!--https://upload.wikimedia.org/wikipedia/commons/a/ad/Citi_Bike_logo.svg-->
 
-            <div class="row" style="margin-top: 0px; padding-top: 0px">
-                <div class="col" style="margin-top: 0px; padding-top: 0px">
-                    <h1 style="background-color: #4e88c7; color: white; padding: 10px; margin-top: 0px">Bike-share systems by the numbers</h1>
+            <div class="row headerSpacingTopOverrides">
+                <div class="col headerSpacingTopOverrides" >
+                    <h1 class="visualizationHeader">Bike-share systems by the numbers</h1>
                 </div>
             </div>
             <div class="row">
@@ -331,9 +350,9 @@
 
         <!--step 3-->
         <div id="tripCountTrends" class="visualization container-fluid">
-            <div class="row" style="margin-top: 0px; padding-top: 0px">
-                <div class="col" style="margin-top: 0px; padding-top: 0px">
-                    <h1 style="background-color: #4e88c7; color: white; padding: 10px; margin-top: 0px">How does ridership compare across cities over time?</h1>
+            <div class="row headerSpacingTopOverrides">
+                <div class="col headerSpacingTopOverrides">
+                    <h1 class="visualizationHeader">How does ridership compare across cities over time?</h1>
                 </div>
             </div>
             <div class="row">
@@ -380,9 +399,9 @@
 
         <!--step 4-->
         <div id="tripDurationTrends" class="visualization container-fluid">
-            <div class="row" style="margin-top: 0px; padding-top: 0px">
-                <div class="col" style="margin-top: 0px; padding-top: 0px">
-                    <h1 style="background-color: #4e88c7; color: white; padding: 10px; margin-top: 0px">Which city's residents pedal the longest?</h1>
+            <div class="row headerSpacingTopOverrides">
+                <div class="col headerSpacingTopOverrides">
+                    <h1 class="visualizationHeader">Which city's residents pedal the longest?</h1>
                 </div>
             </div>
             <div class="row">
@@ -445,17 +464,18 @@
 
         <!--step 6-->
         <div id="forceNetwork" class="visualization container-fluid">
-            <div class="row">
-                <div class="col">
-                    <h1 style="padding:0px">What are the most popular routes?</h1>
+
+            <div class="row headerSpacingTopOverrides">
+                <div class="col headerSpacingTopOverrides">
+                    <h1 class="visualizationHeader">What are the most popular routes?</h1>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col form-inline" style="background-color:#f2f2f2; padding: 5px">
-
                     <div class="form-group d-inline">
                         <label for="topStations" id="topStationsSliderLabel" style="font-weight: bold;">Select # of Stations to View:</label>
-                        0 <input type="range" class="form-range" style="width: 200px" min="1" max="100" id="topStations" value="20" step="1" onchange="updateVisualization()" /> 100
+                        0 <input type="range" class="form-range" style="width: 200px" min="0" max="100" id="topStations"  step="10" value="20" onchange="updateVisualization()" /> 100
                     </div>
                     <label style="font-weight: bold; margin-left: 10px;">Bike Share System: </label>
                     <div class="sfInputLabel d-inline cityCheckBoxDiv form-group">
@@ -487,7 +507,6 @@
                 <div id="forceStationNetworkArea" class="col"></div>
             </div>
         </div>
-
 
         <!--step 7-->
         <div id="line" class="visualization">
@@ -578,8 +597,8 @@
                 </div>
                 <div class="col">
                     <div class="row">
-                        <div class="col" style="margin-top: 0px; padding-top: 0px">
-                            <h1 style="background-color: #4e88c7; color: white; padding: 10px; margin-top: 0px">What are they key drivers of bike-share ridership?</h1>
+                        <div class="col headerSpacingTopOverrides">
+                            <h1 class="visualizationHeader">What are they key drivers of bike-share ridership?</h1>
                         </div>
                     </div>
                     <div class="row">
@@ -598,8 +617,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col" style="margin-top: 0px; padding-top: 0px">
-                            <h1 style="background-color: #4e88c7; color: white; padding: 10px; margin-top: 0px">Bike-shares fill a need</h1>
+                        <div class="col headerSpacingTopOverrides">
+                            <h1 class="visualizationHeader">Bike-shares fill a need</h1>
                         </div>
                     </div>
                     <div class="row">
