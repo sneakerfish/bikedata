@@ -174,7 +174,6 @@ function timeSeriesTripCountEventProgressStepper() {
                 .style("visibility", "visible")
                 .style("opacity", 1)
                 .style("display", "block");
-            console.log(res)
         }
     });
 }
