@@ -28,7 +28,7 @@ class BarVis {
     initVis() {
         let vis = this;
 
-        vis.margin = { top: 30, right: 0, bottom: 20, left: 100 };
+        vis.margin = { top: 30, right: 40, bottom: 20, left: 100 };
 
         vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).parentElement.parentElement.getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
