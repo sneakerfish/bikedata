@@ -30,17 +30,18 @@ class WindMap {
 		}
 
 		this.circleStyle = {
-			fillOpacity: 0.75,
+			fillOpacity: 0.5,
 			strokeOpacity: 1,
 			strokeWidth: 3,
 		}
 
 		this.legendTitles = {
 			inactive: "Inactive station",
-			netzero: "Net zero movement",
-			in: "More people incoming",
-			out: "More people leaving",
-			retour: "Only round trips"
+			netzero: "same amount come and go",
+			in: "more people are incoming",
+			out: "more people are departing",
+			retour: "round trips at this station",
+
 		}
 
 		this.legendStyle = {
@@ -48,7 +49,8 @@ class WindMap {
 			show: true
 		}
 
-		this.circleRange = [50, 500]
+		this.circleRange = [50, 300]
+		this.lineRange = [25, 200]
 
 		// Get default city.
 		this.city = document.querySelector(`input[name=${windIds.city}]:checked`).value
@@ -106,6 +108,9 @@ class WindMap {
 
 		vis.stationData = data
 		vis.city = city
+
+		// latitude of the center of the city.
+		vis.latitude = vis.centers[vis.city][0]
 
 		vis.debug && console.log("stationData", vis.stationData)
 
@@ -178,6 +183,7 @@ class WindMap {
 				},
 				status: "inactive",           // "in", "out", "retour", "netzero"
 				color: vis.colors.inactive,
+				radius: 0,
 				travellers: {
 					in: {},                   // in: { station_id: 5 }
 					out: {},
@@ -279,6 +285,20 @@ class WindMap {
 			vis.displayData.push(d)
 		})
 
+		// Least and most people at a station.
+		vis.rMin = d3.min(vis.displayData, d => d.links[d.status].length)
+		vis.rMax = d3.max(vis.displayData, d => d.links[d.status].length)
+
+		// Set scale for radius, representing amount of people. Only for circle area's.
+		vis.r = d3.scaleSqrt()
+			.domain([vis.rMin, vis.rMax])
+			.range(vis.circleRange)
+
+		// Set radius for every station.
+		vis.displayData.forEach((d) => {
+			d.radius = vis.r(d.links[d.status].length)
+		})
+
 		// Render inactive stations first so that they are on the background.
 		const sortOrder = ["inactive", "netzero", "retour", "out", "in"]
 		const sortMethod = function(a, b) {
@@ -290,14 +310,7 @@ class WindMap {
 		vis.debug && console.log("displayData: ", vis.displayData)
 		// vis.debug && console.log("Statusinfo: ", vis.statusInfo)
 
-		// Least and most people at a station.
-		vis.rMin = d3.min(vis.displayData, d => d.links[d.status].length)
-		vis.rMax = d3.max(vis.displayData, d => d.links[d.status].length)
 
-		// Set scale for radius, representing amount of people. Only for circle area's.
-		vis.r = d3.scaleSqrt()
-			.domain([vis.rMin, vis.rMax])
-			.range(vis.circleRange)
 
 		vis.debug && console.log("rScale: ", vis.rMin, vis.rMax)
 
@@ -376,9 +389,8 @@ class WindMap {
 		addLegend()
 
 		function circle (d) {
-			const radius = vis.r(d.links[d.status].length)
 
-			return L.circle(d.loc, radius, {
+			return L.circle(d.loc, d.radius, {
 				color: d.color,
 				fillOpacity: vis.circleStyle.fillOpacity,
 				opacity: vis.circleStyle.strokeOpacity,
@@ -408,8 +420,6 @@ class WindMap {
 		function line(idA, idB, amount, color) {
 			const from = vis.stationInfo[idA].loc
 			const to = vis.stationInfo[idB].loc
-			const dot = 8
-			const gap = 2
 			const lineCap = "butt"
 
 			// Setup domain for line-weights.
@@ -418,27 +428,28 @@ class WindMap {
 
 			const l = d3.scaleLinear()
 				.domain([lMin, lMax])
-				.range([1, vis.rMax * 2])
+				.range(vis.lineRange)
 
-			const lineWeight = l(amount)
+			const dot = pixelValue(vis.latitude, l(3), vis.zoom)
+			const gap = pixelValue(vis.latitude, l(1), vis.zoom)
+
+			const oldColor = d3.color(color)
 
 			return L.polyline([from, to], {
-				color: color,
+				color: oldColor.darker(),
 				dashArray: [dot, gap],
-				weight: lineWeight,
+				weight: pixelValue(vis.latitude, l(amount), vis.zoom),
 				lineCap: lineCap
 			})
 		}
 
 		function addLegend() {
 			vis.zoom = vis.map.getZoom()
-			console.log(vis.zoom)
 
 			// Toggle legend on/off else it becomes too big.
 			vis.zoom > 12 && toggleLegend(false)
 			vis.zoom < 13 && toggleLegend(true)
 
-			console.log(vis.zoom)
 			vis.legend.onAdd = setLegend
 			vis.legend.addTo(vis.map)
 		}
@@ -451,11 +462,8 @@ class WindMap {
 			const minMeters = vis.r(vis.rMin)
 			const maxMeters = vis.r(vis.rMax)
 
-			// latitude of the center of the city.
-			const latitude = vis.centers[vis.city][0]
-
-			const minPixels = pixelValue(latitude, minMeters, vis.zoom)
-			const maxPixels = pixelValue(latitude, maxMeters, vis.zoom)
+			const minPixels = pixelValue(vis.latitude, minMeters, vis.zoom)
+			const maxPixels = pixelValue(vis.latitude, maxMeters, vis.zoom)
 
 			vis.pixelScale = d3.scaleLinear()
 				.domain([minMeters, maxMeters])
@@ -470,7 +478,7 @@ class WindMap {
 			const maxLegend = d3.max(vis.legendData, d => d.length)
 
 			// Setup legend size.
-			const width = cWidth * maxLegend + 120;
+			const width = cWidth * maxLegend + 135;
 			const height = rowHeight * vis.legendData.length + 20;
 			const margin = { left: 15, right: 20, top: 20, bottom: 20 }
 
@@ -503,12 +511,12 @@ class WindMap {
 			rows.enter()
 				.append("g")
 				.attr("class", "circle-row")
-				.attr("transform", (d, i) => `translate(0,${i * rowHeight + 10})`)
+				.attr("transform", (d, i) => `translate(5,${i * rowHeight + 10})`)
 
 			rows.enter()
 				.append("text")
 				.attr("class", "legend-title")
-				.attr("x", (d, i) => vis.legendData[i].length * cWidth + fontsize / 2)
+				.attr("x", (d, i) => vis.legendData[i].length * cWidth)
 				.attr("y", (d, i) => i * rowHeight + (rowHeight - cHeight) * 0.75 + cHeight +10)
 				.attr("font-size", fontsize)
 				.style("fill", fontcolor)
