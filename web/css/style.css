@@ -302,50 +302,10 @@ div.small-tooltip {
 
 .stepBox {
     background-color: white;
-    border-color: black;
+    border-color: #4e88c7;
     border-width: medium;
     border-style: solid;
     padding: 20px 10px;
-}
-
-.stepStartBox {
-    background-color: white;
-    border-color: green;
-    border-width: medium;
-    border-style: solid;
-    padding: 20px 10px;
-}
-
-.stepBostonBox {
-    background-color: white;
-    border-color: #FB4D42;
-    border-width: medium;
-    border-style: solid;
-    padding: 20px 10px;
-}
-
-.stepNycBox {
-    background-color: white;
-    border-color: #041E42;
-    border-width: medium;
-    border-style: solid;
-    padding: 20px 10px;
-}
-
-.stepSfBox {
-    background-color: white;
-    border-color: #b3995d;
-    border-width: medium;
-    border-style: solid;
-    padding: 20px 10px;
-}
-
-.stepEndBox {
-    background-color: white;
-    border-color: #A51C30;
-    border-width: medium;
-    border-style: solid;
-    padding: 20px;
 }
 
 .stepExploreBox {
@@ -353,7 +313,7 @@ div.small-tooltip {
     border-color: #4e88c7;
     border-width: medium;
     border-style: dashed;
-    padding: 20px;
+    padding: 20px 10px;
 }
 
 .stepNextBox {
@@ -361,9 +321,12 @@ div.small-tooltip {
     border-color: #ffde2d;
     border-width: medium;
     border-style: solid;
-    padding: 20px;
     visibility: hidden;
     opacity: 0;
     display: none;
     padding: 20px 10px;
+    margin-top: 10px;
+}
+
+.enableStepNextBox {
 }

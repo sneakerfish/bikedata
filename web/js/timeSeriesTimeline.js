@@ -31,11 +31,8 @@ class TimeSeriesTimeline {
 
 		vis.margin = {top: 0, right: 40, bottom: 30, left: 50};
 
-		// vis.width = document.getElementById(vis._parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-		// vis.height = document.getElementById(vis._parentElement).getBoundingClientRect().height  - vis.margin.top - vis.margin.bottom;
-
 		vis.width = document.getElementById(vis._parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-		vis.height = 150 - vis.margin.top - vis.margin.bottom;
+		vis.height = document.getElementById(vis._parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().height *0.2 - vis.margin.top - vis.margin.bottom;
 
 		// SVG drawing area
 		vis.svg = d3.select("#" + vis._parentElement).append("svg")
