@@ -9,15 +9,23 @@ function tryFillSelectionDates(data) {
 
     if (!selection.text().trim().length) {
         let count = 0;
+        var divRow;
         for (let row in data) {
-            selection.append("input")
+            if (count % 6 === 0) {
+                divRow = selection.append("div")
+                    .attr("class", "row");
+            }
+            let div = divRow.append("div")
+                .attr("class", "col-2");
+            div.append("input")
                 .attr("type", "checkbox")
                 .attr("name", row)
                 .attr("id", row)
                 .attr("checked", count++ < 2 ? "checked" : null)
                 .attr("value", row)
+                .style("margin", "5px")
                 .on("change", updateDayDates)
-            selection.append("label")
+            div.append("label")
                 .attr("for", row)
                 .text(formatTime(parse(row)));
         }
@@ -161,15 +169,12 @@ class DayViewRadial {
 
         vis.displayData = [];
 
-        let select = document.getElementById("day-view-selection");
-        console.log(select);
-        for (let i = 1; i < select.length; i += 2) {
-            let opt = select[i];
-            console.log(opt);
+        document.querySelectorAll("#day-view-selection input").forEach(opt => {
             if (opt.checked) {
                 vis.displayData.push(vis.data[opt.value]);
             }
-        }
+        });
+
         vis.updateVis();
     }
 
@@ -231,7 +236,6 @@ class DayViewRadial {
         for (let node of lines.exit()) {
             vis.freeColor(node.attributes.stroke.nodeValue);
             vis.updateDateKey(node.attributes.value.nodeValue, null);
-            console.log("del " + node.attributes.value.nodeValue);
         }
         lines.exit().remove();
         lines.enter().append("path")
@@ -274,13 +278,9 @@ class DayViewRadial {
     }
 
     updateDateKey(date, col) {
-        let select = document.getElementById("day-view-selection");
-        for (let i = 0; i < select.length; i++) {
-            let opt = select[i];
-            if (opt.value === date) {
-                opt.style.backgroundColor = col;
-                return;
-            }
+        let opt = document.getElementById(date);
+        if (opt.value === date) {
+            opt.nextSibling.style.backgroundColor = col;
         }
     }
 }
