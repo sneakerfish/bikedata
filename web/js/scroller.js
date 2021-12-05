@@ -53,7 +53,9 @@ class Scroller {
             "forceNetwork",
             "line",
             "radial",
-            "conclusion"];
+            "conclusion",
+            "aboutus",
+            "appendix"];
 
         d3.select("figure").select("#" + vizes[response.index])
             .transition()

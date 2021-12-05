@@ -33,7 +33,8 @@ class TimeSeriesPlotVis {
         this.parentElement = parentElement;
         // assumes data is sorted
         this.data = data;
-        this.formatDate = d3.timeFormat("%b %Y");
+        this.formatDate = d3.timeFormat("%Y-%m-%d");
+        this.tickFormatDate = d3.timeFormat("%b %Y");
         this.cities = new Set(cities)
         this.eventData = eventData;
         this.filteredEventData = eventData;
@@ -50,7 +51,7 @@ class TimeSeriesPlotVis {
 
         vis.margin = {top: 100, right: 40, bottom: 50, left: 60};
         vis.width = document.getElementById(vis.parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = vis.maxHeight;
+        vis.height = document.getElementById(vis.parentElement).parentElement.parentElement.parentElement.getBoundingClientRect().height*0.70 - vis.margin.top - vis.margin.bottom;
 
         if (TIME_SERIES_VIS_DEBUG) {
             console.log("width:", vis.width, "height:", vis.height)
@@ -68,7 +69,7 @@ class TimeSeriesPlotVis {
 
         vis.xAxis = d3.axisBottom()
             .scale(vis.x)
-            .tickFormat(vis.formatDate)
+            .tickFormat(vis.tickFormatDate)
             .ticks(7);
 
         vis.y = d3.scaleLinear()
@@ -266,13 +267,13 @@ class TimeSeriesPlotVis {
         vis[cityPathName] = vis.svg.selectAll("." + cityLineClass)
             .datum(cityData)
 
+        vis[cityPathName].exit().remove();
+
         vis[cityPathName].enter()
             .append("path")
             .attr("class", cityLineClass)
             .merge(vis[cityPathName])
             .attr("d", vis[cityLineName])
-
-        vis[cityPathName].exit().remove();
 
         let cityDataMap = new Map();
         cityData.forEach(d => {
