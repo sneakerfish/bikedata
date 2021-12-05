@@ -108,7 +108,6 @@ function createVis(data) {
 
     tripCountTimeSeriesVis = new TimeSeriesVis('tripCountTimeSeriesPlot', 'tripCountTimeSeriesBrush', tripData, eventData, "tripCount", 'trip_count_7d_ma_norm');
     timeSeriesTripCountEventStepper();
-    timeSeriesTripCountEventProgressStepper();
 
     timeDurationtimeSeriesVis = new TimeSeriesVis('tripDurationTimeSeriesPlot', 'tripDurationTimeSeriesBrush', tripData, eventData, "tripDuration", 'median_trip_duration_minutes');
     timeSeriesTripDurationEventStepper();
@@ -127,6 +126,8 @@ function createVis(data) {
     dayViewBoston = new DayViewRadial('day-view-boston', dayViewData['Boston'], "Boston");
     dayViewNyc = new DayViewRadial('day-view-nyc', dayViewData['NYC'], "NYC");
     dayViewSf = new DayViewRadial('day-view-sf', dayViewData['SF'], "SF");
+
+    registerNextSteps();
 }
 
 function prepDayData(data) {
@@ -165,10 +166,49 @@ function registerTripCountTimeSeriesStepCallback(step, sfCheckBox, bostonCheckBo
     })
 }
 
-function timeSeriesTripCountEventProgressStepper() {
+function registerNextSteps() {
+    registerNextStep(1, "step1bNext");
+    registerNextStep(8, 'step5Next');
+    registerNextStep(13, 'step10Next');
+    registerNextStep(14, 'step11Next');
+}
+
+/**
+ * Register next steps
+ *
+ * @param stepIndex     the index of the step where the next step resides, refer to the scoller.js
+ * @param stepNextId    the id of the next step box
+ */
+function registerNextStep(stepIndex, stepNextId) {
+    registerNextStepCallBack(stepIndex, stepNextId);
+    registerResetNextStep(stepIndex, stepNextId);
+}
+
+/**
+ * Hides nextStep box when the user leaves to an earlier or later step
+ * @param stepIndex  the step where the nextstepbox lives
+ * @param id    id of the nextStepBox
+ */
+function registerResetNextStep(stepIndex, stepNextId) {
+    scroller.registerStepEnterCallback(function(res) {
+        if (res.index == stepIndex && res.direction == 'down') {
+            d3.select("#" + stepNextId)
+                .attr("class", "stepNextBox enableStepNextBox");
+        } else if (res.index == stepIndex - 1 || res.index == stepIndex + 1) {
+            d3.select("#" + stepNextId)
+                .attr("class", "stepNextBox")
+                .style("visibility", "hidden")
+                .style("opacity", 0)
+                .style("display", "none");
+        }
+    });
+}
+
+function registerNextStepCallBack(stepIndex) {
     scroller.registerStepProgressCallback(res => {
-        if (res.index == 1 && res.progress >= 0.10) {
-            d3.select('#step1bNext')
+        if (res.index == stepIndex && res.progress >= 0.10) {
+            d3.select('.enableStepNextBox')
+                .attr("class", "stepNextBox")
                 .transition()
                 .duration(500)
                 .style("visibility", "visible")
@@ -207,11 +247,17 @@ function timeSeriesTripDurationEventStepper() {
     })
 }
 function updateVisualization() {
-    tripCountTimeSeriesVis.wrangleData();
-    timeDurationtimeSeriesVis.wrangleData()
     barVis.wrangleData();
     forceNetworkVis.wrangleData();
     lineVis.wrangleData();
+}
+
+function updateTripCountTimeSeriesVisualization() {
+    tripCountTimeSeriesVis.wrangleData();
+}
+
+function updateTimeDurationTimeSeriesVisualization() {
+    timeDurationtimeSeriesVis.wrangleData()
 }
 
 function updateDayDates() {
