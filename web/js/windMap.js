@@ -417,6 +417,7 @@ class WindMap {
 				weight: vis.circleStyle.strokeWidth,
 				station_id: d.station_id, // add id & status for click event.
 				status: d.status,
+				className: "circle"
 				}
 			).on("mouseover", () => addLines(d))
 				.on("click", toggleSelected)
@@ -462,7 +463,8 @@ class WindMap {
 				color: oldColor.darker(),
 				dashArray: [dot, gap],
 				weight: pixelValue(vis.latitude, l(amount), vis.zoom),
-				lineCap: lineCap
+				lineCap: lineCap,
+				interactive: false // else it blocks mouseclicks.
 			})
 		}
 
@@ -516,8 +518,8 @@ class WindMap {
 			vis.zoom = vis.map.getZoom()
 
 			// Toggle legend on/off else it becomes too big.
-			vis.zoom > 12 && toggleLegend(false)
-			vis.zoom < 13 && toggleLegend(true)
+			vis.zoom > 13 && toggleLegend(false)
+			vis.zoom < 14 && toggleLegend(true)
 
 			vis.legend.onAdd = setLegend
 			vis.legend.addTo(vis.map)
@@ -693,7 +695,7 @@ class WindMap {
 				.on("click", clearSelected)
 
 
-			const get_title = function() {
+			const get_html = function() {
 				const amount = vis.selectedStations.length
 				if (amount > 0){
 					const single_selection = vis.stationInfo[vis.selectedStations[0]].name
@@ -708,11 +710,11 @@ class WindMap {
 				.enter()
 				.append("text")
 				.attr("class", "tooltip-title")
-				.attr("x", 10)
-				.attr("y", 10)
+				.attr("x", fontsize / 2)
+				.attr("y", fontsize + fontsize / 2)
 				.attr("font-size", fontsize)
 				.style("fill", fontcolor)
-				.text(d => get_title())
+				.html(d => get_html())
 				.on("click", clearSelected)
 
 			return div.node()
