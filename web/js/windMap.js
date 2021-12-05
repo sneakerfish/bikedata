@@ -26,7 +26,8 @@ class WindMap {
 			out: "#FB4D42",         // more people going out.
 			retour: "#041E42",
 			legend: "rgba(168,168,168,0.47)",
-			legendfont: "rgba(24,24,24,0.47)"
+			legendfont: "rgba(24,24,24,0.47)",
+			selected: "#FF007F"
 		}
 
 		this.circleStyle = {
@@ -44,9 +45,20 @@ class WindMap {
 
 		}
 
+		// this.tooltipTitles = {
+
+
+
 		this.legendStyle = {
 			fontSize: 11,
 			show: true
+		}
+
+		this.tooltipStyles = {
+			fontSize: 11,
+			fontColor: "rgba(24,24,24,0.47)",
+			background: "#f3f2f2",
+			show: false,
 		}
 
 		this.circleRange = [50, 300]
@@ -99,6 +111,7 @@ class WindMap {
 		vis.lineGroup = L.layerGroup().addTo(vis.map);
 
 		vis.legend = L.control({position: 'bottomleft'});
+		vis.tooltip = L.control({position: 'topleft'});
 
 		// wrangleData will be called from updateVisualisation.
 	}
@@ -183,6 +196,7 @@ class WindMap {
 				},
 				status: "inactive",           // "in", "out", "retour", "netzero"
 				color: vis.colors.inactive,
+				newcolor: false,              // Used for temporary color changes.
 				radius: 0,
 				travellers: {
 					in: {},                   // in: { station_id: 5 }
@@ -294,6 +308,8 @@ class WindMap {
 			.domain([vis.rMin, vis.rMax])
 			.range(vis.circleRange)
 
+		vis.debug && console.log("rScale: ", vis.rMin, vis.rMax)
+
 		// Set radius for every station.
 		vis.displayData.forEach((d) => {
 			d.radius = vis.r(d.links[d.status].length)
@@ -308,11 +324,8 @@ class WindMap {
 		vis.displayData = vis.displayData.sort((a,b) => sortMethod(a,b))
 
 		vis.debug && console.log("displayData: ", vis.displayData)
-		// vis.debug && console.log("Statusinfo: ", vis.statusInfo)
 
-
-
-		vis.debug && console.log("rScale: ", vis.rMin, vis.rMax)
+		vis.selectedStations = []
 
 		// statusExists = [ "in", "out", "inactive", "retour", "netzero" ]
 		const statusExists = Object.keys(vis.statusInfo).filter((key) => vis.statusInfo[key])
@@ -337,6 +350,7 @@ class WindMap {
 			// only create unique circles.
 			const range = [...new Set([min, mid, max])] // [ 2, 3, 3 ] => [ 2, 3 ]
 			// vis.debug && console.log("range: ", range)
+
 
 			// Create one circle for the legend.
 			const circle = function(amount) {
@@ -383,20 +397,29 @@ class WindMap {
 		})
 
 		// Refresh legend when zooming.
-		vis.map.on("zoomend", function() {
-			addLegend()
-		})
+		vis.map.on("zoomend", addLegend)
 		addLegend()
 
+
+		// vis.map.on("click", clickHandler)
+
+		vis.tooltip.onAdd = setTooltip
+		vis.tooltip.addTo(vis.map)
+
+
 		function circle (d) {
+			const color = d.newcolor ? d.newcolor : d.color // color changes take priority.
 
 			return L.circle(d.loc, d.radius, {
-				color: d.color,
+				color: color,
 				fillOpacity: vis.circleStyle.fillOpacity,
 				opacity: vis.circleStyle.strokeOpacity,
-				weight: vis.circleStyle.strokeWidth
+				weight: vis.circleStyle.strokeWidth,
+				station_id: d.station_id, // add id & status for click event.
+				status: d.status,
 				}
 			).on("mouseover", () => addLines(d))
+				.on("click", toggleSelected)
 		}
 
 		function addLines(d) {
@@ -441,6 +464,52 @@ class WindMap {
 				weight: pixelValue(vis.latitude, l(amount), vis.zoom),
 				lineCap: lineCap
 			})
+		}
+
+		function rebuildDisplayData() {
+			vis.displayData = vis.displayData.map((d) =>{
+				if (vis.selectedStations.includes(d.station_id)){
+					d.newcolor = vis.colors.selected
+				} else {
+					d.newcolor = false
+				}
+				return d
+			})
+		}
+
+		function toggleSelected(e) {
+			vis.debug && console.log("clickhandler", e)
+			if (e.target.options.hasOwnProperty("station_id")) {
+				const station_id = e.target.options.station_id
+
+				// Select station.
+				if(!vis.selectedStations.includes(station_id)){
+					vis.selectedStations.push(station_id)
+
+					rebuildDisplayData()
+					toggleTooltip(true)
+					vis.updateVis()
+				} else {
+					// Deselect station.
+					console.log(vis.selectedStations)
+					vis.selectedStations = vis.selectedStations.filter((s) => s !== station_id)
+
+					rebuildDisplayData()
+					vis.updateVis()
+
+					// If no stations left, turn off.
+					vis.selectedStations.length === 0 && toggleTooltip(false)
+				}
+				vis.debug && console.log(vis.selectedStations)
+			}
+		}
+
+		function clearSelected() {
+			vis.selectedStations = []
+
+			rebuildDisplayData()
+			toggleTooltip(false)
+			vis.updateVis()
 		}
 
 		function addLegend() {
@@ -589,6 +658,72 @@ class WindMap {
 				.on("click", toggleLegend)
 
 			return div.node()
+		}
+
+		function setTooltip() {
+
+			const fontsize = vis.tooltipStyles.fontSize
+			const fontcolor = vis.tooltipStyles.fontColor
+
+			// Setup tooltip size.
+			const width = 200;
+			const height = 50;
+			const margin = { left: 0, right: 0, top: 0, bottom: 0 };
+
+			// Setup drawing area.
+			const div = d3.create("div");
+			const svg = div.append("svg")
+				.attr("class", "toolTip")
+				.attr("display", vis.tooltipStyles.show ? "block" : "none")
+				.attr("width", width+margin.left+margin.right)
+				.attr("height", height+margin.top+margin.bottom)
+				.append("g")
+				.attr("transform","translate("+[margin.left,margin.top]+")");
+
+			const quad = svg.selectAll("g.rect.toolTip")
+				.data([0])
+				.enter()
+				.append("rect")
+				.attr("class", "toolTip")
+				.attr("x", 0)
+				.attr("y", 0)
+				.attr("width", width)
+				.attr("height", height)
+				.attr("fill", vis.tooltipStyles.background)
+				.on("click", clearSelected)
+
+
+			const get_title = function() {
+				const amount = vis.selectedStations.length
+				if (amount > 0){
+					const single_selection = vis.stationInfo[vis.selectedStations[0]].name
+					const many_selection = `You selected ${amount} stations.`
+
+					return amount === 1 ? single_selection : many_selection
+				}
+			}
+
+			const title = svg.selectAll("g.text.tooltip-title")
+				.data([0])
+				.enter()
+				.append("text")
+				.attr("class", "tooltip-title")
+				.attr("x", 10)
+				.attr("y", 10)
+				.attr("font-size", fontsize)
+				.style("fill", fontcolor)
+				.text(d => get_title())
+				.on("click", clearSelected)
+
+			return div.node()
+		}
+
+		function toggleTooltip(value) {
+			const isUndefined = typeof value !== 'boolean'
+
+			vis.tooltipStyles.show = isUndefined ? !vis.tooltipStyles.show : value
+			const show = vis.tooltipStyles.show
+			d3.select('svg.toolTip').attr("display", show ? "block" : "none")
 		}
 
 		// Value is optional, can be true or false
