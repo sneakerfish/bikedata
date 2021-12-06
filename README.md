@@ -39,3 +39,10 @@ The web visualization component, including the summary data, is in the `web` fol
 * Apache Parquet, https://parquet.apache.org/
 * Leaflet JS, for the map, https://leafletjs.com/
 
+### Screencast video
+
+https://youtu.be/dWJkf18BCMM
+
+### Project Website
+
+https://hewness.github.io/bikeshare/
