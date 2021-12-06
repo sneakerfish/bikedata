@@ -66,7 +66,7 @@ The `web` **folder** contains the following:
 * _index.html_ &emsp;Scrollytelling implementation by Richard Morello
 
 ### Features of our website
-![img_2.png](img_2.png)
+![img_2.png](screenshots/img_2.png)
 **Navigation**
 - While scrolling down the page you will be guided through the story.
 - By fading the pages into each other the transition is smooth.
@@ -76,14 +76,14 @@ The `web` **folder** contains the following:
 <br><br>
 - The stacked areachart "stations by city" has a vertical guide and tooltip. 
 
-![img_3.png](img_3.png)
+![img_3.png](screenshots/img_3.png)
 **Linecharts**
 - "How does ridership compare accross cities over time" these charts have a brushable horizontal chart area.
 - The linechart also has notes of relevant news articles that might have influenced ridership, these are marked as circles.
 - You can select the kind of data and the city you prefer.
 - The linechart also has a vertical ruler and tooltip.
 
-![img_4.png](img_4.png)
+![img_4.png](screenshots/img_4.png)
 **Direction map**
 - The direction map consist mostly out of red and green circles. To express a net movement
 only the amount that is larger is taken into account. Say a station has 6 coming and 8 leaving,
@@ -113,7 +113,7 @@ to unselect just that one.
 - You can pan over the map, you will find other place with bikeshares like north of Boston,
 in Salem or South of San Fransisco.
 
-![img_1.png](img_1.png)
+![img_1.png](screenshots/img_1.png)
 
 **Forcemap**
 
@@ -123,7 +123,7 @@ You can drag the stations around. If you select a high number the names might be
 them, you can pull them in a better position.
 - Selecting a different area will make the graph jump in place as well.
 
-![img_5.png](img_5.png)
+![img_5.png](screenshots/img_5.png)
 
 **Radialchart**
 
