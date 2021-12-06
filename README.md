@@ -55,9 +55,9 @@ The `web` **folder** contains the following:
   * _rainbow_blue_bikes.jpg_&emsp;  Photo by Richard Morello
 * `js` **folder**
   * _barVis.js_ &emsp;Barchart for cummalative trip count
-  * _dayViewRadial.js_&emsp;Radial chart to see the amount of trips per time, by Pattrick Watts.
-  * _forceNetworkVis.js_&emsp;  Networkgraph gives most popular routes, by Gordon Hew
-  * _leaflet.js_ &emsp;Library for maps.
+  * _dayViewRadial.js_&emsp;Radial line chart to see the number of active riders during a given day, by Patrick Watts
+  * _forceNetworkVis.js_&emsp;Network graph gives most popular routes, by Gordon Hew
+  * _leaflet.js_ &emsp;Library for maps
   * _leaflet.js_map&emsp;Library
   * _lineGraphVis.js_&emsp;Used to plot the amount of round trips
   * _main.js_&emsp;Used by all
@@ -66,7 +66,7 @@ The `web` **folder** contains the following:
   * _timeSeriesPlotVis.js_ &emsp; Gordon Hew
   * _timeSeriesTimeline.js_&emsp; Gordon Hew
   * _timeSeriesVis.js_&emsp; Gordon Hew
-  * _windMap.js_ &emsp;UThe directional map. Code by No-no Groenen
+  * _windMap.js_ &emsp;UThe directional map by No-no Groenen
 * _index.html_ &emsp;Scrollytelling implementation by Richard Morello
 
 ### Features of our website
@@ -83,7 +83,7 @@ The `web` **folder** contains the following:
 ![img_3.png](screenshots/img_3.png)
 **Linecharts**
 - "How does ridership compare accross cities over time" these charts have a brushable horizontal chart area.
-- The linechart also has notes of relevant news articles that might have influenced ridership, these are marked as circles.
+- The linechart also has notes of relevant news articles that might have influenced ridership or are interesting reference points, these are marked as circles.
 - You can select the kind of data and the city you prefer.
 - The linechart also has a vertical ruler and tooltip.
 
@@ -121,15 +121,15 @@ in Salem or South of San Fransisco.
 
 **Forcemap**
 
-- The map that shows the most popular routes is a force map. You can select the number the top consists 
-of and it will generate a map based on popularity instead of geospatial properties.
+- The map that shows the most popular routes is a force map. You can select the number of top stations to show
+and it will generate a map based on popularity instead of geospatial properties.
 You can drag the stations around. If you select a high number the names might be overlapping, but by dragging
 them, you can pull them in a better position.
-- Selecting a different area will make the graph jump in place as well.
+- Selecting a different city will make the graph jump in place as well.
 
 ![img_5.png](screenshots/img_5.png)
 
-**Radialchart**
+**Radial line chart**
 
 - This chart represents the number of active riders in a city by minute for a given day. 
 - You can select and unselect days to add them to the charts. You will find patterns that are sometimes shared 
