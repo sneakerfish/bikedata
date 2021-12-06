@@ -9,6 +9,7 @@ class WindMap {
 		this.tripData = fromToData
 		this.date = date
 		this.debug = true
+
 		this.displayData = []
 
 		this.formatTime = d3.timeFormat("%I:%M %p") // 09:01 AM
@@ -57,7 +58,7 @@ class WindMap {
 		this.tooltipStyles = {
 			fontSize: 11,
 			fontColor: "rgba(24,24,24,0.47)",
-			background: "#f3f2f2",
+			background: "#f8f8f8",
 			show: false,
 		}
 
@@ -196,7 +197,6 @@ class WindMap {
 				},
 				status: "inactive",           // "in", "out", "retour", "netzero"
 				color: vis.colors.inactive,
-				newcolor: false,              // Used for temporary color changes.
 				radius: 0,
 				travellers: {
 					in: {},                   // in: { station_id: 5 }
@@ -383,6 +383,8 @@ class WindMap {
 	updateVis() {
 		let vis = this;
 
+		toggleTooltip(false)
+
 		// Set HTML elements to current date/time.
 		document.getElementById(vis.ids.setDay).innerText = vis.time.toDateString()
 		document.getElementById(vis.ids.setTime).innerText = vis.formatTime(vis.time)
@@ -408,26 +410,33 @@ class WindMap {
 
 
 		function circle (d) {
-			const color = d.newcolor ? d.newcolor : d.color // color changes take priority.
+
+			const get_color = function() {
+				toggleSelected(d.station_id)
+				return isSelected(d.station_id) ? vis.colors.selected : d.color
+			}
 
 			return L.circle(d.loc, d.radius, {
-				color: color,
+				color: d.color,
 				fillOpacity: vis.circleStyle.fillOpacity,
 				opacity: vis.circleStyle.strokeOpacity,
 				weight: vis.circleStyle.strokeWidth,
-				station_id: d.station_id, // add id & status for click event.
-				status: d.status,
 				className: "circle"
 				}
 			).on("mouseover", () => addLines(d))
-				.on("click", toggleSelected)
+				.on("click", function() {
+					this.setStyle({
+						color: get_color(),
+						className: isSelected(d.station_id) ? "circle selected" : "circle"
+					})
+				})
 		}
 
 		function addLines(d) {
 			const { status, color, station_id } = d
 
-			// Remove previous hover line.
-			vis.lineGroup.clearLayers();
+			// Only remove previous ones if there is no selection.
+			d3.selectAll("#wind-map .line:not(.selected)").remove()
 
 			// Only add lines if station has net direction.
 			const hasLines = (status === "in" || status === "out")
@@ -464,54 +473,48 @@ class WindMap {
 				dashArray: [dot, gap],
 				weight: pixelValue(vis.latitude, l(amount), vis.zoom),
 				lineCap: lineCap,
-				interactive: false // else it blocks mouseclicks.
+				interactive: false, // else it blocks mouseclicks.
+				className: isSelected(idA) || isSelected(idB) ? "selected line" : "line"
 			})
 		}
 
-		function rebuildDisplayData() {
-			vis.displayData = vis.displayData.map((d) =>{
-				if (vis.selectedStations.includes(d.station_id)){
-					d.newcolor = vis.colors.selected
-				} else {
-					d.newcolor = false
-				}
-				return d
-			})
+		function toggleSelected(station_id) {
+			const selected = vis.selectedStations.includes(station_id)
+
+			// Remove or add to the array.
+			if (selected) {
+				vis.selectedStations = vis.selectedStations.filter((d) => d !== station_id)
+			} else {
+				vis.selectedStations.push(station_id)
+			}
+
+			toggleSelectedLines()
+
+			vis.selectedStations.length > 0 && toggleTooltip(true)
+			vis.selectedStations.length === 0 && toggleTooltip(false)
 		}
 
-		function toggleSelected(e) {
-			vis.debug && console.log("clickhandler", e)
-			if (e.target.options.hasOwnProperty("station_id")) {
-				const station_id = e.target.options.station_id
+		function toggleSelectedLines() {
+			vis.lineGroup.clearLayers()
+			const selected = vis.selectedStations.length > 0
 
-				// Select station.
-				if(!vis.selectedStations.includes(station_id)){
-					vis.selectedStations.push(station_id)
-
-					rebuildDisplayData()
-					toggleTooltip(true)
-					vis.updateVis()
-				} else {
-					// Deselect station.
-					console.log(vis.selectedStations)
-					vis.selectedStations = vis.selectedStations.filter((s) => s !== station_id)
-
-					rebuildDisplayData()
-					vis.updateVis()
-
-					// If no stations left, turn off.
-					vis.selectedStations.length === 0 && toggleTooltip(false)
-				}
-				vis.debug && console.log(vis.selectedStations)
+			if (selected) {
+				vis.selectedStations.forEach((d) => {
+					const station = vis.stationInfo[d]
+					addLines(station)
+				})
 			}
 		}
 
 		function clearSelected() {
 			vis.selectedStations = []
 
-			rebuildDisplayData()
 			toggleTooltip(false)
 			vis.updateVis()
+		}
+
+		function isSelected(station_id) {
+			return vis.selectedStations.includes(station_id)
 		}
 
 		function addLegend() {
@@ -669,8 +672,8 @@ class WindMap {
 
 			// Setup tooltip size.
 			const width = 200;
-			const height = 50;
-			const margin = { left: 0, right: 0, top: 0, bottom: 0 };
+			const height = 25;
+			const margin = { left: 15, right: 0, top: 0, bottom: 0 };
 
 			// Setup drawing area.
 			const div = d3.create("div");
@@ -695,16 +698,6 @@ class WindMap {
 				.on("click", clearSelected)
 
 
-			const get_html = function() {
-				const amount = vis.selectedStations.length
-				if (amount > 0){
-					const single_selection = vis.stationInfo[vis.selectedStations[0]].name
-					const many_selection = `You selected ${amount} stations.`
-
-					return amount === 1 ? single_selection : many_selection
-				}
-			}
-
 			const title = svg.selectAll("g.text.tooltip-title")
 				.data([0])
 				.enter()
@@ -714,7 +707,7 @@ class WindMap {
 				.attr("y", fontsize + fontsize / 2)
 				.attr("font-size", fontsize)
 				.style("fill", fontcolor)
-				.html(d => get_html())
+				.text(d => "hello")
 				.on("click", clearSelected)
 
 			return div.node()
@@ -726,6 +719,20 @@ class WindMap {
 			vis.tooltipStyles.show = isUndefined ? !vis.tooltipStyles.show : value
 			const show = vis.tooltipStyles.show
 			d3.select('svg.toolTip').attr("display", show ? "block" : "none")
+
+			if(show){
+				d3.select('.tooltip-title').text(get_title())
+			}
+		}
+
+		function get_title(){
+			const amount = vis.selectedStations.length
+			if (amount > 0){
+				const single_selection = vis.stationInfo[vis.selectedStations[0]].name
+				const many_selection = `You selected ${amount} stations.`
+				return amount === 1 ? single_selection : many_selection
+			}
+
 		}
 
 		// Value is optional, can be true or false
