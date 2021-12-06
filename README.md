@@ -127,7 +127,7 @@ them, you can pull them in a better position.
 
 **Radialchart**
 
-- This chart represents the amount of trips in a city by minute. 
+- This chart represents the number of active riders in a city by minute for a given day. 
 - You can select and unselect days to add them to the charts. You will find patterns that are sometimes shared 
 by the cities or stand out.
 - The color of the selected day in the calendar is represented by a line with the same color.
