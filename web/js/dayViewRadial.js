@@ -159,6 +159,7 @@ class DayViewRadial {
             .attr("x", 0)
             .attr("y", -vis.outerRadius - 20)
             .attr("text-anchor", "middle")
+            .attr("font-weight", "bold")
             .text("Active " + vis.city + " Riders")
 
         this.wrangleData();
