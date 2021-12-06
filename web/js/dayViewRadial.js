@@ -162,6 +162,11 @@ class DayViewRadial {
             .attr("font-weight", "bold")
             .text("Active " + vis.city + " Riders")
 
+        vis.tooltip = vis.center.append("text")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("text-anchor", "middle")
+
         this.wrangleData();
     }
 
@@ -250,6 +255,24 @@ class DayViewRadial {
             .attr("value", d => d[0].date)
             .attr("fill", "none")
             .attr("stroke-width", 2)
+            .attr("opacity", 0.8)
+            .on("mouseover", function (e, d) {
+                vis.tooltip.attr("visibility", "visible")
+                d3.select(this).style("stroke-width", 4);
+
+                let text = document.getElementById(d[0].date).nextSibling.textContent;
+                vis.tooltip.text(text);
+            })
+            .on("mouseout", function() {
+                d3.select(this)
+                    .style("stroke-width", 2)
+                vis.tooltip.attr("visibility", "hidden")
+            })
+            .on("mousemove", function(e) {
+                let ptr = d3.pointer(e);
+                vis.tooltip.attr("x", ptr[0])
+                    .attr("y", ptr[1] - 20);
+            })
             .merge(lines)
             .attr("d", vis.line);
     }
