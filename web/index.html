@@ -236,11 +236,28 @@
             </div>
         </div>
         <div id="step9" class="step">
-            <div class="stepBox">
-                <h2>How many people are riding during a typical day (Boston Day View 21st March 2021)?</h2>
+            <div class="stepExploreBox">
+                <h2>Explore time breakdown of active riders in a day</h2>
                 <hr/>
                 <p style="text-align: left">
-                    Examining this radar polar coordinate plot that shows ridership across time, we see that the number of riders increases during business hours and decreases in the late evening.
+                    Now we go into specific days and explore trends during the hours of the day and across different days.
+                    See if you can answer these questions by using the checkboxes to compare days:
+                <ol>
+                    <li>What do you think happened between March 2nd and March 30th that caused such a drop in ridership?</li>
+                </ol>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2"
+                        aria-expanded="false" aria-controls="collapse2">
+                    Reveal answers
+                </button>
+                <div class="collapse" id="collapse2">
+                    <div class="card card-body">
+                        <ol>
+                            <li>Each city started a stay at home order on March 20th because of COVID.
+                                Notice the peak times at 9am and 6pm are the most affected as people are no longer commuting to work.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
                 </p>
             </div>
         </div>
@@ -627,7 +644,10 @@
 
         <!--step 8-->
         <div id="radial" class="visualization">
-            <div class="container-fluid" style="height: 30%;">
+            <div class="container-fluid" style="margin-top: 0; padding-top: 0; height: 30%;">
+                <div class="col" style="margin-top: 0; padding-top: 0">
+                    <h1 style="background-color: #4e88c7; color: white; padding: 10px; margin-top: 0">How does the number of active riders vary during the day?</h1>
+                </div>
                 <div class="row">
                     <p>Toggle dates to show the number of active riders at any moment in time on those days.</p>
                     <div id="day-view-selection" class="container"></div>
