@@ -47,8 +47,6 @@ class ForceNetworkVis {
         vis.city = document.querySelector('input[name="cityNetworkRadioOptions"]:checked').value;
         vis.topN = parseInt(document.getElementById('topStations').value);
 
-        console.log('topN', document.getElementById('topStations').value);
-
         document.getElementById('topStationsLabel').innerHTML='Top ' + vis.topN + " Most Frequented Trip Routes";
 
         vis.filteredData = vis.data.filter(d => d.city == vis.city)
