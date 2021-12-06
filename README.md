@@ -6,15 +6,12 @@
 * Richard Morello
 * Patrick Watts
 
-### Project Website
+### Links
 
-Live implementation on Github pages:<br>
-https://hewness.github.io/bikeshare/
+Website: https://hewness.github.io/bikeshare/
+Screencast video: https://youtu.be/dWJkf18BCMM
 
-### Screencast video
-
-https://youtu.be/dWJkf18BCMM
-
+### Description
 
 **Bikedata** is a tool for visualizing and comparing three public bike-share systems in the United States: 
 BayWheels, covering San Francisco, BlueBikes, covering the Boston Metro area and CitiBike, covering the New 
