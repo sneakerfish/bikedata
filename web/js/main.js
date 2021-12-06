@@ -241,6 +241,8 @@ function radialExploreSelect(index) {
         selectIdx = [2, 3];
     } else if (index === 2) {
         selectIdx = [0, 4];
+    } else if (index === 3) {
+        selectIdx = [1];
     }
     if (selectIdx) {
         document.querySelectorAll("#day-view-selection input").forEach((opt, i) => {
