@@ -235,6 +235,23 @@ function updateDayDates() {
     dayViewSf.wrangleData();
 }
 
+function radialExploreSelect(index) {
+    let selectIdx;
+    if (index === 1) {
+        selectIdx = [2, 3];
+    } else if (index === 2) {
+        selectIdx = [0, 4];
+    } else if (index === 3) {
+        selectIdx = [1];
+    }
+    if (selectIdx) {
+        document.querySelectorAll("#day-view-selection input").forEach((opt, i) => {
+            opt.checked = selectIdx.includes(i);
+        });
+        updateDayDates();
+    }
+}
+
 function updateWindmap() {
     const currentCity = document.querySelector(`input[name=${windIds.city}]:checked`).value
 

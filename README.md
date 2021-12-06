@@ -11,12 +11,6 @@
 Live implementation on Github pages:<br>
 https://hewness.github.io/bikeshare/
 
-Our 2 minute overview video:<br>
-https://drive.google.com/file/d/1zsr3QSjjVmIQBVQS9M0inWQ64hmwZTf5/view?usp=sharing
-
-Github repo on:<br>
-https://github.com/sneakerfish/bikedata
-
 **Bikedata** is a tool for visualizing and comparing three public bike-share systems in the United States: 
 BayWheels, covering San Francisco, BlueBikes, covering the Boston Metro area and CitiBike, covering the New 
 York City metro area.   
@@ -24,6 +18,10 @@ York City metro area.
 The original publicly available data contains a row of text for every ride and the files are stored as CSV files 
 with one file per month of data.  Our team focused on data from January 2017 through September 2021.  The data were 
 downloaded and loaded in to a large Apache Parquet data source which can be queried using Spark. 
+
+### Project Media
+* Website: https://hewness.github.io/bikeshare/
+* Video: https://www.youtube.com/watch?v=dWJkf18BCMM
 
 ### Public Datasets
 * San Francisco Bay Wheels System Data, https://www.lyft.com/bikes/bay-wheels/system-data
@@ -143,4 +141,10 @@ by the cities or stand out.
 * Apache Parquet, https://parquet.apache.org/
 * Leaflet JS, for the map, https://leafletjs.com/
 
+### Screencast video
 
+https://youtu.be/dWJkf18BCMM
+
+### Project Website
+
+https://hewness.github.io/bikeshare/

@@ -9,7 +9,6 @@ class WindMap {
 		this.tripData = fromToData
 		this.date = date
 		this.debug = false
-
 		this.displayData = []
 
 		this.formatTime = d3.timeFormat("%I:%M %p") // 09:01 AM

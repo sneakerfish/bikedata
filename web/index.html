@@ -37,7 +37,7 @@
                 <p style="text-align: left">Each city offers similar membership plans, but <b>Boston's Blue
                     Bikes is more affordable</b> New York City's annual plan.</p>
 
-                <p style="text-align: left"><b>New York City's system is significantly more larger and more extensive
+                <p style="text-align: left"><b>New York City's system is significantly larger and more extensive
                 </b>with more than twice the number of stations as Boston.</p>
             </div>
             <div id="step1bNext" class="stepNextBox">
@@ -83,7 +83,7 @@
                     Boston's ridership <b>grew steadily</b> with a drop during the start
                     of the COVID-19 pandemic.</p>
                 <p style="text-align: left">
-                    But unlike the Bay Area, Boston's bikeshare usage has <b>recovered to higher than pre-COVID-19 levels</b>.
+                    But unlike the Bay Area, Boston's bike-share usage has <b>recovered to higher than pre-COVID-19 levels</b>.
                 </p>
             </div>
         </div>
@@ -198,7 +198,8 @@
                     <br>
                     <div class="collapse" id="forceNetworkCollapse">
                         <div class="card card-body">
-                            MIT
+                            MIT. If you narrow down to the top 10 in Boston, you can see MIT has most of the top stations.
+                            Harvard also has some popular stations.
                         </div>
                     </div>
                 </div>
@@ -226,7 +227,7 @@
             <div class="collapse" id="collapse1">
                 <div class="card card-body">
                     <ol>
-                        <li>July is the generally most common month pre-covid.</li>
+                        <li>July is the generally most common month pre-COVID-19.</li>
                         <li>Round trips appear to be proportionally more common during warm weather.</li>
                         <li>Round trips skyrocketed and peaked in April/May 2020. In May 2020 in Boston the percentage quadrupled! Possible reasons include: work from home reducing one-way trips and gym closure encouraging outdoor exercise.</li>
                     </ol>
@@ -236,11 +237,46 @@
             </div>
         </div>
         <div id="step9" class="step">
-            <div class="stepBox">
-                <h2>How many people are riding during a typical day (Boston Day View 21st March 2021)?</h2>
+            <div class="stepExploreBox">
+                <h2>Explore time breakdown of active riders in a day</h2>
                 <hr/>
                 <p style="text-align: left">
-                    Examining this radar polar coordinate plot that shows ridership across time, we see that the number of riders increases during business hours and decreases in the late evening.
+                    Now we go into specific days and explore trends during the hours of the day and across different days.
+                    See if you can answer these questions by using the checkboxes to compare days:
+                <ol>
+                    <li>What do you think happened between March 2nd and March 30th 2020 that caused such a drop in
+                        ridership?
+                        <button type="button" class="btn btn-primary btn-sm" onclick="radialExploreSelect(1)">Compare</button>
+                    </li>
+                    <li>Compare December 19th, 2019 with July 20, 2020. What trends do you notice comparing a warm July to a cold December? Why might San Francisco behave differently?
+                        <button type="button" class="btn btn-primary btn-sm" onclick="radialExploreSelect(2)">Compare</button>
+                    </li>
+                    <li>
+                        What do you notice about New Year's Day that is unusual for most other days?
+                        <button type="button" class="btn btn-primary btn-sm" onclick="radialExploreSelect(3)">Compare</button>
+                    </li>
+                </ol>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2"
+                        aria-expanded="false" aria-controls="collapse2">
+                    Reveal answers
+                </button>
+                <div class="collapse" id="collapse2">
+                    <div class="card card-body">
+                        <ol>
+                            <li>Each city started a stay at home order on March 20th because of COVID-19.
+                                Notice the peak times at 9am and 6pm are the most affected as people are no longer commuting to work.
+                            </li>
+                            <li>
+                                December has fewer riders in Boston and NYC likely because of the much colder weather.
+                                However, SF actually has more riders at the peak work commute times likely because the weather doesn't get as cold.
+                            </li>
+                            <li>
+                                One observation is that midnight to 3am is much busier than normal.
+                                People that celebrated the New Year may be using the bikes to travel home or have fun and explore the city at night.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
                 </p>
             </div>
         </div>
@@ -627,7 +663,10 @@
 
         <!--step 8-->
         <div id="radial" class="visualization">
-            <div class="container-fluid" style="height: 30%;">
+            <div class="container-fluid" style="margin-top: 0; padding-top: 0; height: 30%;">
+                <div class="col" style="margin-top: 0; padding-top: 0">
+                    <h1 style="background-color: #4e88c7; color: white; padding: 10px; margin-top: 0">How does the number of active riders vary during the day?</h1>
+                </div>
                 <div class="row">
                     <p>Toggle dates to show the number of active riders at any moment in time on those days.</p>
                     <div id="day-view-selection" class="container"></div>

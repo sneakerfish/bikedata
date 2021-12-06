@@ -11,23 +11,24 @@ function tryFillSelectionDates(data) {
         let count = 0;
         var divRow;
         for (let row in data) {
-            if (count % 6 === 0) {
+            if (count % 5 === 0) {
                 divRow = selection.append("div")
                     .attr("class", "row");
             }
             let div = divRow.append("div")
-                .attr("class", "col-2");
+                .attr("class", "col");
             div.append("input")
                 .attr("type", "checkbox")
                 .attr("name", row)
                 .attr("id", row)
-                .attr("checked", count++ < 2 ? "checked" : null)
+                .attr("checked", count >= 2 && count <= 3 ? "checked" : null)
                 .attr("value", row)
                 .style("margin", "5px")
                 .on("change", updateDayDates)
             div.append("label")
                 .attr("for", row)
                 .text(formatTime(parse(row)));
+            count++;
         }
     }
 }
@@ -49,7 +50,7 @@ class DayViewRadial {
         vis.colors = ["#1f77b4","#ff7f0e","#2ca02c","#d62728","#9467bd","#8c564b","#e377c2","#7f7f7f","#bcbd22","#17becf"];
         vis.colorUsages = Array(vis.colors.length).fill(0, 0);
 
-        vis.margin = {top: 0, right: 10, bottom: 0, left: 0};
+        vis.margin = {top: 20, right: 10, bottom: 0, left: 0};
         vis.width = document.getElementById("figure").getBoundingClientRect().width / 3 - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById("figure").getBoundingClientRect().height * 0.7 - vis.margin.top - vis.margin.bottom;
 
@@ -159,7 +160,13 @@ class DayViewRadial {
             .attr("x", 0)
             .attr("y", -vis.outerRadius - 20)
             .attr("text-anchor", "middle")
+            .attr("font-weight", "bold")
             .text("Active " + vis.city + " Riders")
+
+        vis.tooltip = vis.center.append("text")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("text-anchor", "middle")
 
         this.wrangleData();
     }
@@ -249,6 +256,24 @@ class DayViewRadial {
             .attr("value", d => d[0].date)
             .attr("fill", "none")
             .attr("stroke-width", 2)
+            .attr("opacity", 0.8)
+            .on("mouseover", function (e, d) {
+                vis.tooltip.attr("visibility", "visible")
+                d3.select(this).style("stroke-width", 4);
+
+                let text = document.getElementById(d[0].date).nextSibling.textContent;
+                vis.tooltip.text(text);
+            })
+            .on("mouseout", function() {
+                d3.select(this)
+                    .style("stroke-width", 2)
+                vis.tooltip.attr("visibility", "hidden")
+            })
+            .on("mousemove", function(e) {
+                let ptr = d3.pointer(e);
+                vis.tooltip.attr("x", ptr[0])
+                    .attr("y", ptr[1] - 20);
+            })
             .merge(lines)
             .attr("d", vis.line);
     }
