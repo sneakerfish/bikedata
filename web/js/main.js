@@ -168,8 +168,6 @@ function registerTripCountTimeSeriesStepCallback(step, sfCheckBox, bostonCheckBo
 function registerNextSteps() {
     registerNextStep(1, "step1bNext");
     registerNextStep(8, 'step5Next');
-    registerNextStep(13, 'step10Next');
-    registerNextStep(14, 'step11Next');
 }
 
 /**
