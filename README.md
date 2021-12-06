@@ -19,9 +19,13 @@ The original publicly available data contains a row of text for every ride and t
 with one file per month of data.  Our team focused on data from January 2017 through September 2021.  The data were 
 downloaded and loaded in to a large Apache Parquet data source which can be queried using Spark. 
 
-### Project Media
-* Website: https://hewness.github.io/bikeshare/
-* Video: https://www.youtube.com/watch?v=dWJkf18BCMM
+### Screencast video
+
+https://youtu.be/dWJkf18BCMM
+
+### Project Website
+
+https://hewness.github.io/bikeshare/
 
 ### Public Datasets
 * San Francisco Bay Wheels System Data, https://www.lyft.com/bikes/bay-wheels/system-data
@@ -140,11 +144,3 @@ by the cities or stand out.
 * Data Driven Documents (D3 version 7), https://d3js.org/
 * Apache Parquet, https://parquet.apache.org/
 * Leaflet JS, for the map, https://leafletjs.com/
-
-### Screencast video
-
-https://youtu.be/dWJkf18BCMM
-
-### Project Website
-
-https://hewness.github.io/bikeshare/
