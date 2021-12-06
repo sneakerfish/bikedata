@@ -11,23 +11,24 @@ function tryFillSelectionDates(data) {
         let count = 0;
         var divRow;
         for (let row in data) {
-            if (count % 6 === 0) {
+            if (count % 5 === 0) {
                 divRow = selection.append("div")
                     .attr("class", "row");
             }
             let div = divRow.append("div")
-                .attr("class", "col-2");
+                .attr("class", "col");
             div.append("input")
                 .attr("type", "checkbox")
                 .attr("name", row)
                 .attr("id", row)
-                .attr("checked", count++ < 2 ? "checked" : null)
+                .attr("checked", count >= 2 && count <= 3 ? "checked" : null)
                 .attr("value", row)
                 .style("margin", "5px")
                 .on("change", updateDayDates)
             div.append("label")
                 .attr("for", row)
                 .text(formatTime(parse(row)));
+            count++;
         }
     }
 }
