@@ -8,7 +8,7 @@ class WindMap {
 		this.parentElement = windIds.chart;
 		this.tripData = fromToData
 		this.date = date
-		this.debug = true
+		this.debug = false
 
 		this.displayData = []
 
